@@ -108,7 +108,7 @@ we get,
 
 Vanilla RNNs usually suffer from vanishing gradients, and LSTM tries to solve just that. As you will see, LSTMs have much more cognitive foundation, as LSTM stands from Long Short Term Memory. The main idea is to expend RNN architecture to include both short-term ($h_t$) and long-term ($c_t)$ memory.
 
-[https://media.licdn.com/dms/image/D5612AQH7ywLf6xH_rA/article-cover_image-shrink_720_1280/0/1690356194969?e=2147483647&v=beta&t=6DzQqZsjzr2OBF-SKPX2iZfUDhiRkgUWNbKcKCHOuy4](https://media.licdn.com/dms/image/D5612AQH7ywLf6xH_rA/article-cover_image-shrink_720_1280/0/1690356194969?e=2147483647&v=beta&t=6DzQqZsjzr2OBF-SKPX2iZfUDhiRkgUWNbKcKCHOuy4)
+![LSTM](https://media.licdn.com/dms/image/D5612AQH7ywLf6xH_rA/article-cover_image-shrink_720_1280/0/1690356194969?e=2147483647&v=beta&t=6DzQqZsjzr2OBF-SKPX2iZfUDhiRkgUWNbKcKCHOuy4)
 
 Forget Gate:
 
