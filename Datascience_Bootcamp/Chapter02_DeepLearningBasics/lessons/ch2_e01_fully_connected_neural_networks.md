@@ -29,9 +29,7 @@ This is the final form of our lecture, indefinitely concatenating linear layers,
 ### Justifing the Nonlinear Activation
 
 Suppose a dual layer architecture with parameters $W_1\in\mathbb{R}^{d_1\times d_2}, b_1\in\mathbb{R}^{d_2}, W_2\in\mathbb{R}^{d_2\times d_3}, b_2\in\mathbb{R}^{d_3}$ and assume that for all layers, $g\left( W_l^Tx + b_l \right) = W_l^Tx + b_l$. Hence the output of the network is
-\[
-W_2^T\left(W_1^Tx+b_1\right)+b_2=W_2^TW_1^Tx+W_2^Tb_1+b_2=\tilde{W}^Tx+\tilde{b},
-\]
+$$W_2^T\left(W_1^Tx+b_1\right)+b_2=W_2^TW_1^Tx+W_2^Tb_1+b_2=\tilde{W}^Tx+\tilde{b},$$
  which is practically equivalent for a single linear layer.
 
 ## Related Material
