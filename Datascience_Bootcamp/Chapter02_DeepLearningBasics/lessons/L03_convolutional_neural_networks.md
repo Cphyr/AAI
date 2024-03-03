@@ -1,4 +1,8 @@
-# [L03] Convolution Neural Networks
+Author: Cfir Hadar
+
+Tags: Done
+
+
 
 Until now we discussed fully connected neural networks, that is every neuron is connected to all neurons in the previous layer, and to all neurons in the layer proceeding it. These networks are the most expressive, as this architecture don't constrain the network. "With greater power comes great responsibility" as these are computationally expensive. Let us consider an input gray-scale image of $1024\times1024\times1$ that is fed to a fully-connected network (FCN) with 100 output categories. Even without any hidden layers, the number of parameters in this network is $1024^2\cdot100 + 100=104,857,700$.
 
@@ -94,7 +98,7 @@ One can define the group $\{x_i\}_{i=1}^N$ as needed, but usually we define it t
 1. Layer Normalization: works for each input separately, using outputs from all filters for that single input.
 2. Batch Normalization: works for each filter separately, using all outputs of that filter (one per input).
 
-![BNvsLN](../media/BNvsLN.png)
+![BNvsLN](../media/lesson-03/BNvsLN.png)
 
 Note that both layer norm and batch norm are used in a single convolution layer.
 
