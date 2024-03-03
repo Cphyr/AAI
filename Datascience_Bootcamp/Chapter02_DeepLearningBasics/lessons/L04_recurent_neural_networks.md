@@ -126,7 +126,13 @@ $$o_t=\sigma(W^o[x_t,h_{t-1}]+b)$$
 
 Updating:
 
-$$\tilde{C}_t=\tanh(W^g[x_t,h_{t-1}]+b^g)\\C_t=\sigma(f_t\odot C_{t-1}+i_t\odot\tilde{C}_t)\\h_t=\tanh(C_t)\odot o_t$$
+$$\tilde{C}_t=\tanh(W^g[x_t,h_{t-1}]+b^g)$$​
+
+$$C_t=\sigma(f_t\odot C_{t-1}+i_t\odot\tilde{C}_t)$$​
+
+$$h_t=\tanh(C_t)\odot o_t$$
+
+
 
 whereas, $\odot$ denotes element-wise multiplication, and $[x,y]$ denotes the concatenation of both vectors.
 
