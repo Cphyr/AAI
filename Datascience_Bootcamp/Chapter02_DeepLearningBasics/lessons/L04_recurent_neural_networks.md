@@ -136,7 +136,7 @@ $$
 
 Updating:
 
-1. $\tilde{C}_t = \tanh(W^g[x_t,h_{t-1}]+b^g)$
+1. $\tilde{C}_{t}$ $ = \tanh(W^g[x_t,h_{t-1}]+b^g)$
 
 2. $C_t=\sigma(f_t\odot C_{t-1}+i_t\odot\tilde{C}_t)$
 
