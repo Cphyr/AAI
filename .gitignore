@@ -1,3 +1,7 @@
 # FOLDERS
 datasets
 saved_models
+
+
+# TYPES
+.DS_Store
