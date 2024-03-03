@@ -108,7 +108,7 @@ Note that both layer norm and batch norm are used in a single convolution layer.
 
 ![https://miro.medium.com/v2/resize:fit:1400/1*VPm-hHOM14OisbFUU4cL6Q.png](https://miro.medium.com/v2/resize:fit:1400/1*VPm-hHOM14OisbFUU4cL6Q.png)
 
-$K\times K \text{ Conv+ReLU}\quad \#\text{filters}$.
+$K\times K \text{ Conv+ReLU}\quad #\text{no. of filters}$.
 
 # Walkthrough
 
