@@ -94,7 +94,7 @@ One can define the group $\{x_i\}_{i=1}^N$ as needed, but usually we define it t
 1. Layer Normalization: works for each input separately, using outputs from all filters for that single input.
 2. Batch Normalization: works for each filter separately, using all outputs of that filter (one per input).
 
-![BNvsLN](/Users/cfirhadar/Desktop/GitRepos/AAI/Datascience_Bootcamp/Chapter02_DeepLearningBasics/media/BNvsLN.png)
+![BNvsLN](../media/BNvsLN.png)
 
 Note that both layer norm and batch norm are used in a single convolution layer.
 
