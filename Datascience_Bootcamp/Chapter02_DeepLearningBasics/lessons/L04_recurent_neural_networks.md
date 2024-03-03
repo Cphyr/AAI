@@ -20,17 +20,13 @@ Assume we have the following input sequence $x_1,...,x_T$ (e.g., $x_t$ is a feat
 
 Mathematically, we want to define two functions:
 
-$$
-h_t=H(h_{t-1},x_t)\\ \hat{y}_t=Y(h_t)
-$$
+$$h_t=H(h_{t-1},x_t)\\ \hat{y}_t=Y(h_t)$$
 
 This functions may be hard to find on our own, but we are data scientists, so we can just learn these functions (as long as we keep every thing differentiable).
 
 Let us throw some learnable parameters to this mess:
 
-$$
-h_t=\phi_h(W_{hh}h_{t-1}+W_{xh}x_t)\\ \hat{y}_t=W_{hy}h_t
-$$
+$$h_t=\phi_h(W_{hh}h_{t-1}+W_{xh}x_t)\\ \hat{y}_t=W_{hy}h_t$$
 
 whereas $\phi_h(\cdot)$ is an activation function, e.g., ReLU, Sigmoid, Tanh, etc.
 
@@ -114,31 +110,23 @@ Forget Gate:
 
 Indicates how much information should be forgotten from the long term memory.
 
-$$
-f_t=\sigma(W^f[x_t,h_{t-1}]+b^f)
-$$
+$$f_t=\sigma(W^f[x_t,h_{t-1}]+b^f)$$
 
 Input Gate:
 
 Indicates how much information should be save to the long term memory from current input and hidden state (short term).
 
-$$
-i_t=\sigma(W^i[x_t,h_{t-1}]+b^i)
-$$
+$$i_t=\sigma(W^i[x_t,h_{t-1}]+b^i)$$
 
 Output Gate:
 
 Indicates how much information should be passed through from the long term, as a new short term.
 
-$$
-o_t=\sigma(W^o[x_t,h_{t-1}]+b)
-$$
+$$o_t=\sigma(W^o[x_t,h_{t-1}]+b)$$
 
 Updating:
 
-$$
-\tilde{C}_t=\tanh(W^g[x_t,h_{t-1}]+b^g)\\C_t=\sigma(f_t\odot C_{t-1}+i_t\odot\tilde{C}_t)\\h_t=\tanh(C_t)\odot o_t
-$$
+$$\tilde{C}_t=\tanh(W^g[x_t,h_{t-1}]+b^g)\\C_t=\sigma(f_t\odot C_{t-1}+i_t\odot\tilde{C}_t)\\h_t=\tanh(C_t)\odot o_t$$
 
 whereas, $\odot$ denotes element-wise multiplication, and $[x,y]$ denotes the concatenation of both vectors.
 
