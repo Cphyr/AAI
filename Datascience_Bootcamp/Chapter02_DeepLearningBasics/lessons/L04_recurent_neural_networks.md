@@ -136,7 +136,7 @@ $$
 
 Updating:
 
-$$C_t=\tanh(W^g[x_t,h_{t-1}]+b^g\\C_t=\sigma(f_t\odot C_{t-1}+i_t\odot C_t)\\h_t=\tanh(C_t)\odot o_t$$
+$$C_t=\tanh(W^g[x_t,h_{t-1}]+b^g\\ C_t=\sigma(f_t\odot C_{t-1}+i_t\odot C_t)\\ h_t=\tanh(C_t)\odot o_t$$
 
 
 
