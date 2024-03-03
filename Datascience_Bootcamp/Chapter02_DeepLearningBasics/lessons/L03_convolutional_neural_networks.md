@@ -1,9 +1,5 @@
 # [L03] Convolution Neural Networks
 
-Owner: Cfir Hadar
-Tags: Completed
-Parent page: [Chapter 02] Deep Learning Basics (https://www.notion.so/Chapter-02-Deep-Learning-Basics-47703472ad2542e4bb8aeef4bfc8905a?pvs=21)
-
 Until now we discussed fully connected neural networks, that is every neuron is connected to all neurons in the previous layer, and to all neurons in the layer proceeding it. These networks are the most expressive, as this architecture don't constrain the network. "With greater power comes great responsibility" as these are computationally expensive. Let us consider an input gray-scale image of $1024\times1024\times1$ that is fed to a fully-connected network (FCN) with 100 output categories. Even without any hidden layers, the number of parameters in this network is $1024^2\cdot100 + 100=104,857,700$.
 
 Solution: constrain the expressiveness of the network using 'outside' information. As humans we think of image pixels as locally related, that is close pixels are directly related, while far pixels are abstractly related.
@@ -81,7 +77,7 @@ Usually, in spectral data close elements carry similar values (e.g., close pixel
 
 Pooling is usually carried out by averaging (Average Pooling) or taking the maximum value in the window (Max Pooling).
 
-![Untitled](%5BL03%5D%20Convolution%20Neural%20Networks%20535964f319f84cf7b52b139f4f29eb85/Untitled.png)
+![convnet](https://th.bing.com/th/id/R.a4c4709ccc8b6748176df4d635eaa8af?rik=qTNFsPyoJIsgnQ&riu=http%3a%2f%2fcsgrad.science.uoit.ca%2fcourses%2fist%2fnotebooks%2fconvnet%2fpooling.png&ehk=7ihi%2fUfqE%2bm23NCLNtoW696NGNXlk4Zirz5WgUY1pq4%3d&risl=&pid=ImgRaw&r=0)
 
 # Normalizations
 
@@ -98,7 +94,7 @@ One can define the group $\{x_i\}_{i=1}^N$ as needed, but usually we define it t
 1. Layer Normalization: works for each input separately, using outputs from all filters for that single input.
 2. Batch Normalization: works for each filter separately, using all outputs of that filter (one per input).
 
-![Untitled](%5BL03%5D%20Convolution%20Neural%20Networks%20535964f319f84cf7b52b139f4f29eb85/Untitled%201.png)
+![BNvsLN](/Users/cfirhadar/Desktop/GitRepos/AAI/Datascience_Bootcamp/Chapter02_DeepLearningBasics/media/BNvsLN.png)
 
 Note that both layer norm and batch norm are used in a single convolution layer.
 
@@ -116,6 +112,12 @@ $K\times K \text{ Conv+ReLU}\quad \#\text{filters}$.
 
 # Walkthrough
 
-[](https://github.com/Cphyr/AAI/blob/main/Datascience_Bootcamp/Chapter02_DeepLearningBasics/walkthroughs/lesson3_cnn_cifar10.ipynb)
+[Walkthrough Chapter-02 Lesson-03](https://github.com/Cphyr/AAI/blob/main/Datascience_Bootcamp/Chapter02_DeepLearningBasics/walkthroughs/lesson3_cnn_cifar10.ipynb)
 
 # Available Challenges
+
+[Challenge 01 - CIFAR-10 with Limited Parameters](https://github.com/Cphyr/AAI/blob/chapter2/Datascience_Bootcamp/Chapter02_DeepLearningBasics/challenges/challenge1_cifar10_limited-params.ipynb)
+
+Please report your score in this [forms](https://docs.google.com/forms/d/e/1FAIpQLScjvrsJbfKVTwlvZk579ruwrbSbu84T4fakRzK3QD5vlifYdg/viewform).
+
+You may see the scoreboard at this [link](https://docs.google.com/spreadsheets/d/1MLuPVBleyPGj8X_kqUYLfD8paDTicZevVuMRtfk_v10/edit#gid=1687672251).
