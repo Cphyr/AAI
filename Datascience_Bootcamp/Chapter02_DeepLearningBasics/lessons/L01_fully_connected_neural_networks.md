@@ -6,7 +6,7 @@ The connection between data science and neurons' structure in our brain is merel
 
 <img src="https://miro.medium.com/v2/resize:fit:1358/1*qQPpdtR0r1APiEfTqN74aA.png" alt="The Basics of Neural Networks (Neural Network Series) — Part 1 | by Kiprono  Elijah Koech | Towards Data Science" style="zoom:50%;" />
 
-MLP recieves an input vector $x\in\mathbb{R}^d$, which is them multiply by a weights vector  $w\in\mathbb{R}^d$, and sum them with a bias $b\in\mathbb{R}$, $\sum_{i=1}^d{w_i\cdot x_i} + b$ or in matrix formation: $\langle w, x \rangle + b$. This weighted sum is then passed through an activation function, $g$ (usually denotated by $\phi$) to form the output $\hat{y} = g(\langle w,x \rangle + b)$.
+MLP recieves an input vector $Fx\in\mathbb{R}^d$, which is them multiply by a weights vector  $w\in\mathbb{R}^d$, and sum them with a bias $b\in\mathbb{R}$, $\sum_{i=1}^d{w_i\cdot x_i} + b$ or in matrix formation: $\langle w, x \rangle + b$. This weighted sum is then passed through an activation function, $g$ (usually denotated by $\phi$) to form the output $\hat{y} = g(\langle w,x \rangle + b)$.
 
 Specifically were one to choose the sigmoid actiovation function $\sigma$, the result is equivalent to the basic logisitic regression.
 
