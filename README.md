@@ -1,4 +1,4 @@
-Welcome to AAI (Alonim Artifical Intelligence) repository
+Welcome to AAI (Alonim Artifical Intelligence) repository.
 
 This repository is a collection of AI projects and experiments. The main goal of this repository is to provide a place for the Alonim community to learn and contribute and keep touch with all.
 
