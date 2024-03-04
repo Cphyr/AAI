@@ -11,5 +11,5 @@ As all take many seminars, which include some interesting works but many more du
 
 
 # Contributing
-Read the [CONTRIBUTING](../CONTRIBUTING.md) document to learn how to contribute to this repository.
+Read the [CONTRIBUTING](CONTRIBUTING.md) document to learn how to contribute to this repository.
 
