@@ -1,3 +1,5 @@
+
+
 Author: Cfir Hadar
 
 Tags: Done
@@ -28,11 +30,11 @@ Mathematically it can be written as: $a = g\left(W^Tx + b \right)$, whereas $W\i
 
 <img src="https://editor.analyticsvidhya.com/uploads/50492simple_neural_network_header.jpg" alt="Neural Network 101: Definition, Types and Application" style="zoom:50%;" />
 
-This is the final structure of our lecture, chaining multiple linear layers, with a nonlinear activation function applied after each one.
+This is the final structure of our lecture, chaining multiple linear layers, with a non-linear activation function applied after each one.
 
 ### Justifying the Nonlinear Activation
 
-There is a huge importance for choosing a nonlinear activation function. By choosing a linear activation function (for example: $g(x)=x$) our multi-layered model will be equivalent to a model with a single layer that gives a linear result and therefore we would not be able to  learn on nonlinear - more complex problems.
+There is a big importance for choosing a nonlinear activation function. By choosing a linear activation function (for example: $g(x)=x$) our multi-layered model will be equivalent to a model with a single layer. Meaning it will give a linear result and therefore we would not be able to learn nonlinear and more complex tasks.
 
 Mathematically: suppose a dual layer architecture with the parameters: $W_1\in\mathbb{R}^{d_1\times d_2}, b_1\in\mathbb{R}^{d_2}, W_2\in\mathbb{R}^{d_2\times d_3}, b_2\in\mathbb{R}^{d_3}$ and assume that for all layers, $g\left( W_l^Tx + b_l \right) = W_l^Tx + b_l$. Hence the output of the network is
 $$W_2^T\left(W_1^Tx+b_1\right)+b_2=W_2^TW_1^Tx+W_2^Tb_1+b_2=\tilde{W}^Tx+\tilde{b},$$
