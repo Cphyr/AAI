@@ -116,7 +116,7 @@ $K\times K \text{ Conv+ReLU}\quad \text{no. of filters}$.
 
 # Walkthrough
 
-[Walkthrough Chapter-02 Lesson-03](https://github.com/Cphyr/AAI/blob/main/Datascience_Bootcamp/Chapter02_DeepLearningBasics/walkthroughs/lesson3_cnn_cifar10.ipynb)
+[Walkthrough Chapter-02 Lesson-03](../walkthroughs/lesson3_cnn_cifar10.ipynb)
 
 # Available Challenges
 
