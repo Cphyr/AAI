@@ -120,7 +120,7 @@ $K\times K \text{ Conv+ReLU}\quad \text{no. of filters}$.
 
 # Available Challenges
 
-[Challenge 01 - CIFAR-10 with Limited Parameters](https://github.com/Cphyr/AAI/blob/chapter2/Datascience_Bootcamp/Chapter02_DeepLearningBasics/challenges/challenge1_cifar10_limited-params.ipynb)
+[Challenge 01 - CIFAR-10 with Limited Parameters](../challenges/challenge1_cifar10_limited-params.ipynb)
 
 Please report your score in this [forms](https://docs.google.com/forms/d/e/1FAIpQLScjvrsJbfKVTwlvZk579ruwrbSbu84T4fakRzK3QD5vlifYdg/viewform).
 
