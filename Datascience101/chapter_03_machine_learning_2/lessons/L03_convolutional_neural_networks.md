@@ -114,6 +114,25 @@ Note that both layer norm and batch norm are used in a single convolution layer.
 
 $K\times K \text{ Conv+ReLU}\quad \text{no. of filters}$.
 
+# Residual Networks (ResNet)
+One of the challenges of using deep networks (networks with a lot of layers) is the optimization of such networks. In the backpropagation process, the gradient are computed from the last layer all the way back to the first one.
+As the gradient propagate through the layers is can become very small (imagine in each layer it is multiplied by some number less than 1), this makes the update of the layers insignificant, especially the first ones.
+
+To alleviate this problem we can "skip" some of the layers. This will allow the gradient to flow more directly through the network, making it easier for the model to learn.
+
+Mathematically, we add a residual connection (a.k.a. skip connection) to layer $F$ with input $x$ simply by adding $x$ to the input:
+
+$$
+	y = F(x) + x
+$$
+
+Or visually,
+
+<img src="../media/lesson-03/ResBlock.png"  style="width: 50%">
+
+This simple modification turned out to be extremely effective and allows training much deeper and much stronger networks like the Resnet with up to 152 layers!
+(You can read more about ResNet in the paper [Deep Residual Learning for Image Recognition](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html))
+
 # Walkthrough
 
 [Walkthrough Chapter-02 Lesson-03](../walkthroughs/lesson3_cnn_cifar10.ipynb)
