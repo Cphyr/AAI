@@ -177,7 +177,7 @@ See how future words might help the model understand the context better?
 
 # Walkthrough
 
-[Walkthrough Chapter-02 Lesson-04](https://github.com/Cphyr/AAI/blob/main/Datascience_Bootcamp/Chapter02_DeepLearningBasics/walkthroughs/lesson4_lstm_stock-price-prediction.ipynb)
+[Walkthrough Chapter-02 Lesson-04](../walkthroughs/lesson4_lstm_stock-price-prediction.ipynb)
 
 # Assignment
 
