@@ -3,34 +3,66 @@ Author: Cfir Hadar
 Tags: Done
 
 
-
-Until now we discussed fully connected neural networks, that is every neuron is connected to all neurons in the previous layer, and to all neurons in the layer proceeding it. These networks are the most expressive, as this architecture don't constrain the network. "With greater power comes great responsibility" as these are computationally expensive. Let us consider an input gray-scale image of $1024\times1024\times1$ that is fed to a fully-connected network (FCN) with 100 output categories. Even without any hidden layers, the number of parameters in this network is $1024^2\cdot100 + 100=104,857,700$.
-
-Solution: constrain the expressiveness of the network using 'outside' information. As humans we think of image pixels as locally related, that is close pixels are directly related, while far pixels are abstractly related.
-
 # Convolutional Layers
 
-The basic building block of convolution neural networks (CNNs) is the convolutional layer. Convolutional layers performs a linear convolution, which is a cross-correlation computation between the given input and learnable kernels (somethings referred to as filters).
+## Motivation
+
+A common problem in a lot of domains is classifying what we see in an image.
+Let's consider the classification problem of gray-scale images of size $1024\times1024\times1$ into a 100 different categories.
+
+Until now we discussed about fully connected neural networks, that is when every neuron is connected to all the neurons in the layer before it, and to all the neurons in the layer after it. 
+
+The naive approach to classify our images would have been training a fully-connected network (FCN) to sort them.
+Each image can be fed into our model as an input and the model will output a vector representing how likely the image is to belong to each of the 100 categories we have. Even without any hidden layers, the number of parameters in this network is $1024^2\cdot100 + 100=104,857,700$ (adding the number of weights and biases) which to say the least is a lot and will take relatively long time to compute a prediction on all of our images.
+
+These networks are very "expressive", because we do not constrain the network at all. "With greater power comes great responsibility" as these are computationally expensive. 
+
+Solution: 
+Constrain the expressiveness of the network using some 'outside' information. 
+As humans we think of image pixels as locally related, that is: close pixels are strongly related, while far pixels less so. 
+We will try to use this observation in our model to make it more efficient.
+
+In order to use this concept of locality of pixels we will contract a new tool called a Convolutional Layer.
+Let's say the model is "interested" in getting all the edges in our image as part of its classification process. How would he do that? One approach is taking a "filter" with the following weights:
+
+| $-1$ | $0$ | $1$ |
+| ---- | --- | --- |
+| $-1$ | $0$ | $1$ |
+| $-1$ | $0$ | $1$ |
+and for each pixel (and its neighbors) it will apply this filter by multiplying each number in the weights table with the brightness of the pixel it is covering, and then, add up all these numbers. This gives a single number that indicates how much of an edge the center pixel is.
+
+![https://content.codecademy.com/courses/deeplearning-with-tensorflow/image-classification/stride.gif](https://content.codecademy.com/courses/deeplearning-with-tensorflow/image-classification/stride.gif)
+
+After applying this filter on each pixel in the image we will get another (slightly smaller) image with some useful information the model can use moving forward.
+
+![https://upload.wikimedia.org/wikipedia/commons/2/20/%C3%84%C3%A4retuvastuse_n%C3%A4ide.png](https://upload.wikimedia.org/wikipedia/commons/2/20/%C3%84%C3%A4retuvastuse_n%C3%A4ide.png)
+
+Analogous to layers in FCN, convolutional layers perform multiple of these convolution processes using different filters.
+
+The special thing about convolution neural networks (CNNs) is their use of these convolutions as their basic building blocks.
+
+## Formally
+
+Convolutional layers performs a linear convolution, which is a cross-correlation computation between the given input and learnable kernels (sometimes referred to as filters).
 
 $$
-y[n] = \sum_{m=1}^{K-1}{x[n-m]\cdot w[m]}, 
+y[n] = \sum_{m=1}^{K-1}{x[n-m]\cdot w[m]}, 
 $$
 
 whereas, $x\in\mathbb{R}^n, w\in\mathbb{R}^K$ are the input vector and weights vector respectively, and a single kernel ($w$) contains $K$ parameters ($K \ll N_{input}\times N_{output}$).
 
-We can extend this formulation to process images:
-
-![https://content.codecademy.com/courses/deeplearning-with-tensorflow/image-classification/stride.gif](https://content.codecademy.com/courses/deeplearning-with-tensorflow/image-classification/stride.gif)
+As we seen, we can extend this formulation to process images.
 
 Usually, we use multiple different filters (concatenating the outputs of different filters), which ideally learn different sub-tasks.
 
-As you can see, we distilled our knowledge of image processing, such as locality, into the network architecture, resulting in a smarter model, with significantly less parameters.
+As you can see, we used our everyday knowledge of images, such as locality, to improve our network architecture, resulting in a smarter model, with significantly less parameters.
 
-Example: given an input image of size $6\times 6\times 3$, with two filters, each of size $2\times2\times3$ (note that the filter's last dimension always equals to the last dimension of the input image, this dimension is referred to as channels. Therefore, convolution consider a local environment in dimensions one and two, while considering **all** input channels at once).
+Example: given an input image of size $6\times 6\times 3$, with two filters, each of size $2\times2\times3$.
+Note that the filter's last dimension always equals to the last dimension of the input image, this dimension is referred to as channels (gray-scale images will have one channel: brightness while color images will have three channels: red, green, and blue). Therefore, convolution consider a local environment in dimensions one and two, while considering **all** input channels at once.
 
 ![https://indoml.files.wordpress.com/2018/03/convolution-with-multiple-filters2.png?w=736](https://indoml.files.wordpress.com/2018/03/convolution-with-multiple-filters2.png?w=736)
 
-Again, to break linearity, we propose performing an element-wise nonlinear activation function on each output.
+Again, to break linearity, it is recommended to perform an element-wise nonlinear activation function on each output.
 
 # Padding, Stride and Dilation
 
@@ -144,3 +176,5 @@ This simple modification turned out to be extremely effective and allows trainin
 Please report your score in this [forms](https://docs.google.com/forms/d/e/1FAIpQLScjvrsJbfKVTwlvZk579ruwrbSbu84T4fakRzK3QD5vlifYdg/viewform).
 
 You may see the scoreboard at this [link](https://docs.google.com/spreadsheets/d/1MLuPVBleyPGj8X_kqUYLfD8paDTicZevVuMRtfk_v10/edit#gid=1687672251).
+
+
