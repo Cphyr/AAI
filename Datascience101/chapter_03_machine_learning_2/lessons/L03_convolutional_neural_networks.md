@@ -43,7 +43,7 @@ The special thing about convolution neural networks (CNNs) is their use of these
 
 ## Formally
 
-Convolutional layers performs a linear convolution, which is a cross-correlation computation between the given input and learnable kernels (sometimes referred to as filters).
+Convolutional layers performs a linear convolution, which is a cross-correlation computation between the given input and learnable kernels (what was referred until now as filters).
 
 $$
 y[n] = \sum_{m=1}^{K-1}{x[n-m]\cdot w[m]}, 
@@ -58,9 +58,10 @@ Usually, we use multiple different filters (concatenating the outputs of differe
 As you can see, we used our everyday knowledge of images, such as locality, to improve our network architecture, resulting in a smarter model, with significantly less parameters.
 
 Example: given an input image of size $6\times 6\times 3$, with two filters, each of size $2\times2\times3$.
-Note that the filter's last dimension always equals to the last dimension of the input image, this dimension is referred to as channels (gray-scale images will have one channel: brightness while color images will have three channels: red, green, and blue). Therefore, convolution consider a local environment in dimensions one and two, while considering **all** input channels at once.
+Note that the filter's last dimension always equals to the last dimension of the input image, this dimension is referred to as channels (gray-scale images will have one channel: brightness. Color images will have three channels: red, green, and blue). Therefore, convolution consider a local environment in dimensions one and two, while considering **all** input channels at once.
 
 ![https://indoml.files.wordpress.com/2018/03/convolution-with-multiple-filters2.png?w=736](https://indoml.files.wordpress.com/2018/03/convolution-with-multiple-filters2.png?w=736)
+
 
 Again, to break linearity, it is recommended to perform an element-wise nonlinear activation function on each output.
 
@@ -68,13 +69,13 @@ Again, to break linearity, it is recommended to perform an element-wise nonlinea
 
 ## Padding
 
-Clearly, convolution is a local computation, that is not well defined for the edges, resulting in a reduced dimensionality in the output image. Padding aims to solve this phenomenon as it wraps the input image with a given symbol (usually zero, or duplicating edge values).
+One problem due to the locality of convolutions can be found in the edges of an image. naively ignoring this problem will result in a reduced dimensionality in the output image (smaller image comes out than the image going in). Padding aims to solve this phenomenon as it wraps the input image with a given symbol (usually zero, or duplicating edge values).
 
 ![https://aigeekprogrammer.com/wp-content/uploads/2019/12/CNN-valid-vs.-same-1.png](https://aigeekprogrammer.com/wp-content/uploads/2019/12/CNN-valid-vs.-same-1.png)
 
 ## Stride
 
-Intuitively local information is constant in close pixels, therefore, to reduce the computational complexity, one may use a bigger stride for the filter movement.
+Intuitively local information is very similar in neighbor pixels, therefore, to reduce the computational complexity, one may use a bigger stride (step size) for the filter movement.
 
 For example, convolution with padding of one, and stride of two:
 
@@ -84,7 +85,7 @@ Note how the filter moves two pixels at a time, instead of one.
 
 ## Dilation (התרחבות)
 
-In order to decrease even further in the number of computations one may increase the filter dilation. For example, filter with dilation of
+In order to decrease even further in the number of computations, one may increase the filter dilation. For example, filter with dilation of
 2.
 
 ![https://upload.wikimedia.org/wikipedia/commons/c/c1/Convolution_arithmetic_-_Dilation.gif](https://upload.wikimedia.org/wikipedia/commons/c/c1/Convolution_arithmetic_-_Dilation.gif)
@@ -105,11 +106,11 @@ Receptive Field is defined as the size of the region in the input that produces 
 
 ![https://miro.medium.com/v2/resize:fit:1200/1*k97NVvlMkRXau-uItlq5Gw.png](https://miro.medium.com/v2/resize:fit:1200/1*k97NVvlMkRXau-uItlq5Gw.png)
 
-See how the $5\times5$ image is compressed to a single pixel using two convolution layers, each with $3\times3$ kernel? Therefore, the receptive field of this network is $5\times5$.
+See how the $5\times5$ image is compressed to a single pixel using two convolution layers, each with $3\times3$ kernel? Meaning, the receptive field of this network is $5\times5$.
 
 # Pooling
 
-Usually, in spectral data close elements carry similar values (e.g., close pixels usually have similar values). We can utilize this to reduce even further the number of computation. To do so, pooling combines close pixels to a single value, reducing image dimension.
+Usually, in spectral data close elements carry similar values (e.g., close pixels usually have similar colors). We can utilize this to reduce even further the number of computation. To do so, pooling combines close pixels to a single value, reducing image dimension.
 
 Pooling is usually carried out by averaging (Average Pooling) or taking the maximum value in the window (Max Pooling).
 
@@ -123,16 +124,16 @@ $$
 \tilde{x_i}\leftarrow\frac{x_i-\mu_x}{\sigma_x},
 $$
 
-whereas, $\mu_x,\sigma_x$ are the mean and standard deviation of $\{x_i\}_{i=1}^N$.
+where $\mu_x$ and $\sigma_x$ are the mean and standard deviation of $\{x_i\}_{i=1}^N$.
 
-One can define the group $\{x_i\}_{i=1}^N$ as needed, but usually we define it to either of two options.
+One can define the group $\{x_i\}_{i=1}^N$ as needed, but usually we define it to one of two options.
 
-1. Layer Normalization: works for each input separately, using outputs from all filters for that single input.
-2. Batch Normalization: works for each filter separately, using all outputs of that filter (one per input).
+1. Batch Normalization (BN): works for each filter separately, using all outputs of that filter (one per input).
+2. Layer Normalization (LN): works for each input separately, using outputs from all filters for that single input.
 
 ![BNvsLN](../media/lesson-03/BNvsLN.png)
 
-Note that both layer norm and batch norm are used in a single convolution layer.
+Note that both layer-norm and batch-norm are used in a single convolution layer.
 
 # Famous CNN Architectures
 
@@ -147,8 +148,8 @@ Note that both layer norm and batch norm are used in a single convolution layer.
 $K\times K \text{ Conv+ReLU}\quad \text{no. of filters}$.
 
 # Residual Networks (ResNet)
-One of the challenges of using deep networks (networks with a lot of layers) is the optimization of such networks. In the backpropagation process, the gradient are computed from the last layer all the way back to the first one.
-As the gradient propagate through the layers is can become very small (imagine in each layer it is multiplied by some number less than 1), this makes the update of the layers insignificant, especially the first ones.
+One of the challenges of using deep networks (networks with a lot of layers) is the optimization of such networks. In the backpropagation process, the gradients are computed from the last layer all the way back to the first one.
+As the gradient propagate through the layers is can become very small (imagine that in each layer it is multiplied by a number less than 1), this makes the update of the layers insignificant, especially for the first ones.
 
 To alleviate this problem we can "skip" some of the layers. This will allow the gradient to flow more directly through the network, making it easier for the model to learn.
 
@@ -162,7 +163,7 @@ Or visually,
 
 <img src="../media/lesson-03/ResBlock.png"  style="width: 50%">
 
-This simple modification turned out to be extremely effective and allows training much deeper and much stronger networks like the Resnet with up to 152 layers!
+This simple modification turns out to be extremely effective and allows training much deeper and much stronger networks like the ResNet with up to 152 layers!
 (You can read more about ResNet in the paper [Deep Residual Learning for Image Recognition](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html))
 
 # Walkthrough
