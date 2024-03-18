@@ -7,12 +7,12 @@
 <meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
 <meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Introduction | AAI 1.0 documentation</title>
-<meta content="Introduction | AAI 1.0 documentation" property="og:title"/>
-<meta content="Introduction | AAI 1.0 documentation" name="twitter:title"/>
+<title>Lesson 4 - Recurrent Neural Networks | AAI 1.0 documentation</title>
+<meta content="Lesson 4 - Recurrent Neural Networks | AAI 1.0 documentation" property="og:title"/>
+<meta content="Lesson 4 - Recurrent Neural Networks | AAI 1.0 documentation" name="twitter:title"/>
 <link href="../../../_static/pygments.css?v=8d216cef" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" rel="stylesheet" type="text/css"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <script>
@@ -78,16 +78,10 @@
 <ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#imports">Imports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#hyperparameters">Hyperparameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#mnist">MNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#data-augmentation">Data Augmentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#neural-network">Neural Network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#initialization">Initialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#training-the-model">Training the Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#evaluation">Evaluation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html#reloading-the-model-and-making-predictions">Reloading the Model and Making Predictions</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../main.html">Chapter 03 ML2</a></li>
 </ul>
 </li>
 </ul>
@@ -109,23 +103,25 @@
 <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
 </svg>
 </a>
-<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Introduction</span>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Lesson 4 - Recurrent Neural Networks</span>
 </nav>
 <div id="content" role="main">
 <p>Author: Cfir Hadar</p>
 <p>Tags: In Progress</p>
-<section class="tex2jax_ignore mathjax_ignore" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"><span>#</span></a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="lesson-4-recurrent-neural-networks">
+<h1>Lesson 4 - Recurrent Neural Networks<a class="headerlink" href="#lesson-4-recurrent-neural-networks" title="Link to this heading"><span>#</span></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#introduction'"><span>#</span></a></h2>
 <p>Sometimes data is structures as a time series, that is element after another, and the sequentiality is important for understanding the data, for example text, audio, video, DNA and more. Intuitively, data of this kind should be processed with a model that pay attention to this sequentiality. Additionally, note that both FCN and CNN require a fix and known maximal input dimension to function properly (i.e., without weird adaptations), but those modalities described (text, video, etc.) may require us to process practically unlimited sequences.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="motivation-from-cognitive-science">
-<h1>Motivation from Cognitive Science<a class="headerlink" href="#motivation-from-cognitive-science" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation-from-cognitive-science">
+<h2>Motivation from Cognitive Science<a class="headerlink" href="#motivation-from-cognitive-science" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation-from-cognitive-science'"><span>#</span></a></h2>
 <p>Let us dive deeper to a single example modality - text. Imagine reading a long sentence, consisting of different words, each is read one at a time. Note how our brain likes to process the current word using a hidden representation of the context (i.e., an aggregation of all previous words). We are going to try and incorporate this structure in our model architecture.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="recurrent-neural-network">
-<h1>Recurrent Neural Network<a class="headerlink" href="#recurrent-neural-network" title="Link to this heading"><span>#</span></a></h1>
+<section id="recurrent-neural-network">
+<h2>Recurrent Neural Network<a class="headerlink" href="#recurrent-neural-network" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#recurrent-neural-network'"><span>#</span></a></h2>
 <section id="vanilla-rnn">
-<h2>Vanilla RNN<a class="headerlink" href="#vanilla-rnn" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#vanilla-rnn'"><span>#</span></a></h2>
+<h3>Vanilla RNN<a class="headerlink" href="#vanilla-rnn" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#vanilla-rnn'"><span>#</span></a></h3>
 <p>Assume we have the following input sequence <span class="math notranslate nohighlight">\(x_1,...,x_T\)</span> (e.g., <span class="math notranslate nohighlight">\(x_t\)</span> is a feature vector representing a word), and denote the cognitive hidden state of time <span class="math notranslate nohighlight">\(t-1\)</span> as <span class="math notranslate nohighlight">\(h_{t-1}\)</span>. Our objective is twofold: 1) compute a new hidden state <span class="math notranslate nohighlight">\(h_t\)</span>, 2) compute an output vector <span class="math notranslate nohighlight">\(\hat{y}_t\)</span>.</p>
 <p>Mathematically, we want to define two functions:</p>
 <div class="math notranslate nohighlight">
@@ -142,18 +138,18 @@ h_t=\phi_h(W_{hh}h_{t-1}+W_{xh}x_t)\\ \hat{y}_t=W_{hy}h_t
 <p><img alt="https://static.wixstatic.com/media/3eee0b_969c1d3e8d7943f0bd693d6151199f69~mv2.gif" src="https://static.wixstatic.com/media/3eee0b_969c1d3e8d7943f0bd693d6151199f69~mv2.gif"/></p>
 <p>Caption: here <span class="math notranslate nohighlight">\(A=W_{hy},B=W_{xh},C=W_{hh}\)</span>.</p>
 <section id="extending-to-more-sophisticated-functions">
-<h3>Extending to more Sophisticated Functions<a class="headerlink" href="#extending-to-more-sophisticated-functions" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#extending-to-more-sophisticated-functions'"><span>#</span></a></h3>
+<h4>Extending to more Sophisticated Functions<a class="headerlink" href="#extending-to-more-sophisticated-functions" title="Link to this heading"><span>#</span></a></h4>
 <p>As you might think, yes - you can extend this architecture to encapsulate more sophisticated functions. One immediate extension is to replace each <span class="math notranslate nohighlight">\(W\)</span> with FCN.</p>
 </section>
 <section id="tasks">
-<h3>Tasks<a class="headerlink" href="#tasks" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#tasks'"><span>#</span></a></h3>
+<h4>Tasks<a class="headerlink" href="#tasks" title="Link to this heading"><span>#</span></a></h4>
 <p>One to Many: given a single input, output a sequence, e.g., image captioning.</p>
 <p>Many to One: given a sequence, output a single prediction, e.g., text sentiment analysis (i.e., tell if a conversation with customer service is bad or good).</p>
 <p>Many to Many: given a sequence, out a sequence, e.g., language translation.</p>
 <p><img alt="task_types_rnn" src="../../../_images/task_types_rnn.png"/></p>
 </section>
 <section id="gradient-flow">
-<h3>Gradient Flow<a class="headerlink" href="#gradient-flow" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#gradient-flow'"><span>#</span></a></h3>
+<h4>Gradient Flow<a class="headerlink" href="#gradient-flow" title="Link to this heading"><span>#</span></a></h4>
 <p>Let us examine the gradient flow in RNN for the rightmost many-to-many task.</p>
 <p><img alt="grads" src="../../../_images/grads.png"/></p>
 <p>Denote by <span class="math notranslate nohighlight">\(L_t = \frac{1}{n}\sum_{i=1}^n{l(y_t^i,\hat{y}_t^i;\theta)}\)</span> the loss at time <span class="math notranslate nohighlight">\(t\)</span>, whereas <span class="math notranslate nohighlight">\(l(\cdot;\theta)\)</span> is the lost function tailored for the task objective (the ‘;’ denotes that <span class="math notranslate nohighlight">\(\theta\)</span> is the model parameters, and are not the main inputs of the loss function, rather are used to compute the loss).</p>
@@ -166,7 +162,7 @@ h_t=\phi_h(W_{hh}h_{t-1}+W_{xh}x_t)\\ \hat{y}_t=W_{hy}h_t
 <p>Same thing, but now we consider a case where all individual gradients are <span class="math notranslate nohighlight">\(&gt;1\)</span>.</p>
 </section>
 <section id="solving-vanishing-exploding-gradients-problem">
-<h3>Solving Vanishing/Exploding Gradients Problem<a class="headerlink" href="#solving-vanishing-exploding-gradients-problem" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#solving-vanishing-exploding-gradients-problem'"><span>#</span></a></h3>
+<h4>Solving Vanishing/Exploding Gradients Problem<a class="headerlink" href="#solving-vanishing-exploding-gradients-problem" title="Link to this heading"><span>#</span></a></h4>
 <p>Gradient Clipping:</p>
 <div class="highlight-jsx notranslate"><div class="highlight"><pre><span></span><span class="nx">INPUT</span><span class="o">:</span>
 <span class="w">	</span><span class="nx">L</span><span class="p">,</span><span class="w"> </span><span class="nx">U</span><span class="w">   </span><span class="c1">// minimal and maximal gradient norms</span>
@@ -190,7 +186,7 @@ h_t=\phi_h(W_{hh}h_{t-1}+W_{xh}x_t)\\ \hat{y}_t=W_{hy}h_t
 </section>
 </section>
 <section id="lstm">
-<h2>LSTM<a class="headerlink" href="#lstm" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#lstm'"><span>#</span></a></h2>
+<h3>LSTM<a class="headerlink" href="#lstm" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#lstm'"><span>#</span></a></h3>
 <p>Vanilla RNNs usually suffer from vanishing gradients, and LSTM tries to solve just that. As you will see, LSTMs have much more cognitive foundation, as LSTM stands from Long Short Term Memory. The main idea is to expend RNN architecture to include both short-term (<span class="math notranslate nohighlight">\(h_t\)</span>) and long-term (<span class="math notranslate nohighlight">\(c_t)\)</span> memory.</p>
 <p><img alt="LSTM" src="https://media.licdn.com/dms/image/D5612AQH7ywLf6xH_rA/article-cover_image-shrink_720_1280/0/1690356194969?e=2147483647&amp;v=beta&amp;t=6DzQqZsjzr2OBF-SKPX2iZfUDhiRkgUWNbKcKCHOuy4"/></p>
 <p>Forget Gate:</p>
@@ -219,19 +215,19 @@ o_t=\sigma(W^o[x_t,h_{t-1}]+b)
 </ol>
 <p>whereas, <span class="math notranslate nohighlight">\(\odot\)</span> denotes element-wise multiplication, and <span class="math notranslate nohighlight">\([x,y]\)</span> denotes the concatenation of both vectors.</p>
 <section id="recap">
-<h3>Recap<a class="headerlink" href="#recap" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#recap'"><span>#</span></a></h3>
+<h4>Recap<a class="headerlink" href="#recap" title="Link to this heading"><span>#</span></a></h4>
 <p>LSTMs are able to perform better than vanilla RNNs, and are less prone for vanishing gradients.</p>
 </section>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="multilayer-rnns">
-<h1>Multilayer RNNs<a class="headerlink" href="#multilayer-rnns" title="Link to this heading"><span>#</span></a></h1>
+<section id="multilayer-rnns">
+<h2>Multilayer RNNs<a class="headerlink" href="#multilayer-rnns" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#multilayer-rnns'"><span>#</span></a></h2>
 <p>From now forward, we usually refer to LSTMs as RNNs.</p>
 <p>Similarly to the way we formed a linear layer from concatenating several independent linear regressions, we can stack multiple RNNs as layers, inputing the outputs of layer <span class="math notranslate nohighlight">\(l-1\)</span> to layer <span class="math notranslate nohighlight">\(l\)</span>, each layer with its own, independent weights matrices.</p>
 <p><img alt="mult_layer" src="../../../_images/mult_layer.png"/></p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="bidirectional-rnns">
-<h1>Bidirectional RNNs<a class="headerlink" href="#bidirectional-rnns" title="Link to this heading"><span>#</span></a></h1>
+<section id="bidirectional-rnns">
+<h2>Bidirectional RNNs<a class="headerlink" href="#bidirectional-rnns" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#bidirectional-rnns'"><span>#</span></a></h2>
 <p>Cognitive science show that people see also future words when processing the current word. To model this, we would like to use information from a backward pass through the sequence, making predictions based of the concatenation of both forward and backward hidden states. Note that the weights of the backward layer and forward layer are independent.</p>
 <p><img alt="bidir" src="../../../_images/bidir.png"/></p>
 <p><strong>Example</strong>:</p>
@@ -243,18 +239,19 @@ o_t=\sigma(W^o[x_t,h_{t-1}]+b)
 </ol>
 <p>See how future words might help the model understand the context better?</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="walkthrough">
-<h1>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading"><span>#</span></a></h1>
+<section id="walkthrough">
+<h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#walkthrough'"><span>#</span></a></h2>
 <p><a class="reference internal" href="../walkthroughs/lesson4_lstm_stock-price-prediction.html"><span class="std std-doc">Walkthrough Chapter-02 Lesson-04</span></a></p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="assignment">
-<h1>Assignment<a class="headerlink" href="#assignment" title="Link to this heading"><span>#</span></a></h1>
+<section id="assignment">
+<h2>Assignment<a class="headerlink" href="#assignment" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#assignment'"><span>#</span></a></h2>
+</section>
 </section>
 </div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
-<li></li>
+<li><a :data-current="activeSection === '#introduction'" class="reference internal" href="#introduction">Introduction</a></li>
 <li><a :data-current="activeSection === '#motivation-from-cognitive-science'" class="reference internal" href="#motivation-from-cognitive-science">Motivation from Cognitive Science</a></li>
 <li><a :data-current="activeSection === '#recurrent-neural-network'" class="reference internal" href="#recurrent-neural-network">Recurrent Neural Network</a><ul>
 <li><a :data-current="activeSection === '#vanilla-rnn'" class="reference internal" href="#vanilla-rnn">Vanilla RNN</a><ul>

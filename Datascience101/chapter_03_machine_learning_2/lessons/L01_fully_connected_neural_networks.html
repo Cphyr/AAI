@@ -7,9 +7,9 @@
 <meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
 <meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Fully Connected Neural Networks | AAI 1.0 documentation</title>
-<meta content="Fully Connected Neural Networks | AAI 1.0 documentation" property="og:title"/>
-<meta content="Fully Connected Neural Networks | AAI 1.0 documentation" name="twitter:title"/>
+<title>Lesson 1 - Fully Connected Neural Networks | AAI 1.0 documentation</title>
+<meta content="Lesson 1 - Fully Connected Neural Networks | AAI 1.0 documentation" property="og:title"/>
+<meta content="Lesson 1 - Fully Connected Neural Networks | AAI 1.0 documentation" name="twitter:title"/>
 <link href="../../../_static/pygments.css?v=8d216cef" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" rel="stylesheet" type="text/css"/>
@@ -77,10 +77,11 @@
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/Datascience101.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html">Lesson 1: MNIST Classification using Fully Connected Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
 </ul>
 </li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../main.html">Chapter 03 ML2</a></li>
 </ul>
 </li>
 </ul>
@@ -102,13 +103,16 @@
 <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
 </svg>
 </a>
-<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Fully Connected Neural Networks</span>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Lesson 1 - Fully Connected Neural Networks</span>
 </nav>
 <div id="content" role="main">
-<p>Author: Cfir Hadar</p>
-<p>Tags: Done</p>
-<section class="tex2jax_ignore mathjax_ignore" id="fully-connected-neural-networks">
-<h1>Fully Connected Neural Networks<a class="headerlink" href="#fully-connected-neural-networks" title="Link to this heading"><span>#</span></a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Author</span><span class="p">:</span> <span class="n">Cfir</span> <span class="n">Hadar</span>
+
+<span class="n">Tags</span><span class="p">:</span> <span class="n">Done</span>
+</pre></div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="lesson-1-fully-connected-neural-networks">
+<h1>Lesson 1 - Fully Connected Neural Networks<a class="headerlink" href="#lesson-1-fully-connected-neural-networks" title="Link to this heading"><span>#</span></a></h1>
 <section id="motivation">
 <h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
 <p>Fully connected neural networks are a very useful tool . They excel in (but are not limited to) tasks such as classification and prediction and are being used across most fields for these tasks and more.</p>

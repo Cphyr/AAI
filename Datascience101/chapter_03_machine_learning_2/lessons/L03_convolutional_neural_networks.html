@@ -7,9 +7,9 @@
 <meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
 <meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Convolutional Layers | AAI 1.0 documentation</title>
-<meta content="Convolutional Layers | AAI 1.0 documentation" property="og:title"/>
-<meta content="Convolutional Layers | AAI 1.0 documentation" name="twitter:title"/>
+<title>Lesson 03 - Convolutional Neural Networks | AAI 1.0 documentation</title>
+<meta content="Lesson 03 - Convolutional Neural Networks | AAI 1.0 documentation" property="og:title"/>
+<meta content="Lesson 03 - Convolutional Neural Networks | AAI 1.0 documentation" name="twitter:title"/>
 <link href="../../../_static/pygments.css?v=8d216cef" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" rel="stylesheet" type="text/css"/>
@@ -77,10 +77,11 @@
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/Datascience101.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l3"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html">Lesson 1: MNIST Classification using Fully Connected Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
 </ul>
 </li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../main.html">Chapter 03 ML2</a></li>
 </ul>
 </li>
 </ul>
@@ -102,15 +103,20 @@
 <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
 </svg>
 </a>
-<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Convolutional Layers</span>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Lesson 03 - Convolutional Neural Networks</span>
 </nav>
 <div id="content" role="main">
-<p>Author: Cfir Hadar</p>
-<p>Tags: Done</p>
-<section class="tex2jax_ignore mathjax_ignore" id="convolutional-layers">
-<h1>Convolutional Layers<a class="headerlink" href="#convolutional-layers" title="Link to this heading"><span>#</span></a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Author</span><span class="p">:</span> <span class="n">Cfir</span> <span class="n">Hadar</span>
+
+<span class="n">Tags</span><span class="p">:</span> <span class="n">Done</span>
+</pre></div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="lesson-03-convolutional-neural-networks">
+<h1>Lesson 03 - Convolutional Neural Networks<a class="headerlink" href="#lesson-03-convolutional-neural-networks" title="Link to this heading"><span>#</span></a></h1>
+<section id="convolutional-layers">
+<h2>Convolutional Layers<a class="headerlink" href="#convolutional-layers" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#convolutional-layers'"><span>#</span></a></h2>
 <section id="motivation">
-<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<h3>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h3>
 <p>A common problem in a lot of domains is classifying what we see in an image.
 Let’s consider the classification problem of gray-scale images of size <span class="math notranslate nohighlight">\(1024\times1024\times1\)</span> into a 100 different categories.</p>
 <p>Until now we discussed about fully connected neural networks, that is when every neuron is connected to all the neurons in the layer before it, and to all the neurons in the layer after it.</p>
@@ -152,7 +158,7 @@ Let’s say the model is “interested” in getting all the edges in our image 
 <p>The special thing about convolution neural networks (CNNs) is their use of these convolutions as their basic building blocks.</p>
 </section>
 <section id="formally">
-<h2>Formally<a class="headerlink" href="#formally" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#formally'"><span>#</span></a></h2>
+<h3>Formally<a class="headerlink" href="#formally" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#formally'"><span>#</span></a></h3>
 <p>Convolutional layers performs a linear convolution, which is a cross-correlation computation between the given input and learnable kernels (what was referred until now as filters).</p>
 <div class="math notranslate nohighlight">
 \[
@@ -168,29 +174,29 @@ Note that the filter’s last dimension always equals to the last dimension of t
 <p>Again, to break linearity, it is recommended to perform an element-wise nonlinear activation function on each output.</p>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="padding-stride-and-dilation">
-<h1>Padding, Stride and Dilation<a class="headerlink" href="#padding-stride-and-dilation" title="Link to this heading"><span>#</span></a></h1>
+<section id="padding-stride-and-dilation">
+<h2>Padding, Stride and Dilation<a class="headerlink" href="#padding-stride-and-dilation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#padding-stride-and-dilation'"><span>#</span></a></h2>
 <section id="padding">
-<h2>Padding<a class="headerlink" href="#padding" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#padding'"><span>#</span></a></h2>
+<h3>Padding<a class="headerlink" href="#padding" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#padding'"><span>#</span></a></h3>
 <p>One problem due to the locality of convolutions can be found in the edges of an image. naively ignoring this problem will result in a reduced dimensionality in the output image (smaller image comes out than the image going in). Padding aims to solve this phenomenon as it wraps the input image with a given symbol (usually zero, or duplicating edge values).</p>
 <p><img alt="https://aigeekprogrammer.com/wp-content/uploads/2019/12/CNN-valid-vs.-same-1.png" src="https://aigeekprogrammer.com/wp-content/uploads/2019/12/CNN-valid-vs.-same-1.png"/></p>
 </section>
 <section id="stride">
-<h2>Stride<a class="headerlink" href="#stride" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#stride'"><span>#</span></a></h2>
+<h3>Stride<a class="headerlink" href="#stride" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#stride'"><span>#</span></a></h3>
 <p>Intuitively local information is very similar in neighbor pixels, therefore, to reduce the computational complexity, one may use a bigger stride (step size) for the filter movement.</p>
 <p>For example, convolution with padding of one, and stride of two:</p>
 <p><img alt="https://saturncloud.io/images/blog/convolution-operation-with-stride-length.gif" src="https://saturncloud.io/images/blog/convolution-operation-with-stride-length.gif"/></p>
 <p>Note how the filter moves two pixels at a time, instead of one.</p>
 </section>
 <section id="dilation">
-<h2>Dilation (התרחבות)<a class="headerlink" href="#dilation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#dilation'"><span>#</span></a></h2>
+<h3>Dilation (התרחבות)<a class="headerlink" href="#dilation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#dilation'"><span>#</span></a></h3>
 <p>In order to decrease even further in the number of computations, one may increase the filter dilation. For example, filter with dilation of
 2.</p>
 <p><img alt="https://upload.wikimedia.org/wikipedia/commons/c/c1/Convolution_arithmetic_-_Dilation.gif" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Convolution_arithmetic_-_Dilation.gif"/></p>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="computing-output-dimension">
-<h1>Computing Output Dimension<a class="headerlink" href="#computing-output-dimension" title="Link to this heading"><span>#</span></a></h1>
+<section id="computing-output-dimension">
+<h2>Computing Output Dimension<a class="headerlink" href="#computing-output-dimension" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#computing-output-dimension'"><span>#</span></a></h2>
 <div class="math notranslate nohighlight">
 \[
 O=\frac{I-K+2P}{S}+1,
@@ -198,20 +204,20 @@ O=\frac{I-K+2P}{S}+1,
 <p>whereas, <span class="math notranslate nohighlight">\(I\)</span> is the input dimension, <span class="math notranslate nohighlight">\(K\)</span> is the kernel size, <span class="math notranslate nohighlight">\(P\)</span> is the padding and <span class="math notranslate nohighlight">\(S\)</span> is the stride size.</p>
 <p>Number of output channels equals to the number of filters as discussed before.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="receptive-field">
-<h1>Receptive Field<a class="headerlink" href="#receptive-field" title="Link to this heading"><span>#</span></a></h1>
+<section id="receptive-field">
+<h2>Receptive Field<a class="headerlink" href="#receptive-field" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#receptive-field'"><span>#</span></a></h2>
 <p>Receptive Field is defined as the size of the region in the input that produces the feature.</p>
 <p><img alt="https://miro.medium.com/v2/resize:fit:1200/1*k97NVvlMkRXau-uItlq5Gw.png" src="https://miro.medium.com/v2/resize:fit:1200/1*k97NVvlMkRXau-uItlq5Gw.png"/></p>
 <p>See how the <span class="math notranslate nohighlight">\(5\times5\)</span> image is compressed to a single pixel using two convolution layers, each with <span class="math notranslate nohighlight">\(3\times3\)</span> kernel? Meaning, the receptive field of this network is <span class="math notranslate nohighlight">\(5\times5\)</span>.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="pooling">
-<h1>Pooling<a class="headerlink" href="#pooling" title="Link to this heading"><span>#</span></a></h1>
+<section id="pooling">
+<h2>Pooling<a class="headerlink" href="#pooling" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#pooling'"><span>#</span></a></h2>
 <p>Usually, in spectral data close elements carry similar values (e.g., close pixels usually have similar colors). We can utilize this to reduce even further the number of computation. To do so, pooling combines close pixels to a single value, reducing image dimension.</p>
 <p>Pooling is usually carried out by averaging (Average Pooling) or taking the maximum value in the window (Max Pooling).</p>
 <p><img alt="convnet" src="https://th.bing.com/th/id/R.a4c4709ccc8b6748176df4d635eaa8af?rik=qTNFsPyoJIsgnQ&amp;riu=http%3a%2f%2fcsgrad.science.uoit.ca%2fcourses%2fist%2fnotebooks%2fconvnet%2fpooling.png&amp;ehk=7ihi%2fUfqE%2bm23NCLNtoW696NGNXlk4Zirz5WgUY1pq4%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0"/></p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="normalizations">
-<h1>Normalizations<a class="headerlink" href="#normalizations" title="Link to this heading"><span>#</span></a></h1>
+<section id="normalizations">
+<h2>Normalizations<a class="headerlink" href="#normalizations" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#normalizations'"><span>#</span></a></h2>
 <p>Normalization of a set of items <span class="math notranslate nohighlight">\(\{x_i\}_{i=1}^N\)</span> is,</p>
 <div class="math notranslate nohighlight">
 \[
@@ -226,20 +232,20 @@ O=\frac{I-K+2P}{S}+1,
 <p><img alt="BNvsLN" src="../../../_images/BNvsLN.png"/></p>
 <p>Note that both layer-norm and batch-norm are used in a single convolution layer.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="famous-cnn-architectures">
-<h1>Famous CNN Architectures<a class="headerlink" href="#famous-cnn-architectures" title="Link to this heading"><span>#</span></a></h1>
+<section id="famous-cnn-architectures">
+<h2>Famous CNN Architectures<a class="headerlink" href="#famous-cnn-architectures" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#famous-cnn-architectures'"><span>#</span></a></h2>
 <section id="alexnet">
-<h2>AlexNet<a class="headerlink" href="#alexnet" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#alexnet'"><span>#</span></a></h2>
+<h3>AlexNet<a class="headerlink" href="#alexnet" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#alexnet'"><span>#</span></a></h3>
 <p><img alt="https://neurohive.io/wp-content/uploads/2018/10/AlexNet-1.png" src="https://neurohive.io/wp-content/uploads/2018/10/AlexNet-1.png"/></p>
 </section>
 <section id="vgg-16">
-<h2>VGG-16<a class="headerlink" href="#vgg-16" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#vgg-16'"><span>#</span></a></h2>
+<h3>VGG-16<a class="headerlink" href="#vgg-16" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#vgg-16'"><span>#</span></a></h3>
 <p><img alt="https://miro.medium.com/v2/resize:fit:1400/1*VPm-hHOM14OisbFUU4cL6Q.png" src="https://miro.medium.com/v2/resize:fit:1400/1*VPm-hHOM14OisbFUU4cL6Q.png"/></p>
 <p><span class="math notranslate nohighlight">\(K\times K \text{ Conv+ReLU}\quad \text{no. of filters}\)</span>.</p>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="residual-networks-resnet">
-<h1>Residual Networks (ResNet)<a class="headerlink" href="#residual-networks-resnet" title="Link to this heading"><span>#</span></a></h1>
+<section id="residual-networks-resnet">
+<h2>Residual Networks (ResNet)<a class="headerlink" href="#residual-networks-resnet" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#residual-networks-resnet'"><span>#</span></a></h2>
 <p>One of the challenges of using deep networks (networks with a lot of layers) is the optimization of such networks. In the backpropagation process, the gradients are computed from the last layer all the way back to the first one.
 As the gradient propagate through the layers is can become very small (imagine that in each layer it is multiplied by a number less than 1), this makes the update of the layers insignificant, especially for the first ones.</p>
 <p>To alleviate this problem we can “skip” some of the layers. This will allow the gradient to flow more directly through the network, making it easier for the model to learn.</p>
@@ -253,21 +259,22 @@ As the gradient propagate through the layers is can become very small (imagine t
 <p>This simple modification turns out to be extremely effective and allows training much deeper and much stronger networks like the ResNet with up to 152 layers!
 (You can read more about ResNet in the paper <a class="reference external" href="https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html" rel="nofollow noopener">Deep Residual Learning for Image Recognition<svg fill="currentColor" height="1em" stroke="none" viewbox="0 96 960 960" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M188 868q-11-11-11-28t11-28l436-436H400q-17 0-28.5-11.5T360 336q0-17 11.5-28.5T400 296h320q17 0 28.5 11.5T760 336v320q0 17-11.5 28.5T720 696q-17 0-28.5-11.5T680 656V432L244 868q-11 11-28 11t-28-11Z"></path></svg></a>)</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="walkthrough">
-<h1>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading"><span>#</span></a></h1>
+<section id="walkthrough">
+<h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#walkthrough'"><span>#</span></a></h2>
 <p><a class="reference internal" href="../walkthroughs/lesson3_cnn_cifar10.html"><span class="std std-doc">Walkthrough Chapter-02 Lesson-03</span></a></p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="available-challenges">
-<h1>Available Challenges<a class="headerlink" href="#available-challenges" title="Link to this heading"><span>#</span></a></h1>
+<section id="available-challenges">
+<h2>Available Challenges<a class="headerlink" href="#available-challenges" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#available-challenges'"><span>#</span></a></h2>
 <p><a class="reference internal" href="../challenges/challenge1_cifar10_limited-params.html"><span class="std std-doc">Challenge 01 - CIFAR-10 with Limited Parameters</span></a></p>
 <p>Please report your score in this <a class="reference external" href="https://docs.google.com/forms/d/e/1FAIpQLScjvrsJbfKVTwlvZk579ruwrbSbu84T4fakRzK3QD5vlifYdg/viewform" rel="nofollow noopener">forms<svg fill="currentColor" height="1em" stroke="none" viewbox="0 96 960 960" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M188 868q-11-11-11-28t11-28l436-436H400q-17 0-28.5-11.5T360 336q0-17 11.5-28.5T400 296h320q17 0 28.5 11.5T760 336v320q0 17-11.5 28.5T720 696q-17 0-28.5-11.5T680 656V432L244 868q-11 11-28 11t-28-11Z"></path></svg></a>.</p>
 <p>You may see the scoreboard at this <a class="reference external" href="https://docs.google.com/spreadsheets/d/1MLuPVBleyPGj8X_kqUYLfD8paDTicZevVuMRtfk_v10/edit#gid=1687672251" rel="nofollow noopener">link<svg fill="currentColor" height="1em" stroke="none" viewbox="0 96 960 960" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M188 868q-11-11-11-28t11-28l436-436H400q-17 0-28.5-11.5T360 336q0-17 11.5-28.5T400 296h320q17 0 28.5 11.5T760 336v320q0 17-11.5 28.5T720 696q-17 0-28.5-11.5T680 656V432L244 868q-11 11-28 11t-28-11Z"></path></svg></a>.</p>
+</section>
 </section>
 </div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
-<li><ul>
+<li><a :data-current="activeSection === '#convolutional-layers'" class="reference internal" href="#convolutional-layers">Convolutional Layers</a><ul>
 <li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
 <li><a :data-current="activeSection === '#formally'" class="reference internal" href="#formally">Formally</a></li>
 </ul>
