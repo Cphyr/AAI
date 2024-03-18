@@ -1,11 +1,5 @@
 # Datascience 101
 
-```{toctree}
-:maxdepth: 2
-:hidden:
-
-../Datascience101/chapter_03_machine_learning_2/walkthroughs/lesson1_fcnn_mnist
-```
 
 ## Chapters:
 
@@ -29,6 +23,9 @@ Tag: done
 
 Author: Cfir Hadar
 ```
+[Lesson](../Datascience101/chapter_03_machine_learning_2/lessons/L01_fully_connected_neural_networks.md)
+
+[Walkthrough](../Datascience101/chapter_03_machine_learning_2/walkthroughs/lesson1_fcnn_mnist.ipynb)
 
 #### (3.2) Optimization
 
@@ -51,6 +48,9 @@ Tag: done
 
 Author: Cfir Hadar
 ```
+[Lesson](../Datascience101/chapter_03_machine_learning_2/lessons/L03_convolutional_neural_networks.md)
+
+[Walkthrough](../Datascience101/chapter_03_machine_learning_2/walkthroughs/lesson3_cnn_cifar10.ipynb)
 
 #### (3.4) Recurent Neural Network (RNN)
 
@@ -59,6 +59,9 @@ Tag: done
 
 Author: Cfir Hadar
 ```
+[Lesson](../Datascience101/chapter_03_machine_learning_2/lessons/L04_recurrent_neural_networks.md)
+
+[Walkthrough](../Datascience101/chapter_03_machine_learning_2/walkthroughs/lesson4_lstm_stock-price-prediction.ipynb)
 
 #### (3.5) Deep Generative Models
 

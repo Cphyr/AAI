@@ -1,11 +1,12 @@
+```
 Author: Cfir Hadar
 
 Tags: Done
+```
+# Lesson 03 - Convolutional Neural Networks
+## Convolutional Layers
 
-
-# Convolutional Layers
-
-## Motivation
+### Motivation
 
 A common problem in a lot of domains is classifying what we see in an image.
 Let's consider the classification problem of gray-scale images of size $1024\times1024\times1$ into a 100 different categories.
@@ -41,7 +42,7 @@ Analogous to layers in FCN, convolutional layers perform multiple of these convo
 
 The special thing about convolution neural networks (CNNs) is their use of these convolutions as their basic building blocks.
 
-## Formally
+### Formally
 
 Convolutional layers performs a linear convolution, which is a cross-correlation computation between the given input and learnable kernels (what was referred until now as filters).
 
@@ -65,15 +66,15 @@ Note that the filter's last dimension always equals to the last dimension of the
 
 Again, to break linearity, it is recommended to perform an element-wise nonlinear activation function on each output.
 
-# Padding, Stride and Dilation
+## Padding, Stride and Dilation
 
-## Padding
+### Padding
 
 One problem due to the locality of convolutions can be found in the edges of an image. naively ignoring this problem will result in a reduced dimensionality in the output image (smaller image comes out than the image going in). Padding aims to solve this phenomenon as it wraps the input image with a given symbol (usually zero, or duplicating edge values).
 
 ![https://aigeekprogrammer.com/wp-content/uploads/2019/12/CNN-valid-vs.-same-1.png](https://aigeekprogrammer.com/wp-content/uploads/2019/12/CNN-valid-vs.-same-1.png)
 
-## Stride
+### Stride
 
 Intuitively local information is very similar in neighbor pixels, therefore, to reduce the computational complexity, one may use a bigger stride (step size) for the filter movement.
 
@@ -83,14 +84,14 @@ For example, convolution with padding of one, and stride of two:
 
 Note how the filter moves two pixels at a time, instead of one.
 
-## Dilation (התרחבות)
+### Dilation (התרחבות)
 
 In order to decrease even further in the number of computations, one may increase the filter dilation. For example, filter with dilation of
 2.
 
 ![https://upload.wikimedia.org/wikipedia/commons/c/c1/Convolution_arithmetic_-_Dilation.gif](https://upload.wikimedia.org/wikipedia/commons/c/c1/Convolution_arithmetic_-_Dilation.gif)
 
-# Computing Output Dimension
+## Computing Output Dimension
 
 $$
 O=\frac{I-K+2P}{S}+1,
@@ -100,7 +101,7 @@ whereas, $I$ is the input dimension, $K$ is the kernel size, $P$ is the padding 
 
 Number of output channels equals to the number of filters as discussed before.
 
-# Receptive Field
+## Receptive Field
 
 Receptive Field is defined as the size of the region in the input that produces the feature.
 
@@ -108,7 +109,7 @@ Receptive Field is defined as the size of the region in the input that produces 
 
 See how the $5\times5$ image is compressed to a single pixel using two convolution layers, each with $3\times3$ kernel? Meaning, the receptive field of this network is $5\times5$.
 
-# Pooling
+## Pooling
 
 Usually, in spectral data close elements carry similar values (e.g., close pixels usually have similar colors). We can utilize this to reduce even further the number of computation. To do so, pooling combines close pixels to a single value, reducing image dimension.
 
@@ -116,7 +117,7 @@ Pooling is usually carried out by averaging (Average Pooling) or taking the maxi
 
 ![convnet](https://th.bing.com/th/id/R.a4c4709ccc8b6748176df4d635eaa8af?rik=qTNFsPyoJIsgnQ&riu=http%3a%2f%2fcsgrad.science.uoit.ca%2fcourses%2fist%2fnotebooks%2fconvnet%2fpooling.png&ehk=7ihi%2fUfqE%2bm23NCLNtoW696NGNXlk4Zirz5WgUY1pq4%3d&risl=&pid=ImgRaw&r=0)
 
-# Normalizations
+## Normalizations
 
 Normalization of a set of items $\{x_i\}_{i=1}^N$ is,
 
@@ -135,19 +136,19 @@ One can define the group $\{x_i\}_{i=1}^N$ as needed, but usually we define it t
 
 Note that both layer-norm and batch-norm are used in a single convolution layer.
 
-# Famous CNN Architectures
+## Famous CNN Architectures
 
-## AlexNet
+### AlexNet
 
 ![https://neurohive.io/wp-content/uploads/2018/10/AlexNet-1.png](https://neurohive.io/wp-content/uploads/2018/10/AlexNet-1.png)
 
-## VGG-16
+### VGG-16
 
 ![https://miro.medium.com/v2/resize:fit:1400/1*VPm-hHOM14OisbFUU4cL6Q.png](https://miro.medium.com/v2/resize:fit:1400/1*VPm-hHOM14OisbFUU4cL6Q.png)
 
 $K\times K \text{ Conv+ReLU}\quad \text{no. of filters}$.
 
-# Residual Networks (ResNet)
+## Residual Networks (ResNet)
 One of the challenges of using deep networks (networks with a lot of layers) is the optimization of such networks. In the backpropagation process, the gradients are computed from the last layer all the way back to the first one.
 As the gradient propagate through the layers is can become very small (imagine that in each layer it is multiplied by a number less than 1), this makes the update of the layers insignificant, especially for the first ones.
 
@@ -166,11 +167,11 @@ Or visually,
 This simple modification turns out to be extremely effective and allows training much deeper and much stronger networks like the ResNet with up to 152 layers!
 (You can read more about ResNet in the paper [Deep Residual Learning for Image Recognition](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html))
 
-# Walkthrough
+## Walkthrough
 
 [Walkthrough Chapter-02 Lesson-03](../walkthroughs/lesson3_cnn_cifar10.ipynb)
 
-# Available Challenges
+## Available Challenges
 
 [Challenge 01 - CIFAR-10 with Limited Parameters](../challenges/challenge1_cifar10_limited-params.ipynb)
 

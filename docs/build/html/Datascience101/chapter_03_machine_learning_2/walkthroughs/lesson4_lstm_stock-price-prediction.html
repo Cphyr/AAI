@@ -7,12 +7,12 @@
 <meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
 <meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Imports | AAI 1.0 documentation</title>
-<meta content="Imports | AAI 1.0 documentation" property="og:title"/>
-<meta content="Imports | AAI 1.0 documentation" name="twitter:title"/>
+<title>Lesson 4: RNNs | AAI 1.0 documentation</title>
+<meta content="Lesson 4: RNNs | AAI 1.0 documentation" property="og:title"/>
+<meta content="Lesson 4: RNNs | AAI 1.0 documentation" name="twitter:title"/>
 <link href="../../../_static/pygments.css?v=8d216cef" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" rel="stylesheet" type="text/css"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <script>
@@ -77,17 +77,10 @@
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
-<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#imports">Imports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#hyperparameters">Hyperparameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#mnist">MNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#data-augmentation">Data Augmentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#neural-network">Neural Network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#initialization">Initialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#training-the-model">Training the Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#evaluation">Evaluation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lesson1_fcnn_mnist.html#reloading-the-model-and-making-predictions">Reloading the Model and Making Predictions</a></li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/Datascience101.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../main.html">Datascience101</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -109,11 +102,13 @@
 <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
 </svg>
 </a>
-<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Imports</span>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Lesson 4: RNNs</span>
 </nav>
 <div id="content" role="main">
-<section class="tex2jax_ignore mathjax_ignore" id="imports">
-<h1>Imports<a class="headerlink" href="#imports" title="Link to this heading"><span>#</span></a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="lesson-4-rnns">
+<h1>Lesson 4: RNNs<a class="headerlink" href="#lesson-4-rnns" title="Link to this heading"><span>#</span></a></h1>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#imports'"><span>#</span></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
@@ -132,8 +127,8 @@
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="config">
-<h1>Config<a class="headerlink" href="#config" title="Link to this heading"><span>#</span></a></h1>
+<section id="config">
+<h2>Config<a class="headerlink" href="#config" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#config'"><span>#</span></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cnf</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
@@ -155,8 +150,8 @@
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="donwload-the-dataset">
-<h1>Donwload the Dataset<a class="headerlink" href="#donwload-the-dataset" title="Link to this heading"><span>#</span></a></h1>
+<section id="donwload-the-dataset">
+<h2>Donwload the Dataset<a class="headerlink" href="#donwload-the-dataset" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#donwload-the-dataset'"><span>#</span></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># download the dataset from https://query1.finance.yahoo.com/v7/finance/download/SBUX?period1=1576063151&amp;period2=1607685551&amp;interval=1d&amp;events=history&amp;includeAdjustedClose=true</span>
@@ -172,8 +167,8 @@
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="load-the-dataset">
-<h1>Load the Dataset<a class="headerlink" href="#load-the-dataset" title="Link to this heading"><span>#</span></a></h1>
+<section id="load-the-dataset">
+<h2>Load the Dataset<a class="headerlink" href="#load-the-dataset" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#load-the-dataset'"><span>#</span></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cnf</span><span class="o">.</span><span class="n">save_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">"Date"</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -224,7 +219,7 @@
 <td>86.870003</td>
 <td>85.849998</td>
 <td>86.589996</td>
-<td>79.370262</td>
+<td>79.370239</td>
 <td>4921900</td>
 </tr>
 <tr>
@@ -233,7 +228,7 @@
 <td>88.889999</td>
 <td>87.540001</td>
 <td>88.209999</td>
-<td>80.855171</td>
+<td>80.855186</td>
 <td>10282100</td>
 </tr>
 <tr>
@@ -242,7 +237,7 @@
 <td>88.790001</td>
 <td>87.580002</td>
 <td>88.669998</td>
-<td>81.276848</td>
+<td>81.276825</td>
 <td>6714100</td>
 </tr>
 <tr>
@@ -251,7 +246,7 @@
 <td>89.300003</td>
 <td>88.430000</td>
 <td>88.779999</td>
-<td>81.377670</td>
+<td>81.377655</td>
 <td>6705600</td>
 </tr>
 <tr>
@@ -282,8 +277,8 @@
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="data-preprocessing">
-<h1>Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Link to this heading"><span>#</span></a></h1>
+<section id="data-preprocessing">
+<h2>Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#data-preprocessing'"><span>#</span></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># take all columns except the last one</span>
@@ -372,8 +367,8 @@
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="model">
-<h1>Model<a class="headerlink" href="#model" title="Link to this heading"><span>#</span></a></h1>
+<section id="model">
+<h2>Model<a class="headerlink" href="#model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#model'"><span>#</span></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LSTMNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -443,8 +438,8 @@
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="training">
-<h1>Training<a class="headerlink" href="#training" title="Link to this heading"><span>#</span></a></h1>
+<section id="training">
+<h2>Training<a class="headerlink" href="#training" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#training'"><span>#</span></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cnf</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">):</span>
@@ -489,8 +484,8 @@ Epoch: 1900, Loss: 0.009298368357121944
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="testing">
-<h1>Testing<a class="headerlink" href="#testing" title="Link to this heading"><span>#</span></a></h1>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#testing'"><span>#</span></a></h2>
 <p>But before performing predictions on the whole dataset, you’ll need to bring the original dataset into the model suitable format, which can be done by using similar code as above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -529,11 +524,12 @@ Epoch: 1900, Loss: 0.009298368357121944
 </div>
 </div>
 </section>
+</section>
 </div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
-<li></li>
+<li><a :data-current="activeSection === '#imports'" class="reference internal" href="#imports">Imports</a></li>
 <li><a :data-current="activeSection === '#config'" class="reference internal" href="#config">Config</a></li>
 <li><a :data-current="activeSection === '#donwload-the-dataset'" class="reference internal" href="#donwload-the-dataset">Donwload the Dataset</a></li>
 <li><a :data-current="activeSection === '#load-the-dataset'" class="reference internal" href="#load-the-dataset">Load the Dataset</a></li>

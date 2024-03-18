@@ -1,9 +1,11 @@
 
+```
 Author: Cfir Hadar
 
 Tags: Done
+```
 
-# Fully Connected Neural Networks
+# Lesson 1 - Fully Connected Neural Networks
 
 ## Motivation
 

@@ -14,6 +14,7 @@ title: Welcome to AAI!
 :hidden:
 
 Overviews/overviews
+Datascience101/main
 ```
 
 <!-- ## Indices and tables

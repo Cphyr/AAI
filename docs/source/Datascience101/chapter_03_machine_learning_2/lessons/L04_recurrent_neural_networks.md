@@ -3,18 +3,18 @@
 Author: Cfir Hadar
 
 Tags: In Progress
-
-# Introduction
+# Lesson 4 - Recurrent Neural Networks
+## Introduction
 
 Sometimes data is structures as a time series, that is element after another, and the sequentiality is important for understanding the data, for example text, audio, video, DNA and more. Intuitively, data of this kind should be processed with a model that pay attention to this sequentiality. Additionally, note that both FCN and CNN require a fix and known maximal input dimension to function properly (i.e., without weird adaptations), but those modalities described (text, video, etc.) may require us to process practically unlimited sequences.
 
-# Motivation from Cognitive Science
+## Motivation from Cognitive Science
 
 Let us dive deeper to a single example modality - text. Imagine reading a long sentence, consisting of different words, each is read one at a time. Note how our brain likes to process the current word using a hidden representation of the context (i.e., an aggregation of all previous words). We are going to try and incorporate this structure in our model architecture.
 
-# Recurrent Neural Network
+## Recurrent Neural Network
 
-## Vanilla RNN
+### Vanilla RNN
 
 Assume we have the following input sequence $x_1,...,x_T$ (e.g., $x_t$ is a feature vector representing a word), and denote the cognitive hidden state of time $t-1$ as $h_{t-1}$. Our objective is twofold: 1) compute a new hidden state $h_t$, 2) compute an output vector $\hat{y}_t$.
 
@@ -38,11 +38,11 @@ whereas $\phi_h(\cdot)$ is an activation function, e.g., ReLU, Sigmoid, Tanh, et
 
 Caption: here $A=W_{hy},B=W_{xh},C=W_{hh}$.
 
-### Extending to more Sophisticated Functions
+#### Extending to more Sophisticated Functions
 
 As you might think, yes - you can extend this architecture to encapsulate more sophisticated functions. One immediate extension is to replace each $W$ with FCN.
 
-### Tasks
+#### Tasks
 
 One to Many: given a single input, output a sequence, e.g., image captioning.
 
@@ -52,7 +52,7 @@ Many to Many: given a sequence, out a sequence, e.g., language translation.
 
 ![task_types_rnn](../media/lesson-04/task_types_rnn.png)
 
-### Gradient Flow
+#### Gradient Flow
 
 Let us examine the gradient flow in RNN for the rightmost many-to-many task. 
 
@@ -74,7 +74,7 @@ Exploding Gradients:
 
 Same thing, but now we consider a case where all individual gradients are $>1$.
 
-### Solving Vanishing/Exploding Gradients Problem
+#### Solving Vanishing/Exploding Gradients Problem
 
 Gradient Clipping:
 
@@ -104,7 +104,7 @@ we get,
 
 ![backprop_tr](../media/lesson-04/backprop_tr.png)
 
-## LSTM
+### LSTM
 
 Vanilla RNNs usually suffer from vanishing gradients, and LSTM tries to solve just that. As you will see, LSTMs have much more cognitive foundation, as LSTM stands from Long Short Term Memory. The main idea is to expend RNN architecture to include both short-term ($h_t$) and long-term ($c_t)$ memory.
 
@@ -147,11 +147,11 @@ Updating:
 
 whereas, $\odot$ denotes element-wise multiplication, and $[x,y]$ denotes the concatenation of both vectors.
 
-### Recap
+#### Recap
 
 LSTMs are able to perform better than vanilla RNNs, and are less prone for vanishing gradients.
 
-# Multilayer RNNs
+## Multilayer RNNs
 
 From now forward, we usually refer to LSTMs as RNNs.
 
@@ -159,7 +159,7 @@ Similarly to the way we formed a linear layer from concatenating several indepen
 
 ![mult_layer](../media/lesson-04/mult_layer.png)
 
-# Bidirectional RNNs
+## Bidirectional RNNs
 
 Cognitive science show that people see also future words when processing the current word. To model this, we would like to use information from a backward pass through the sequence, making predictions based of the concatenation of both forward and backward hidden states. Note that the weights of the backward layer and forward layer are independent.
 
@@ -175,10 +175,10 @@ Complete the following statements using either ‘very’, ‘happy’, ‘not�
 
 See how future words might help the model understand the context better?
 
-# Walkthrough
+## Walkthrough
 
 [Walkthrough Chapter-02 Lesson-04](../walkthroughs/lesson4_lstm_stock-price-prediction.ipynb)
 
-# Assignment
+## Assignment
 
 %TODO% add assignment from ML2. Given first letter + country, generate a name that starts with the given first letter, and is coherent with the given country.
