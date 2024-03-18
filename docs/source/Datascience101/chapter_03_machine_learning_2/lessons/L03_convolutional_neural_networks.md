@@ -30,6 +30,7 @@ Let's say the model is "interested" in getting all the edges in our image as par
 | ---- | --- | --- |
 | $-1$ | $0$ | $1$ |
 | $-1$ | $0$ | $1$ |
+
 and for each pixel (and its neighbors) it will apply this filter by multiplying each number in the weights table with the brightness of the pixel it is covering, and then, add up all these numbers. This gives a single number that indicates how much of an edge the center pixel is.
 
 ![https://content.codecademy.com/courses/deeplearning-with-tensorflow/image-classification/stride.gif](https://content.codecademy.com/courses/deeplearning-with-tensorflow/image-classification/stride.gif)
