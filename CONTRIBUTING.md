@@ -1,4 +1,4 @@
-1. Checkout [Overview](Overview) for projects structure and available lessons for contribution.
+1. Checkout [Overview](./docs/source/Overviews/overviews.md) for projects structure and available lessons for contribution.
 2. Identify the contribution you want to make.
 3. Search for already existing issue regarding this lesson.
     * If exists, ask to collaborate with the person in charge (i.e., the one who opened the issue).
