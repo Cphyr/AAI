@@ -1,3 +1,13 @@
+matplotlib==3.8.0
+numpy==1.26.4
+omegaconf==2.3.0
+pandas==2.0.3
+Requests==2.31.0
+scikit_learn==1.4.1.post1
+torch==2.2.1
+torchvision==0.17.1
+tqdm==4.65.0
+
 sphinx==7.2.6
 myst-parser==2.0.0
 sphinxawesome-theme==5.1.1
