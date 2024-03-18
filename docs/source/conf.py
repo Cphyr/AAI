@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "OneStop"
-copyright = "2024, TBD"
-author = "TBD"
+project = "AAI"
+copyright = "2024, Cfir Hadar"
+author = "Cfir Hadar"
 release = "1.0"
 
 
@@ -17,7 +17,7 @@ release = "1.0"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["myst_parser"]
+extensions = ["myst_nb"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -71,7 +71,7 @@ html_theme_options = {
             ),
         },
     },
-    "main_nav_links": {"Docs": "/index", "About": "/index", "Changelog": "/index"},
+    # "main_nav_links": {"Docs": "/index", "About": "/index", "Changelog": "/index"},
 }
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
