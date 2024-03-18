@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Convolutional Layers | AAI 1.0 documentation</title>
+<meta content="Convolutional Layers | AAI 1.0 documentation" property="og:title"/>
+<meta content="Convolutional Layers | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=8d216cef" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/Datascience101.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../walkthroughs/lesson1_fcnn_mnist.html">Lesson 1: MNIST Classification using Fully Connected Neural Networks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Convolutional Layers</span>
+</nav>
+<div id="content" role="main">
+<p>Author: Cfir Hadar</p>
+<p>Tags: Done</p>
+<section class="tex2jax_ignore mathjax_ignore" id="convolutional-layers">
+<h1>Convolutional Layers<a class="headerlink" href="#convolutional-layers" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>A common problem in a lot of domains is classifying what we see in an image.
+Let’s consider the classification problem of gray-scale images of size <span class="math notranslate nohighlight">\(1024\times1024\times1\)</span> into a 100 different categories.</p>
+<p>Until now we discussed about fully connected neural networks, that is when every neuron is connected to all the neurons in the layer before it, and to all the neurons in the layer after it.</p>
+<p>The naive approach to classify our images would have been training a fully-connected network (FCN) to sort them.
+Each image can be fed into our model as an input and the model will output a vector representing how likely the image is to belong to each of the 100 categories we have. Even without any hidden layers, the number of parameters in this network is <span class="math notranslate nohighlight">\(1024^2\cdot100 + 100=104,857,700\)</span> (adding the number of weights and biases) which to say the least is a lot and will take relatively long time to compute a prediction on all of our images.</p>
+<p>These networks are very “expressive”, because we do not constrain the network at all. “With greater power comes great responsibility” as these are computationally expensive.</p>
+<p>Solution:
+Constrain the expressiveness of the network using some ‘outside’ information.
+As humans we think of image pixels as locally related, that is: close pixels are strongly related, while far pixels less so.
+We will try to use this observation in our model to make it more efficient.</p>
+<p>In order to use this concept of locality of pixels we will contract a new tool called a Convolutional Layer.
+Let’s say the model is “interested” in getting all the edges in our image as part of its classification process. How would he do that? One approach is taking a “filter” with the following weights:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(-1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(0\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(1\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(-1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(-1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>and for each pixel (and its neighbors) it will apply this filter by multiplying each number in the weights table with the brightness of the pixel it is covering, and then, add up all these numbers. This gives a single number that indicates how much of an edge the center pixel is.</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="https://content.codecademy.com/courses/deeplearning-with-tensorflow/image-classification/stride.gif" src="https://content.codecademy.com/courses/deeplearning-with-tensorflow/image-classification/stride.gif"/></p>
+<p>After applying this filter on each pixel in the image we will get another (slightly smaller) image with some useful information the model can use moving forward.</p>
+<p><img alt="https://upload.wikimedia.org/wikipedia/commons/2/20/%C3%84%C3%A4retuvastuse_n%C3%A4ide.png" src="https://upload.wikimedia.org/wikipedia/commons/2/20/%C3%84%C3%A4retuvastuse_n%C3%A4ide.png"/></p>
+<p>Analogous to layers in FCN, convolutional layers perform multiple of these convolution processes using different filters.</p>
+<p>The special thing about convolution neural networks (CNNs) is their use of these convolutions as their basic building blocks.</p>
+</section>
+<section id="formally">
+<h2>Formally<a class="headerlink" href="#formally" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#formally'"><span>#</span></a></h2>
+<p>Convolutional layers performs a linear convolution, which is a cross-correlation computation between the given input and learnable kernels (what was referred until now as filters).</p>
+<div class="math notranslate nohighlight">
+\[
+y[n] = \sum_{m=1}^{K-1}{x[n-m]\cdot w[m]}, 
+\]</div>
+<p>whereas, <span class="math notranslate nohighlight">\(x\in\mathbb{R}^n, w\in\mathbb{R}^K\)</span> are the input vector and weights vector respectively, and a single kernel (<span class="math notranslate nohighlight">\(w\)</span>) contains <span class="math notranslate nohighlight">\(K\)</span> parameters (<span class="math notranslate nohighlight">\(K \ll N_{input}\times N_{output}\)</span>).</p>
+<p>As we seen, we can extend this formulation to process images.</p>
+<p>Usually, we use multiple different filters (concatenating the outputs of different filters), which ideally learn different sub-tasks.</p>
+<p>As you can see, we used our everyday knowledge of images, such as locality, to improve our network architecture, resulting in a smarter model, with significantly less parameters.</p>
+<p>Example: given an input image of size <span class="math notranslate nohighlight">\(6\times 6\times 3\)</span>, with two filters, each of size <span class="math notranslate nohighlight">\(2\times2\times3\)</span>.
+Note that the filter’s last dimension always equals to the last dimension of the input image, this dimension is referred to as channels (gray-scale images will have one channel: brightness. Color images will have three channels: red, green, and blue). Therefore, convolution consider a local environment in dimensions one and two, while considering <strong>all</strong> input channels at once.</p>
+<p><img alt="https://indoml.files.wordpress.com/2018/03/convolution-with-multiple-filters2.png?w=736" src="https://indoml.files.wordpress.com/2018/03/convolution-with-multiple-filters2.png?w=736"/></p>
+<p>Again, to break linearity, it is recommended to perform an element-wise nonlinear activation function on each output.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="padding-stride-and-dilation">
+<h1>Padding, Stride and Dilation<a class="headerlink" href="#padding-stride-and-dilation" title="Link to this heading"><span>#</span></a></h1>
+<section id="padding">
+<h2>Padding<a class="headerlink" href="#padding" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#padding'"><span>#</span></a></h2>
+<p>One problem due to the locality of convolutions can be found in the edges of an image. naively ignoring this problem will result in a reduced dimensionality in the output image (smaller image comes out than the image going in). Padding aims to solve this phenomenon as it wraps the input image with a given symbol (usually zero, or duplicating edge values).</p>
+<p><img alt="https://aigeekprogrammer.com/wp-content/uploads/2019/12/CNN-valid-vs.-same-1.png" src="https://aigeekprogrammer.com/wp-content/uploads/2019/12/CNN-valid-vs.-same-1.png"/></p>
+</section>
+<section id="stride">
+<h2>Stride<a class="headerlink" href="#stride" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#stride'"><span>#</span></a></h2>
+<p>Intuitively local information is very similar in neighbor pixels, therefore, to reduce the computational complexity, one may use a bigger stride (step size) for the filter movement.</p>
+<p>For example, convolution with padding of one, and stride of two:</p>
+<p><img alt="https://saturncloud.io/images/blog/convolution-operation-with-stride-length.gif" src="https://saturncloud.io/images/blog/convolution-operation-with-stride-length.gif"/></p>
+<p>Note how the filter moves two pixels at a time, instead of one.</p>
+</section>
+<section id="dilation">
+<h2>Dilation (התרחבות)<a class="headerlink" href="#dilation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#dilation'"><span>#</span></a></h2>
+<p>In order to decrease even further in the number of computations, one may increase the filter dilation. For example, filter with dilation of
+2.</p>
+<p><img alt="https://upload.wikimedia.org/wikipedia/commons/c/c1/Convolution_arithmetic_-_Dilation.gif" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Convolution_arithmetic_-_Dilation.gif"/></p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="computing-output-dimension">
+<h1>Computing Output Dimension<a class="headerlink" href="#computing-output-dimension" title="Link to this heading"><span>#</span></a></h1>
+<div class="math notranslate nohighlight">
+\[
+O=\frac{I-K+2P}{S}+1,
+\]</div>
+<p>whereas, <span class="math notranslate nohighlight">\(I\)</span> is the input dimension, <span class="math notranslate nohighlight">\(K\)</span> is the kernel size, <span class="math notranslate nohighlight">\(P\)</span> is the padding and <span class="math notranslate nohighlight">\(S\)</span> is the stride size.</p>
+<p>Number of output channels equals to the number of filters as discussed before.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="receptive-field">
+<h1>Receptive Field<a class="headerlink" href="#receptive-field" title="Link to this heading"><span>#</span></a></h1>
+<p>Receptive Field is defined as the size of the region in the input that produces the feature.</p>
+<p><img alt="https://miro.medium.com/v2/resize:fit:1200/1*k97NVvlMkRXau-uItlq5Gw.png" src="https://miro.medium.com/v2/resize:fit:1200/1*k97NVvlMkRXau-uItlq5Gw.png"/></p>
+<p>See how the <span class="math notranslate nohighlight">\(5\times5\)</span> image is compressed to a single pixel using two convolution layers, each with <span class="math notranslate nohighlight">\(3\times3\)</span> kernel? Meaning, the receptive field of this network is <span class="math notranslate nohighlight">\(5\times5\)</span>.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="pooling">
+<h1>Pooling<a class="headerlink" href="#pooling" title="Link to this heading"><span>#</span></a></h1>
+<p>Usually, in spectral data close elements carry similar values (e.g., close pixels usually have similar colors). We can utilize this to reduce even further the number of computation. To do so, pooling combines close pixels to a single value, reducing image dimension.</p>
+<p>Pooling is usually carried out by averaging (Average Pooling) or taking the maximum value in the window (Max Pooling).</p>
+<p><img alt="convnet" src="https://th.bing.com/th/id/R.a4c4709ccc8b6748176df4d635eaa8af?rik=qTNFsPyoJIsgnQ&amp;riu=http%3a%2f%2fcsgrad.science.uoit.ca%2fcourses%2fist%2fnotebooks%2fconvnet%2fpooling.png&amp;ehk=7ihi%2fUfqE%2bm23NCLNtoW696NGNXlk4Zirz5WgUY1pq4%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0"/></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="normalizations">
+<h1>Normalizations<a class="headerlink" href="#normalizations" title="Link to this heading"><span>#</span></a></h1>
+<p>Normalization of a set of items <span class="math notranslate nohighlight">\(\{x_i\}_{i=1}^N\)</span> is,</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{x_i}\leftarrow\frac{x_i-\mu_x}{\sigma_x},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu_x\)</span> and <span class="math notranslate nohighlight">\(\sigma_x\)</span> are the mean and standard deviation of <span class="math notranslate nohighlight">\(\{x_i\}_{i=1}^N\)</span>.</p>
+<p>One can define the group <span class="math notranslate nohighlight">\(\{x_i\}_{i=1}^N\)</span> as needed, but usually we define it to one of two options.</p>
+<ol class="arabic simple">
+<li><p>Batch Normalization (BN): works for each filter separately, using all outputs of that filter (one per input).</p></li>
+<li><p>Layer Normalization (LN): works for each input separately, using outputs from all filters for that single input.</p></li>
+</ol>
+<p><img alt="BNvsLN" src="../../../_images/BNvsLN.png"/></p>
+<p>Note that both layer-norm and batch-norm are used in a single convolution layer.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="famous-cnn-architectures">
+<h1>Famous CNN Architectures<a class="headerlink" href="#famous-cnn-architectures" title="Link to this heading"><span>#</span></a></h1>
+<section id="alexnet">
+<h2>AlexNet<a class="headerlink" href="#alexnet" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#alexnet'"><span>#</span></a></h2>
+<p><img alt="https://neurohive.io/wp-content/uploads/2018/10/AlexNet-1.png" src="https://neurohive.io/wp-content/uploads/2018/10/AlexNet-1.png"/></p>
+</section>
+<section id="vgg-16">
+<h2>VGG-16<a class="headerlink" href="#vgg-16" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#vgg-16'"><span>#</span></a></h2>
+<p><img alt="https://miro.medium.com/v2/resize:fit:1400/1*VPm-hHOM14OisbFUU4cL6Q.png" src="https://miro.medium.com/v2/resize:fit:1400/1*VPm-hHOM14OisbFUU4cL6Q.png"/></p>
+<p><span class="math notranslate nohighlight">\(K\times K \text{ Conv+ReLU}\quad \text{no. of filters}\)</span>.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="residual-networks-resnet">
+<h1>Residual Networks (ResNet)<a class="headerlink" href="#residual-networks-resnet" title="Link to this heading"><span>#</span></a></h1>
+<p>One of the challenges of using deep networks (networks with a lot of layers) is the optimization of such networks. In the backpropagation process, the gradients are computed from the last layer all the way back to the first one.
+As the gradient propagate through the layers is can become very small (imagine that in each layer it is multiplied by a number less than 1), this makes the update of the layers insignificant, especially for the first ones.</p>
+<p>To alleviate this problem we can “skip” some of the layers. This will allow the gradient to flow more directly through the network, making it easier for the model to learn.</p>
+<p>Mathematically, we add a residual connection (a.k.a. skip connection) to layer <span class="math notranslate nohighlight">\(F\)</span> with input <span class="math notranslate nohighlight">\(x\)</span> simply by adding <span class="math notranslate nohighlight">\(x\)</span> to the input:</p>
+<div class="math notranslate nohighlight">
+\[
+	y = F(x) + x
+\]</div>
+<p>Or visually,</p>
+<img alt="../../../_images/ResBlock.png" src="../../../_images/ResBlock.png"/>
+<p>This simple modification turns out to be extremely effective and allows training much deeper and much stronger networks like the ResNet with up to 152 layers!
+(You can read more about ResNet in the paper <a class="reference external" href="https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html" rel="nofollow noopener">Deep Residual Learning for Image Recognition<svg fill="currentColor" height="1em" stroke="none" viewbox="0 96 960 960" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M188 868q-11-11-11-28t11-28l436-436H400q-17 0-28.5-11.5T360 336q0-17 11.5-28.5T400 296h320q17 0 28.5 11.5T760 336v320q0 17-11.5 28.5T720 696q-17 0-28.5-11.5T680 656V432L244 868q-11 11-28 11t-28-11Z"></path></svg></a>)</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="walkthrough">
+<h1>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading"><span>#</span></a></h1>
+<p><a class="reference internal" href="../walkthroughs/lesson3_cnn_cifar10.html"><span class="std std-doc">Walkthrough Chapter-02 Lesson-03</span></a></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="available-challenges">
+<h1>Available Challenges<a class="headerlink" href="#available-challenges" title="Link to this heading"><span>#</span></a></h1>
+<p><a class="reference internal" href="../challenges/challenge1_cifar10_limited-params.html"><span class="std std-doc">Challenge 01 - CIFAR-10 with Limited Parameters</span></a></p>
+<p>Please report your score in this <a class="reference external" href="https://docs.google.com/forms/d/e/1FAIpQLScjvrsJbfKVTwlvZk579ruwrbSbu84T4fakRzK3QD5vlifYdg/viewform" rel="nofollow noopener">forms<svg fill="currentColor" height="1em" stroke="none" viewbox="0 96 960 960" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M188 868q-11-11-11-28t11-28l436-436H400q-17 0-28.5-11.5T360 336q0-17 11.5-28.5T400 296h320q17 0 28.5 11.5T760 336v320q0 17-11.5 28.5T720 696q-17 0-28.5-11.5T680 656V432L244 868q-11 11-28 11t-28-11Z"></path></svg></a>.</p>
+<p>You may see the scoreboard at this <a class="reference external" href="https://docs.google.com/spreadsheets/d/1MLuPVBleyPGj8X_kqUYLfD8paDTicZevVuMRtfk_v10/edit#gid=1687672251" rel="nofollow noopener">link<svg fill="currentColor" height="1em" stroke="none" viewbox="0 96 960 960" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M188 868q-11-11-11-28t11-28l436-436H400q-17 0-28.5-11.5T360 336q0-17 11.5-28.5T400 296h320q17 0 28.5 11.5T760 336v320q0 17-11.5 28.5T720 696q-17 0-28.5-11.5T680 656V432L244 868q-11 11-28 11t-28-11Z"></path></svg></a>.</p>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#formally'" class="reference internal" href="#formally">Formally</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#padding-stride-and-dilation'" class="reference internal" href="#padding-stride-and-dilation">Padding, Stride and Dilation</a><ul>
+<li><a :data-current="activeSection === '#padding'" class="reference internal" href="#padding">Padding</a></li>
+<li><a :data-current="activeSection === '#stride'" class="reference internal" href="#stride">Stride</a></li>
+<li><a :data-current="activeSection === '#dilation'" class="reference internal" href="#dilation">Dilation (התרחבות)</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#computing-output-dimension'" class="reference internal" href="#computing-output-dimension">Computing Output Dimension</a></li>
+<li><a :data-current="activeSection === '#receptive-field'" class="reference internal" href="#receptive-field">Receptive Field</a></li>
+<li><a :data-current="activeSection === '#pooling'" class="reference internal" href="#pooling">Pooling</a></li>
+<li><a :data-current="activeSection === '#normalizations'" class="reference internal" href="#normalizations">Normalizations</a></li>
+<li><a :data-current="activeSection === '#famous-cnn-architectures'" class="reference internal" href="#famous-cnn-architectures">Famous CNN Architectures</a><ul>
+<li><a :data-current="activeSection === '#alexnet'" class="reference internal" href="#alexnet">AlexNet</a></li>
+<li><a :data-current="activeSection === '#vgg-16'" class="reference internal" href="#vgg-16">VGG-16</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#residual-networks-resnet'" class="reference internal" href="#residual-networks-resnet">Residual Networks (ResNet)</a></li>
+<li><a :data-current="activeSection === '#walkthrough'" class="reference internal" href="#walkthrough">Walkthrough</a></li>
+<li><a :data-current="activeSection === '#available-challenges'" class="reference internal" href="#available-challenges">Available Challenges</a></li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
