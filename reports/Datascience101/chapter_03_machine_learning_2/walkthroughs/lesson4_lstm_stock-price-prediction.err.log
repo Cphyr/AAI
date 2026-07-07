@@ -1,35 +1,91 @@
 Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.12.2/x64/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
     executenb(
-  File "/opt/hostedtoolcache/Python/3.12.2/x64/lib/python3.12/site-packages/nbclient/client.py", line 1314, in execute
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/nbclient/client.py", line 1323, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.2/x64/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
     return loop.run_until_complete(inner)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.2/x64/lib/python3.12/asyncio/base_events.py", line 685, in run_until_complete
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
     return future.result()
            ^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.2/x64/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
     await self.async_execute_cell(
-  File "/opt/hostedtoolcache/Python/3.12.2/x64/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/opt/hostedtoolcache/Python/3.12.2/x64/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# reshaping to rows, timestamps, features
-X_train = X_train.reshape(X_train.shape[0], 1, X_train.shape[1])
-X_test = X_test.reshape(X_test.shape[0], 1, X_test.shape[1])
+df = pd.read_csv(cnf.save_path, index_col="Date", parse_dates=True)
+df.head(5)
 ------------------
 
 
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mAttributeError[0m                            Traceback (most recent call last)
-Cell [0;32mIn[10], line 2[0m
-[1;32m      1[0m [38;5;66;03m# reshaping to rows, timestamps, features[39;00m
-[0;32m----> 2[0m X_train [38;5;241m=[39m [43mX_train[49m[38;5;241;43m.[39;49m[43mreshape[49m(X_train[38;5;241m.[39mshape[[38;5;241m0[39m], [38;5;241m1[39m, X_train[38;5;241m.[39mshape[[38;5;241m1[39m])
-[1;32m      3[0m X_test [38;5;241m=[39m X_test[38;5;241m.[39mreshape(X_test[38;5;241m.[39mshape[[38;5;241m0[39m], [38;5;241m1[39m, X_test[38;5;241m.[39mshape[[38;5;241m1[39m])
+[31m---------------------------------------------------------------------------[39m
+[31mValueError[39m                                Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[4][39m[32m, line 1[39m
+[32m----> [39m[32m1[39m df = pd.read_csv(cnf.save_path, index_col=[33m"Date"[39m, parse_dates=[38;5;28;01mTrue[39;00m)
+[32m      2[39m df.head([32m5[39m)
 
-[0;31mAttributeError[0m: 'NoneType' object has no attribute 'reshape'
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pandas/io/parsers/readers.py:948[39m, in [36mread_csv[39m[34m(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)[39m
+[32m    935[39m kwds_defaults = _refine_defaults_read(
+[32m    936[39m     dialect,
+[32m    937[39m     delimiter,
+[32m   (...)[39m[32m    944[39m     dtype_backend=dtype_backend,
+[32m    945[39m )
+[32m    946[39m kwds.update(kwds_defaults)
+[32m--> [39m[32m948[39m [38;5;28;01mreturn[39;00m [30;43m_read[39;49m[30;43m([39;49m[30;43mfilepath_or_buffer[39;49m[30;43m,[39;49m[30;43m [39;49m[30;43mkwds[39;49m[30;43m)[39;49m
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pandas/io/parsers/readers.py:611[39m, in [36m_read[39m[34m(filepath_or_buffer, kwds)[39m
+[32m    608[39m _validate_names(kwds.get([33m"[39m[33mnames[39m[33m"[39m, [38;5;28;01mNone[39;00m))
+[32m    610[39m [38;5;66;03m# Create the parser.[39;00m
+[32m--> [39m[32m611[39m parser = [30;43mTextFileReader[39;49m[30;43m([39;49m[30;43mfilepath_or_buffer[39;49m[30;43m,[39;49m[30;43m [39;49m[30;43m*[39;49m[30;43m*[39;49m[30;43mkwds[39;49m[30;43m)[39;49m
+[32m    613[39m [38;5;28;01mif[39;00m chunksize [38;5;129;01mor[39;00m iterator:
+[32m    614[39m     [38;5;28;01mreturn[39;00m parser
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pandas/io/parsers/readers.py:1448[39m, in [36mTextFileReader.__init__[39m[34m(self, f, engine, **kwds)[39m
+[32m   1445[39m     [38;5;28mself[39m.options[[33m"[39m[33mhas_index_names[39m[33m"[39m] = kwds[[33m"[39m[33mhas_index_names[39m[33m"[39m]
+[32m   1447[39m [38;5;28mself[39m.handles: IOHandles | [38;5;28;01mNone[39;00m = [38;5;28;01mNone[39;00m
+[32m-> [39m[32m1448[39m [38;5;28mself[39m._engine = [30;43mself[39;49m[30;43m.[39;49m[30;43m_make_engine[39;49m[30;43m([39;49m[30;43mf[39;49m[30;43m,[39;49m[30;43m [39;49m[30;43mself[39;49m[30;43m.[39;49m[30;43mengine[39;49m[30;43m)[39;49m
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pandas/io/parsers/readers.py:1723[39m, in [36mTextFileReader._make_engine[39m[34m(self, f, engine)[39m
+[32m   1720[39m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(msg)
+[32m   1722[39m [38;5;28;01mtry[39;00m:
+[32m-> [39m[32m1723[39m     [38;5;28;01mreturn[39;00m [30;43mmapping[39;49m[30;43m[[39;49m[30;43mengine[39;49m[30;43m][39;49m[30;43m([39;49m[30;43mf[39;49m[30;43m,[39;49m[30;43m [39;49m[30;43m*[39;49m[30;43m*[39;49m[30;43mself[39;49m[30;43m.[39;49m[30;43moptions[39;49m[30;43m)[39;49m
+[32m   1724[39m [38;5;28;01mexcept[39;00m [38;5;167;01mException[39;00m:
+[32m   1725[39m     [38;5;28;01mif[39;00m [38;5;28mself[39m.handles [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pandas/io/parsers/c_parser_wrapper.py:162[39m, in [36mCParserWrapper.__init__[39m[34m(self, src, **kwds)[39m
+[32m    160[39m [38;5;66;03m# error: Cannot determine type of 'names'[39;00m
+[32m    161[39m [38;5;28mself[39m._validate_parse_dates_presence([38;5;28mself[39m.names)  [38;5;66;03m# type: ignore[has-type][39;00m
+[32m--> [39m[32m162[39m [30;43mself[39;49m[30;43m.[39;49m[30;43m_set_noconvert_columns[39;49m[30;43m([39;49m[30;43m)[39;49m
+[32m    164[39m [38;5;66;03m# error: Cannot determine type of 'names'[39;00m
+[32m    165[39m [38;5;28mself[39m.orig_names = [38;5;28mself[39m.names  [38;5;66;03m# type: ignore[has-type][39;00m
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pandas/io/parsers/c_parser_wrapper.py:215[39m, in [36mCParserWrapper._set_noconvert_columns[39m[34m(self)[39m
+[32m    213[39m col_indices = [names_dict[x] [38;5;28;01mfor[39;00m x [38;5;129;01min[39;00m [38;5;28mself[39m.names]  [38;5;66;03m# type: ignore[has-type][39;00m
+[32m    214[39m [38;5;66;03m# error: Cannot determine type of 'names'[39;00m
+[32m--> [39m[32m215[39m noconvert_columns = [30;43mself[39;49m[30;43m.[39;49m[30;43m_set_noconvert_dtype_columns[39;49m[30;43m([39;49m
+[32m    216[39m [30;43m    [39;49m[30;43mcol_indices[39;49m[30;43m,[39;49m
+[32m    217[39m [30;43m    [39;49m[30;43mself[39;49m[30;43m.[39;49m[30;43mnames[39;49m[30;43m,[39;49m[30;43m  [39;49m[30;43;03m# type: ignore[has-type][39;49;00m
+[32m    218[39m [30;43m[39;49m[30;43m)[39;49m
+[32m    219[39m [38;5;28;01mfor[39;00m col [38;5;129;01min[39;00m noconvert_columns:
+[32m    220[39m     [38;5;28mself[39m._reader.set_noconvert(col)
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pandas/io/parsers/base_parser.py:663[39m, in [36mParserBase._set_noconvert_dtype_columns[39m[34m(self, col_indices, names)[39m
+[32m    661[39m [38;5;28;01mif[39;00m [38;5;28misinstance[39m([38;5;28mself[39m.index_col, [38;5;28mlist[39m):
+[32m    662[39m     [38;5;28;01mfor[39;00m k [38;5;129;01min[39;00m [38;5;28mself[39m.index_col:
+[32m--> [39m[32m663[39m         noconvert_columns.add([30;43m_set[39;49m[30;43m([39;49m[30;43mk[39;49m[30;43m)[39;49m)
+[32m    664[39m [38;5;28;01melif[39;00m [38;5;28mself[39m.index_col [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+[32m    665[39m     noconvert_columns.add(_set([38;5;28mself[39m.index_col))
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pandas/io/parsers/base_parser.py:640[39m, in [36mParserBase._set_noconvert_dtype_columns.<locals>._set[39m[34m(x)[39m
+[32m    637[39m     x = usecols[x]
+[32m    639[39m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m is_integer(x):
+[32m--> [39m[32m640[39m     x = col_indices[[30;43mnames[39;49m[30;43m.[39;49m[30;43mindex[39;49m[30;43m([39;49m[30;43mx[39;49m[30;43m)[39;49m]
+[32m    642[39m [38;5;28;01mreturn[39;00m x
+
+[31mValueError[39m: 'Date' is not in list
 
