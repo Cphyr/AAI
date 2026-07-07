@@ -4,4 +4,5 @@
 :hidden:
 
 Datascience101
+Statistics101
 ```
