@@ -1,7 +1,7 @@
 matplotlib==3.8.0
 numpy==1.26.4
 omegaconf==2.3.0
-pandas==2.0.3
+pandas==2.1.4
 Requests==2.31.0
 scikit_learn==1.4.1.post1
 torch==2.2.1
