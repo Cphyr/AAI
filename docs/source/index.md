@@ -15,6 +15,7 @@ title: Welcome to AAI!
 
 Overviews/overviews
 Datascience101/main
+Statistics101/main
 ```
 
 <!-- ## Indices and tables
