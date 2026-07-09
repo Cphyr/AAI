@@ -1,0 +1,82 @@
+/* AAI site polish on top of sphinxawesome_theme (Tailwind-based, content lives in <main>) */
+
+:root {
+  --aai-accent: #4f46e5;
+  --aai-accent-dark: #818cf8;
+  --aai-accent-soft: rgba(79, 70, 229, 0.08);
+}
+
+/* Page title: subtle accent underline */
+main h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid var(--aai-accent-soft);
+  padding-bottom: 0.3em;
+}
+
+/* Content links get the accent color */
+main section a:not(.headerlink) {
+  color: var(--aai-accent) !important; /* theme sets link color with higher specificity */
+  text-decoration-color: rgba(79, 70, 229, 0.35);
+  text-underline-offset: 3px;
+}
+main section a:not(.headerlink):hover {
+  text-decoration-color: var(--aai-accent);
+}
+
+/* Tables: card-like, readable */
+main table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+}
+main table th {
+  background: var(--aai-accent-soft);
+  font-weight: 700;
+  padding: 0.5em 0.8em;
+}
+main table td {
+  padding: 0.45em 0.8em;
+  border-top: 1px solid rgba(128, 128, 128, 0.15);
+}
+main table tr:hover td {
+  background: rgba(128, 128, 128, 0.06);
+}
+
+/* Figures: centered, rounded, softly framed */
+main section img {
+  display: block;
+  margin: 1.2em auto;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Code blocks and notebook cells: rounded */
+main pre,
+main .cell .cell_input,
+main .cell .cell_output {
+  border-radius: 10px;
+}
+
+/* Display math: breathing room */
+main div.math {
+  margin: 1.1em 0;
+}
+
+/* Dark mode */
+html.dark main section a:not(.headerlink),
+.dark main section a:not(.headerlink) {
+  color: var(--aai-accent-dark) !important;
+}
+html.dark main table th,
+.dark main table th {
+  background: rgba(129, 140, 248, 0.12);
+}
+html.dark main section img,
+.dark main section img {
+  background: #fff; /* many hot-linked figures assume a white background */
+  box-shadow: none;
+}

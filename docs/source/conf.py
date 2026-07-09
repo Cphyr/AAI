@@ -78,5 +78,10 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 html_logo = "_static/aai_logo.png"
+html_css_files = ["custom.css"]
 
 myst_enable_extensions = ["colon_fence", "dollarmath", "amsmath", "html_image"]
+
+# MLCrashCourse notebooks are committed with their outputs already executed;
+# they need packages (xgboost, catboost, statsmodels) that CI does not install.
+nb_execution_excludepatterns = ["MLCrashCourse/**", "**/MLCrashCourse/**"]

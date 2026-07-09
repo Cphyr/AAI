@@ -16,6 +16,7 @@ title: Welcome to AAI!
 Overviews/overviews
 Datascience101/main
 Statistics101/main
+MLCrashCourse/main
 ```
 
 <!-- ## Indices and tables
