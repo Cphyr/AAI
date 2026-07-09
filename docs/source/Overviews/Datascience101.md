@@ -30,16 +30,13 @@ Author: Cfir Hadar
 #### (3.2) Optimization
 
 ```
-Tag: available
+Tag: done
 
-Author: 
+Author: Cfir Hadar
 ```
+[Lesson](../Datascience101/chapter_03_machine_learning_2/lessons/L02_optimization.md)
 
-* Optimization loop
-* Different optimizers
-* Backpropagation
-
-<u>Assignment</u>: do it yourself backpropagation calculation (consider using assignment from DL class at the CS faculty).
+<u>Assignment</u>: do it yourself backpropagation calculation (included in the lesson).
 
 #### (3.3) Convolutional Neural Network (CNN)
 
