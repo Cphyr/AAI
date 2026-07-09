@@ -37,8 +37,15 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['# Training loop', 'total_step = len(train_loader)', 'for epoch in range(num_epochs):', '    # Initialize progress bar', '    progress_bar = tqdm(enumerate(train_loader), total=total_step, leave=True)']
-...
-['', '        # Update progress bar description', '        progress_bar.set_description(', '            f"Epoch [{epoch+1}/{num_epochs}], Step [{i+1}/{total_step}], Loss: {loss.item():.4f}"', '        )']
+# create datasets folder
+os.makedirs("../datasets", exist_ok=True)
+# MNIST dataset
+train_dataset = torchvision.datasets.MNIST(
+    root="../datasets", train=True, transform=transforms.ToTensor(), download=True
+)
+
+test_dataset = torchvision.datasets.MNIST(
+    root="../datasets", train=False, transform=transforms.ToTensor()
+)
 -------------------
 

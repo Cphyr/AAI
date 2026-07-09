@@ -13,6 +13,7 @@
 <link href="../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
 <link href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
 <link href="../search.html" rel="search" title="Search"/>
 <link href="../genindex.html" rel="index" title="Index"/>
 <link href="Statistics101.html" rel="next" title="Statistics 101"/>
@@ -81,6 +82,7 @@
 <li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Datascience 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Statistics101.html">Statistics 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MLCrashCourse.html">ML Crash Course</a></li>
 </ul>
 </li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
@@ -91,6 +93,53 @@
 <li class="toctree-l2"><a class="reference internal" href="../Statistics101/chapter_01_beginner/main.html">Chapter 01: Beginner Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Statistics101/chapter_02_moderate/main.html">Chapter 02: Moderate Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Statistics101/chapter_03_advanced/main.html">Chapter 03: Advanced Statistics</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -146,17 +195,13 @@
 </section>
 <section id="optimization">
 <h4>(3.2) Optimization<a class="headerlink" href="#optimization" title="Link to this heading"><span>#</span></a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Tag</span><span class="p">:</span> <span class="n">available</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Tag</span><span class="p">:</span> <span class="n">done</span>
 
-<span class="n">Author</span><span class="p">:</span> 
+<span class="n">Author</span><span class="p">:</span> <span class="n">Cfir</span> <span class="n">Hadar</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Optimization loop</p></li>
-<li><p>Different optimizers</p></li>
-<li><p>Backpropagation</p></li>
-</ul>
-<p><u>Assignment</u>: do it yourself backpropagation calculation (consider using assignment from DL class at the CS faculty).</p>
+<p><a class="reference internal" href="../Datascience101/chapter_03_machine_learning_2/lessons/L02_optimization.html"><span class="std std-doc">Lesson</span></a></p>
+<p><u>Assignment</u>: do it yourself backpropagation calculation (included in the lesson).</p>
 </section>
 <section id="convolutional-neural-network-cnn">
 <h4>(3.3) Convolutional Neural Network (CNN)<a class="headerlink" href="#convolutional-neural-network-cnn" title="Link to this heading"><span>#</span></a></h4>

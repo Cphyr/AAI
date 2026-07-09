@@ -1,0 +1,38 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Challenge 01 - Embed and Explain\n",
+    "\n",
+    "You are given the **Fashion-MNIST** dataset (70k grayscale 28x28 images, 10 clothing classes; load via `fetch_openml(\"Fashion-MNIST\")` or `torchvision.datasets.FashionMNIST`). Work with a random subsample of 10,000 images.\n",
+    "\n",
+    "Your objective is to produce a **2D map of the dataset that a non-expert can read**, plus a short written analysis.\n",
+    "\n",
+    "Requirements:\n",
+    "* Produce three embeddings: PCA (2 components), t-SNE (on top of ~50 PCA components), and one more method of your choice (UMAP, kernel PCA, or LDA).\n",
+    "* For each: a labeled scatter plot, plus 2-3 sentences on what structure is real and what is artifact (justify using the lessons: what does this method preserve?).\n",
+    "* Quantify: for each embedding, compute the k-NN classification accuracy (k=10) *in the 2D space* and compare it to k-NN accuracy in the original pixel space. Which method loses the least?\n",
+    "* Show the classic t-SNE traps: rerun with two different seeds and two perplexities, and point at one structure that does NOT survive.\n",
+    "\n",
+    "Constraints:\n",
+    "* No labels may be used to *fit* the embeddings (except the optional LDA variant, which must be marked as supervised).\n",
+    "\n",
+    "Bonus: reconstruct images from 30 PCA components and display original vs reconstruction for one image per class - what visual information lives in the discarded components?"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

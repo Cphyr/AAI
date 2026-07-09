@@ -1,0 +1,46 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/nbclient/client.py", line 1323, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import xgboost as xgb
+from catboost import CatBoostClassifier
+
+models = {
+    "single tree (depth 3)": DecisionTreeClassifier(max_depth=3, random_state=0),
+    "random forest": RandomForestClassifier(n_estimators=400, n_jobs=-1, random_state=0),
+    "sklearn GBM": GradientBoostingClassifier(n_estimators=300, learning_rate=0.05, max_depth=3, random_state=0),
+    "XGBoost": xgb.XGBClassifier(n_estimators=300, learning_rate=0.05, max_depth=3, random_state=0, verbosity=0),
+    "CatBoost": CatBoostClassifier(iterations=300, learning_rate=0.05, depth=3, verbose=False, random_seed=0),
+}
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    print(f"{name:24s} test accuracy = {accuracy_score(y_test, model.predict(X_test)):.4f}")
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[7][39m[32m, line 1[39m
+[32m----> [39m[32m1[39m [38;5;28;01mimport[39;00m xgboost [38;5;28;01mas[39;00m xgb
+[32m      2[39m [38;5;28;01mfrom[39;00m catboost [38;5;28;01mimport[39;00m CatBoostClassifier
+[32m      3[39m 
+[32m      4[39m models = {
+
+[31mModuleNotFoundError[39m: No module named 'xgboost'
+

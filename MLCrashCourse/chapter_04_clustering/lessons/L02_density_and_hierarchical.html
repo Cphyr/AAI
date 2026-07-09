@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Lesson 02 - Density-Based and Hierarchical Clustering | AAI 1.0 documentation</title>
+<meta content="Lesson 02 - Density-Based and Hierarchical Clustering | AAI 1.0 documentation" property="og:title"/>
+<meta content="Lesson 02 - Density-Based and Hierarchical Clustering | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../walkthroughs/lesson_clustering_comparison.html" rel="next" title="Walkthrough - Clustering Methods Compared"/>
+<link href="L01_kmeans_and_mixtures.html" rel="prev" title="Lesson 01 - K-Means and Mixture Models"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics101.html">Statistics 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics101/main.html">Statistics 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Statistics101/chapter_01_beginner/main.html">Chapter 01: Beginner Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Statistics101/chapter_02_moderate/main.html">Chapter 02: Moderate Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Statistics101/chapter_03_advanced/main.html">Chapter 03: Advanced Statistics</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">ML Crash Course</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 04 - Clustering</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Lesson 02 - Density-Based and Hierarchical Clustering</span>
+</nav>
+<div id="content" role="main">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Author</span><span class="p">:</span> <span class="n">Cfir</span> <span class="n">Hadar</span>
+
+<span class="n">Tags</span><span class="p">:</span> <span class="n">Done</span>
+</pre></div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="lesson-02-density-based-and-hierarchical-clustering">
+<h1>Lesson 02 - Density-Based and Hierarchical Clustering<a class="headerlink" href="#lesson-02-density-based-and-hierarchical-clustering" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>The previous lesson’s methods define a cluster as a blob around a center. This lesson covers two alternative definitions: <strong>a cluster is a connected region of high density</strong> (DBSCAN), and <strong>clusters are nested structure at every scale</strong> (hierarchical clustering). Both remove the two most painful requirements of k-means/GMM: knowing <span class="math notranslate nohighlight">\(k\)</span> in advance, and convex cluster shapes.</p>
+</section>
+<section id="dbscan">
+<h2>DBSCAN<a class="headerlink" href="#dbscan" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#dbscan'"><span>#</span></a></h2>
+<p>DBSCAN (Ester et al., 1996) has two parameters: a radius <span class="math notranslate nohighlight">\(\varepsilon\)</span> and a count <code class="docutils literal notranslate"><span class="pre">minPts</span></code>. Definitions:</p>
+<ul class="simple">
+<li><p>A point is a <strong>core point</strong> if at least <code class="docutils literal notranslate"><span class="pre">minPts</span></code> points lie within distance <span class="math notranslate nohighlight">\(\varepsilon\)</span> of it (its <span class="math notranslate nohighlight">\(\varepsilon\)</span>-neighborhood is dense).</p></li>
+<li><p>A point is <strong>directly density-reachable</strong> from a core point if it lies in that core point’s <span class="math notranslate nohighlight">\(\varepsilon\)</span>-neighborhood.</p></li>
+<li><p>A <strong>cluster</strong> is a maximal set of points connected through chains of core points; non-core points in a cluster are <strong>border points</strong>.</p></li>
+<li><p>Points reachable from no core point are <strong>noise</strong> — DBSCAN is the rare algorithm with an explicit outlier output.</p></li>
+</ul>
+<p><img alt="https://upload.wikimedia.org/wikipedia/commons/a/af/DBSCAN-Illustration.svg" src="https://upload.wikimedia.org/wikipedia/commons/a/af/DBSCAN-Illustration.svg"/></p>
+<p><em>(Here minPts = 4: red are core points, yellow are border points reachable from cores, blue N is noise.)</em></p>
+<p>The consequences of this definition, point by point against k-means:</p>
+<ul class="simple">
+<li><p><strong>Arbitrary shapes</strong>: clusters are connected dense regions — half-moons, rings, and snakes are fine, since connectivity is chained locally.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(k\)</span> is discovered</strong>, not given: the number of connected dense regions is an <em>output</em>.</p></li>
+<li><p><strong>Noise handling</strong>: sparse points are labeled <span class="math notranslate nohighlight">\(-1\)</span>, not forced into a cluster.</p></li>
+<li><p><strong>The catch — one global density threshold</strong>: <span class="math notranslate nohighlight">\(\varepsilon\)</span>/<code class="docutils literal notranslate"><span class="pre">minPts</span></code> define a single density cutoff for the whole dataset. Clusters of <em>different densities</em> cannot all be captured: an <span class="math notranslate nohighlight">\(\varepsilon\)</span> tight enough for the dense cluster shatters the sparse one into noise. This is DBSCAN’s main practical failure mode.</p></li>
+</ul>
+<p>Parameter selection: set <code class="docutils literal notranslate"><span class="pre">minPts</span></code> ≈ <span class="math notranslate nohighlight">\(2d\)</span> (or just 5-10), then plot each point’s distance to its <code class="docutils literal notranslate"><span class="pre">minPts</span></code>-th neighbor, sorted (the <em>k-distance plot</em>), and put <span class="math notranslate nohighlight">\(\varepsilon\)</span> at the elbow. Complexity is <span class="math notranslate nohighlight">\(O(n\log n)\)</span> with a spatial index.</p>
+<p>Two successors worth knowing by name: <strong>OPTICS</strong> (orders points by reachability, effectively sweeping all <span class="math notranslate nohighlight">\(\varepsilon\)</span> at once) and <strong>HDBSCAN</strong> (a hierarchy over density levels + stable-cluster extraction), both addressing the variable-density weakness — HDBSCAN is an excellent modern default when you’d otherwise reach for DBSCAN.</p>
+</section>
+<section id="hierarchical-clustering">
+<h2>Hierarchical Clustering<a class="headerlink" href="#hierarchical-clustering" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#hierarchical-clustering'"><span>#</span></a></h2>
+<p>Instead of one partition, build a <strong>tree of nested clusterings</strong> — a <em>dendrogram</em>. The standard approach is <strong>agglomerative</strong> (bottom-up): start with <span class="math notranslate nohighlight">\(n\)</span> singleton clusters and repeatedly merge the two closest clusters, where “closest” is defined by the <strong>linkage</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\text{single:}\quad &amp; d(A,B)=\min_{a\in A,b\in B}\|a-b\| \\
+\text{complete:}\quad &amp; d(A,B)=\max_{a\in A,b\in B}\|a-b\| \\
+\text{average:}\quad &amp; d(A,B)=\frac{1}{|A||B|}\sum_{a\in A,b\in B}\|a-b\| \\
+\text{Ward:}\quad &amp; d(A,B)=\frac{|A||B|}{|A|+|B|}\,\|\mu_A-\mu_B\|^2
+\end{aligned}
+\end{split}\]</div>
+<p>The linkage <em>is</em> the cluster definition, and each has a distinct personality:</p>
+<ul class="simple">
+<li><p><strong>Single linkage</strong> = connectivity: follows chains, finds elongated/non-convex shapes (it computes the minimum spanning tree), but suffers <strong>chaining</strong> — two blobs joined by a thin bridge of points merge early.</p></li>
+<li><p><strong>Complete linkage</strong> = compactness: every pair in the merged cluster must be close → compact, roughly equal-diameter clusters; sensitive to outliers (a single far point blocks a merge).</p></li>
+<li><p><strong>Average linkage</strong>: the compromise; a solid default.</p></li>
+<li><p><strong>Ward</strong> minimizes the <em>increase in within-cluster variance</em> at each merge — the hierarchical sibling of k-means (same objective, greedy nested version); prefers spherical, similar-size clusters.</p></li>
+</ul>
+<p><img alt="https://upload.wikimedia.org/wikipedia/commons/a/ad/Hierarchical_clustering_simple_diagram.svg" src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Hierarchical_clustering_simple_diagram.svg"/></p>
+<p>Reading a dendrogram: the height of each merge is the linkage distance at which it happened; cutting the tree at height <span class="math notranslate nohighlight">\(h\)</span> yields a flat clustering, and a <strong>long vertical gap</strong> between merges signals a natural number of clusters. The hierarchy itself is often the deliverable — taxonomies, phylogenetics, organizing sensors/assets by similarity — a structure flat methods simply do not produce.</p>
+<p>Costs: naive agglomerative clustering is <span class="math notranslate nohighlight">\(O(n^3)\)</span> time / <span class="math notranslate nohighlight">\(O(n^2)\)</span> memory (<span class="math notranslate nohighlight">\(O(n^2)\)</span> time for single linkage via MST) — fine up to ~<span class="math notranslate nohighlight">\(10^4\)</span>-<span class="math notranslate nohighlight">\(10^5\)</span> points, not beyond. No noise concept; merges are greedy and never undone.</p>
+</section>
+<section id="choosing-an-algorithm-summary-of-the-chapter">
+<h2>Choosing an Algorithm (summary of the chapter)<a class="headerlink" href="#choosing-an-algorithm-summary-of-the-chapter" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#choosing-an-algorithm-summary-of-the-chapter'"><span>#</span></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>k-means</p></th>
+<th class="head"><p>GMM</p></th>
+<th class="head"><p>DBSCAN/HDBSCAN</p></th>
+<th class="head"><p>Hierarchical</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cluster =</p></td>
+<td><p>blob around center</p></td>
+<td><p>Gaussian component</p></td>
+<td><p>connected dense region</p></td>
+<td><p>nested tree (linkage-defined)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(k\)</span></p></td>
+<td><p>input</p></td>
+<td><p>input (BIC helps)</p></td>
+<td><p>output</p></td>
+<td><p>choose by cutting the tree</p></td>
+</tr>
+<tr class="row-even"><td><p>Shapes</p></td>
+<td><p>spherical</p></td>
+<td><p>elliptical</p></td>
+<td><p>arbitrary</p></td>
+<td><p>depends on linkage</p></td>
+</tr>
+<tr class="row-odd"><td><p>Noise/outliers</p></td>
+<td><p>no</p></td>
+<td><p>soft</p></td>
+<td><p>explicit</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>Scales to</p></td>
+<td><p>huge (<span class="math notranslate nohighlight">\(O(nkd)\)</span>/iter)</p></td>
+<td><p>large</p></td>
+<td><p>large (<span class="math notranslate nohighlight">\(O(n\log n)\)</span>)</p></td>
+<td><p>small/medium</p></td>
+</tr>
+<tr class="row-odd"><td><p>Output</p></td>
+<td><p>partition</p></td>
+<td><p>probabilities</p></td>
+<td><p>partition + noise</p></td>
+<td><p>dendrogram</p></td>
+</tr>
+</tbody>
+</table>
+<p>Validation without labels is genuinely hard: internal metrics (silhouette, Davies-Bouldin) reward <em>compact, well-separated</em> clusters — i.e., they share k-means’ bias, and will underrate a correct DBSCAN result on rings. Use them within a family, not across families; when possible, validate by stability (subsample and re-cluster: do the clusters persist?) and — above all — by whether the clusters <em>mean</em> something downstream.</p>
+</section>
+<section id="walkthrough">
+<h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#walkthrough'"><span>#</span></a></h2>
+<p><a class="reference internal" href="../walkthroughs/lesson_clustering_comparison.html"><span class="std std-doc">Walkthrough - Clustering Methods Compared</span></a></p>
+</section>
+<section id="available-challenges">
+<h2>Available Challenges<a class="headerlink" href="#available-challenges" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#available-challenges'"><span>#</span></a></h2>
+<p><a class="reference internal" href="../challenges/challenge1_cluster_the_unknown.html"><span class="std std-doc">Challenge 01 - Cluster the Unknown</span></a></p>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L01_kmeans_and_mixtures.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Lesson 01 - K-Means and Mixture Models
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="../walkthroughs/lesson_clustering_comparison.html">
+        Walkthrough - Clustering Methods Compared
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#dbscan'" class="reference internal" href="#dbscan">DBSCAN</a></li>
+<li><a :data-current="activeSection === '#hierarchical-clustering'" class="reference internal" href="#hierarchical-clustering">Hierarchical Clustering</a></li>
+<li><a :data-current="activeSection === '#choosing-an-algorithm-summary-of-the-chapter'" class="reference internal" href="#choosing-an-algorithm-summary-of-the-chapter">Choosing an Algorithm (summary of the chapter)</a></li>
+<li><a :data-current="activeSection === '#walkthrough'" class="reference internal" href="#walkthrough">Walkthrough</a></li>
+<li><a :data-current="activeSection === '#available-challenges'" class="reference internal" href="#available-challenges">Available Challenges</a></li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
