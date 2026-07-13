@@ -227,12 +227,13 @@ f(x)=\sum_{m=1}^{M}c_m\cdot\mathbb{1}\{x\in R_m\}.
 <p>A fully grown tree has zero training error and huge variance: change a few samples and the greedy split near the root flips, changing the <em>entire</em> subtree below it. Trees are <strong>low-bias, high-variance</strong> estimators. Standard controls:</p>
 <ol class="arabic simple">
 <li><p><strong>Pre-pruning</strong>: <code class="docutils literal notranslate"><span class="pre">max_depth</span></code>, <code class="docutils literal notranslate"><span class="pre">min_samples_leaf</span></code>, <code class="docutils literal notranslate"><span class="pre">min_impurity_decrease</span></code>.</p></li>
-<li><p><strong>Post-pruning</strong> (CART’s cost-complexity pruning): grow fully, then minimize
-$<span class="math notranslate nohighlight">\(
-C_\alpha(T)=\sum_{m=1}^{|T|}n_m H(t_m)+\alpha|T|,
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>|T|<span class="math notranslate nohighlight">\( is the number of leaves. Sweeping \)</span>\alpha<span class="math notranslate nohighlight">\( produces a nested sequence of subtrees; pick \)</span>\alpha<span class="math notranslate nohighlight">\( by cross-validation. This is \)</span>\ell_0<span class="math notranslate nohighlight">\( regularization on the number of leaves — remember this form, XGBoost's objective (Lesson 05) contains exactly such a \)</span>\gamma|T|$ term.</p></li>
+<li><p><strong>Post-pruning</strong> (CART’s cost-complexity pruning): grow fully, then minimize</p></li>
 </ol>
+<div class="math notranslate nohighlight">
+\[
+   C_\alpha(T)=\sum_{m=1}^{|T|}n_m H(t_m)+\alpha|T|,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(|T|\)</span> is the number of leaves. Sweeping <span class="math notranslate nohighlight">\(\alpha\)</span> produces a nested sequence of subtrees; pick <span class="math notranslate nohighlight">\(\alpha\)</span> by cross-validation. This is <span class="math notranslate nohighlight">\(\ell_0\)</span> regularization on the number of leaves — remember this form, XGBoost’s objective (Lesson 05) contains exactly such a <span class="math notranslate nohighlight">\(\gamma|T|\)</span> term.</p>
 </section>
 <section id="the-tree-family-the-gist">
 <h2>The Tree Family (the gist)<a class="headerlink" href="#the-tree-family-the-gist" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#the-tree-family-the-gist'"><span>#</span></a></h2>

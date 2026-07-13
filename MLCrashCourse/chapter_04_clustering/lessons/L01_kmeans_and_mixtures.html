@@ -229,17 +229,21 @@ p(x)=\sum_{j=1}^{k}\pi_j\,\mathcal{N}\left(x\mid\mu_j,\Sigma_j\right),
 \]</div>
 <p>Fitting by maximum likelihood has no closed form (the log of a sum), so we use <strong>Expectation-Maximization</strong>, which looks exactly like a soft Lloyd’s algorithm:</p>
 <ul class="simple">
-<li><p><strong>E-step</strong> — soft assignment via Bayes’ rule (the <em>responsibilities</em>):
-$<span class="math notranslate nohighlight">\(
-\gamma_{ij}=\frac{\pi_j\,\mathcal{N}(x_i\mid\mu_j,\Sigma_j)}{\sum_{l}\pi_l\,\mathcal{N}(x_i\mid\mu_l,\Sigma_l)} .
-\)</span>$</p></li>
-<li><p><strong>M-step</strong> — weighted maximum-likelihood updates:
-$<span class="math notranslate nohighlight">\(
-\mu_j=\frac{\sum_i\gamma_{ij}x_i}{\sum_i\gamma_{ij}},\qquad
-\Sigma_j=\frac{\sum_i\gamma_{ij}(x_i-\mu_j)(x_i-\mu_j)^T}{\sum_i\gamma_{ij}},\qquad
-\pi_j=\frac{1}{n}\sum_i\gamma_{ij} .
-\)</span>$</p></li>
+<li><p><strong>E-step</strong> — soft assignment via Bayes’ rule (the <em>responsibilities</em>):</p></li>
 </ul>
+<div class="math notranslate nohighlight">
+\[
+  \gamma_{ij}=\frac{\pi_j\,\mathcal{N}(x_i\mid\mu_j,\Sigma_j)}{\sum_{l}\pi_l\,\mathcal{N}(x_i\mid\mu_l,\Sigma_l)} .
+\]</div>
+<ul class="simple">
+<li><p><strong>M-step</strong> — weighted maximum-likelihood updates:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+  \mu_j=\frac{\sum_i\gamma_{ij}x_i}{\sum_i\gamma_{ij}},\qquad
+  \Sigma_j=\frac{\sum_i\gamma_{ij}(x_i-\mu_j)(x_i-\mu_j)^T}{\sum_i\gamma_{ij}},\qquad
+  \pi_j=\frac{1}{n}\sum_i\gamma_{ij} .
+\]</div>
 <p>Each iteration provably increases the likelihood (EM maximizes a lower bound that is tight at the current parameters). In the limit of shared covariances <span class="math notranslate nohighlight">\(\Sigma_j=\sigma^2 I\)</span> with <span class="math notranslate nohighlight">\(\sigma\to0\)</span>, the responsibilities harden to nearest-center assignment and EM <em>becomes</em> k-means — which tells you precisely which assumptions k-means silently makes.</p>
 <p>What GMMs buy over k-means: <strong>elliptical clusters</strong> (full covariances), <strong>soft memberships</strong> with calibrated uncertainty, per-cluster sizes/shapes, a likelihood — so <span class="math notranslate nohighlight">\(k\)</span> can be chosen with information criteria (<span class="math notranslate nohighlight">\(\text{BIC}=-2\log\hat L+p\log n\)</span>, pick the minimum), and a generative model you can sample from. The costs: more parameters (full <span class="math notranslate nohighlight">\(\Sigma_j\)</span> is <span class="math notranslate nohighlight">\(O(d^2)\)</span> each — regularize or constrain on small data), still local optima, still assumes “cluster = one Gaussian-ish blob”.</p>
 </section>

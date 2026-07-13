@@ -194,56 +194,83 @@
 <h2>Latent Trait Models: Rasch, 2PL, and 3PL<a class="headerlink" href="#latent-trait-models-rasch-2pl-and-3pl" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#latent-trait-models-rasch-2pl-and-3pl'"><span>#</span></a></h2>
 <section id="the-latent-trait-framework">
 <h3>The latent trait framework<a class="headerlink" href="#the-latent-trait-framework" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#the-latent-trait-framework'"><span>#</span></a></h3>
-<p>Let <span class="math notranslate nohighlight">\(\theta_j\)</span> denote the latent ability of person <span class="math notranslate nohighlight">\(j\)</span>, and let <span class="math notranslate nohighlight">\(X_{ij} \in \{0,1\}\)</span> be the response of person <span class="math notranslate nohighlight">\(j\)</span> to item <span class="math notranslate nohighlight">\(i\)</span> (correct/incorrect). The central modeling assumption is <strong>local independence</strong>: conditional on <span class="math notranslate nohighlight">\(\theta_j\)</span>, the responses to different items are independent,
-$<span class="math notranslate nohighlight">\( P(X_{1j}=x_1,\dots,X_{Kj}=x_K \mid \theta_j) = \prod_{i=1}^K P(X_{ij}=x_i\mid\theta_j). \)</span><span class="math notranslate nohighlight">\(
-The function \)</span>P_i(\theta) = P(X_i=1\mid\theta)$ is the <strong>item characteristic curve</strong> (ICC): a monotonically increasing, S-shaped function of ability.</p>
+<p>Let <span class="math notranslate nohighlight">\(\theta_j\)</span> denote the latent ability of person <span class="math notranslate nohighlight">\(j\)</span>, and let <span class="math notranslate nohighlight">\(X_{ij} \in \{0,1\}\)</span> be the response of person <span class="math notranslate nohighlight">\(j\)</span> to item <span class="math notranslate nohighlight">\(i\)</span> (correct/incorrect). The central modeling assumption is <strong>local independence</strong>: conditional on <span class="math notranslate nohighlight">\(\theta_j\)</span>, the responses to different items are independent,</p>
+<div class="math notranslate nohighlight">
+\[
+P(X_{1j}=x_1,\dots,X_{Kj}=x_K \mid \theta_j) = \prod_{i=1}^K P(X_{ij}=x_i\mid\theta_j).
+\]</div>
+<p>The function <span class="math notranslate nohighlight">\(P_i(\theta) = P(X_i=1\mid\theta)\)</span> is the <strong>item characteristic curve</strong> (ICC): a monotonically increasing, S-shaped function of ability.</p>
 </section>
 <section id="rasch-1pl-model">
 <h3>Rasch (1PL) model<a class="headerlink" href="#rasch-1pl-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#rasch-1pl-model'"><span>#</span></a></h3>
 <div class="math notranslate nohighlight">
-\[ P_i(\theta) = P(X_{ij}=1\mid\theta_j,b_i) = \frac{\exp(\theta_j-b_i)}{1+\exp(\theta_j-b_i)}, \]</div>
+\[
+P_i(\theta) = P(X_{ij}=1\mid\theta_j,b_i) = \frac{\exp(\theta_j-b_i)}{1+\exp(\theta_j-b_i)},
+\]</div>
 <p>where <span class="math notranslate nohighlight">\(b_i\)</span> is the item’s <strong>difficulty</strong> (the ability level at which <span class="math notranslate nohighlight">\(P_i=0.5\)</span>). The Rasch model has a distinguishing mathematical property: the total raw score <span class="math notranslate nohighlight">\(\sum_i X_{ij}\)</span> is a <strong>sufficient statistic</strong> for <span class="math notranslate nohighlight">\(\theta_j\)</span> (proved in Exercise 2), and person and item parameters are “separable” in the sense that conditional maximum likelihood can estimate item parameters without knowing any <span class="math notranslate nohighlight">\(\theta_j\)</span>.</p>
 </section>
 <section id="pl-model">
 <h3>2PL model<a class="headerlink" href="#pl-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#pl-model'"><span>#</span></a></h3>
 <div class="math notranslate nohighlight">
-\[ P_i(\theta) = \frac{\exp\big(a_i(\theta-b_i)\big)}{1+\exp\big(a_i(\theta-b_i)\big)}, \]</div>
+\[
+P_i(\theta) = \frac{\exp\big(a_i(\theta-b_i)\big)}{1+\exp\big(a_i(\theta-b_i)\big)},
+\]</div>
 <p>adding a <strong>discrimination</strong> parameter <span class="math notranslate nohighlight">\(a_i&gt;0\)</span> controlling the steepness of the ICC at <span class="math notranslate nohighlight">\(\theta=b_i\)</span>. Larger <span class="math notranslate nohighlight">\(a_i\)</span> means the item more sharply distinguishes examinees just below vs. just above <span class="math notranslate nohighlight">\(b_i\)</span>; raw score is no longer sufficient for <span class="math notranslate nohighlight">\(\theta\)</span> once items differ in <span class="math notranslate nohighlight">\(a_i\)</span>.</p>
 </section>
 <section id="id1">
 <h3>3PL model<a class="headerlink" href="#id1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id1'"><span>#</span></a></h3>
 <div class="math notranslate nohighlight">
-\[ P_i(\theta) = c_i + (1-c_i)\,\frac{\exp\big(a_i(\theta-b_i)\big)}{1+\exp\big(a_i(\theta-b_i)\big)}, \]</div>
+\[
+P_i(\theta) = c_i + (1-c_i)\,\frac{\exp\big(a_i(\theta-b_i)\big)}{1+\exp\big(a_i(\theta-b_i)\big)},
+\]</div>
 <p>adding a <strong>guessing</strong> (pseudo-guessing) parameter <span class="math notranslate nohighlight">\(c_i\in[0,1)\)</span>, a lower asymptote representing the chance of a correct response from an examinee with vanishingly low ability (relevant for multiple-choice items). The ICC now ranges from <span class="math notranslate nohighlight">\(c_i\)</span> to <span class="math notranslate nohighlight">\(1\)</span> rather than from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(1\)</span>.</p>
 </section>
 </section>
 <section id="item-and-test-information">
 <h2>Item and Test Information<a class="headerlink" href="#item-and-test-information" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#item-and-test-information'"><span>#</span></a></h2>
-<p>Fisher information quantifies how precisely an item (or test) can pin down <span class="math notranslate nohighlight">\(\theta\)</span>. For the 2PL model,
-$<span class="math notranslate nohighlight">\( I_i(\theta) = a_i^2\, P_i(\theta)\big(1-P_i(\theta)\big), \)</span><span class="math notranslate nohighlight">\(
-maximized at \)</span>\theta = b_i<span class="math notranslate nohighlight">\( where \)</span>P_i=0.5<span class="math notranslate nohighlight">\(, and increasing in \)</span>a_i^2<span class="math notranslate nohighlight">\(: highly discriminating items concentrated near a test-taker's ability level are maximally informative. For the 3PL model, the lower asymptote attenuates information:
-\)</span><span class="math notranslate nohighlight">\( I_i(\theta) = a_i^2\,\frac{\big(P_i(\theta)-c_i\big)^2}{(1-c_i)^2}\cdot\frac{1-P_i(\theta)}{P_i(\theta)}. \)</span><span class="math notranslate nohighlight">\(
-Because local independence makes the log-likelihood additive across items, Fisher information is additive too:
-\)</span><span class="math notranslate nohighlight">\( I(\theta) = \sum_{i=1}^K I_i(\theta), \qquad SE(\hat\theta) \approx \frac{1}{\sqrt{I(\theta)}}. \)</span>$
-This is the basis of computerized adaptive testing: at each step, administer the item that maximizes information at the current ability estimate.</p>
+<p>Fisher information quantifies how precisely an item (or test) can pin down <span class="math notranslate nohighlight">\(\theta\)</span>. For the 2PL model,</p>
+<div class="math notranslate nohighlight">
+\[
+I_i(\theta) = a_i^2\, P_i(\theta)\big(1-P_i(\theta)\big),
+\]</div>
+<p>maximized at <span class="math notranslate nohighlight">\(\theta = b_i\)</span> where <span class="math notranslate nohighlight">\(P_i=0.5\)</span>, and increasing in <span class="math notranslate nohighlight">\(a_i^2\)</span>: highly discriminating items concentrated near a test-taker’s ability level are maximally informative. For the 3PL model, the lower asymptote attenuates information:</p>
+<div class="math notranslate nohighlight">
+\[
+I_i(\theta) = a_i^2\,\frac{\big(P_i(\theta)-c_i\big)^2}{(1-c_i)^2}\cdot\frac{1-P_i(\theta)}{P_i(\theta)}.
+\]</div>
+<p>Because local independence makes the log-likelihood additive across items, Fisher information is additive too:</p>
+<div class="math notranslate nohighlight">
+\[
+I(\theta) = \sum_{i=1}^K I_i(\theta), \qquad SE(\hat\theta) \approx \frac{1}{\sqrt{I(\theta)}}.
+\]</div>
+<p>This is the basis of computerized adaptive testing: at each step, administer the item that maximizes information at the current ability estimate.</p>
 </section>
 <section id="estimation-marginal-ml-and-ability-estimation">
 <h2>Estimation: Marginal ML and Ability Estimation<a class="headerlink" href="#estimation-marginal-ml-and-ability-estimation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#estimation-marginal-ml-and-ability-estimation'"><span>#</span></a></h2>
 <section id="marginal-maximum-likelihood-integrating-out-ability">
 <h3>Marginal maximum likelihood (integrating out ability)<a class="headerlink" href="#marginal-maximum-likelihood-integrating-out-ability" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#marginal-maximum-likelihood-integrating-out-ability'"><span>#</span></a></h3>
-<p>When calibrating item parameters <span class="math notranslate nohighlight">\(\xi = \{a_i,b_i,c_i\}\)</span> from a sample of <span class="math notranslate nohighlight">\(N\)</span> examinees, treating each <span class="math notranslate nohighlight">\(\theta_j\)</span> as a fixed unknown (“joint MLE”) produces inconsistent item-parameter estimates as <span class="math notranslate nohighlight">\(N\to\infty\)</span> with a fixed test length (the incidental-parameters problem: the number of <span class="math notranslate nohighlight">\(\theta_j\)</span>’s grows with <span class="math notranslate nohighlight">\(N\)</span>). The standard remedy is <strong>marginal maximum likelihood</strong> (MMLE): treat <span class="math notranslate nohighlight">\(\theta_j\)</span> as random with a population distribution <span class="math notranslate nohighlight">\(g(\theta)\)</span> (typically <span class="math notranslate nohighlight">\(N(0,1)\)</span>) and integrate it out,
-$<span class="math notranslate nohighlight">\( L(\xi) = \prod_{j=1}^N \int \prod_{i=1}^K P_i(\theta)^{x_{ij}}\big(1-P_i(\theta)\big)^{1-x_{ij}}\, g(\theta)\,d\theta. \)</span><span class="math notranslate nohighlight">\(
-This marginal likelihood is maximized via the EM algorithm (Bock and Aitkin, 1981): the E-step approximates the integral by Gauss-Hermite quadrature and computes, for each quadrature node, the posterior-weighted expected number of examinees and correct responses; the M-step then updates \)</span>{a_i,b_i,c_i}$ item-by-item via weighted logistic regression on the pseudo-data from the E-step. This mirrors exactly the structure of estimating a generalized linear mixed model by integrating out a random intercept, which is the conceptual link developed below.</p>
+<p>When calibrating item parameters <span class="math notranslate nohighlight">\(\xi = \{a_i,b_i,c_i\}\)</span> from a sample of <span class="math notranslate nohighlight">\(N\)</span> examinees, treating each <span class="math notranslate nohighlight">\(\theta_j\)</span> as a fixed unknown (“joint MLE”) produces inconsistent item-parameter estimates as <span class="math notranslate nohighlight">\(N\to\infty\)</span> with a fixed test length (the incidental-parameters problem: the number of <span class="math notranslate nohighlight">\(\theta_j\)</span>’s grows with <span class="math notranslate nohighlight">\(N\)</span>). The standard remedy is <strong>marginal maximum likelihood</strong> (MMLE): treat <span class="math notranslate nohighlight">\(\theta_j\)</span> as random with a population distribution <span class="math notranslate nohighlight">\(g(\theta)\)</span> (typically <span class="math notranslate nohighlight">\(N(0,1)\)</span>) and integrate it out,</p>
+<div class="math notranslate nohighlight">
+\[
+L(\xi) = \prod_{j=1}^N \int \prod_{i=1}^K P_i(\theta)^{x_{ij}}\big(1-P_i(\theta)\big)^{1-x_{ij}}\, g(\theta)\,d\theta.
+\]</div>
+<p>This marginal likelihood is maximized via the EM algorithm (Bock and Aitkin, 1981): the E-step approximates the integral by Gauss-Hermite quadrature and computes, for each quadrature node, the posterior-weighted expected number of examinees and correct responses; the M-step then updates <span class="math notranslate nohighlight">\(\{a_i,b_i,c_i\}\)</span> item-by-item via weighted logistic regression on the pseudo-data from the E-step. This mirrors exactly the structure of estimating a generalized linear mixed model by integrating out a random intercept, which is the conceptual link developed below.</p>
 </section>
 <section id="ability-estimation-mle-and-eap">
 <h3>Ability estimation: MLE and EAP<a class="headerlink" href="#ability-estimation-mle-and-eap" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#ability-estimation-mle-and-eap'"><span>#</span></a></h3>
 <p>Once item parameters are calibrated (treated as known), a person’s ability is estimated from their response pattern.</p>
-<p><strong>MLE</strong>: maximize <span class="math notranslate nohighlight">\(\ell(\theta) = \sum_i \big[x_i\log P_i(\theta) + (1-x_i)\log(1-P_i(\theta))\big]\)</span> via Newton-Raphson,
-$<span class="math notranslate nohighlight">\( \theta^{(t+1)} = \theta^{(t)} + \frac{\sum_i (x_i - P_i(\theta^{(t)}))}{\sum_i P_i(\theta^{(t)})(1-P_i(\theta^{(t)}))} \quad \text{(Rasch case, } a_i=1\text{)}. \)</span><span class="math notranslate nohighlight">\(
-MLE is undefined (diverges to \)</span>\pm\infty<span class="math notranslate nohighlight">\() for all-correct or all-incorrect response patterns, since the likelihood is then monotonic in \)</span>\theta$ with no interior maximum.</p>
-<p><strong>EAP</strong> (expected a posteriori, Bayesian) avoids this by using a prior <span class="math notranslate nohighlight">\(g(\theta)\)</span>:
-$<span class="math notranslate nohighlight">\( \hat\theta_{EAP} = E[\theta\mid x] = \frac{\int \theta\, L(x\mid\theta)\, g(\theta)\, d\theta}{\int L(x\mid\theta)\, g(\theta)\, d\theta}, \)</span>$
-computed by quadrature. Like the BLUP of Lesson 1, EAP shrinks extreme response patterns toward the prior mean and is always finite, at the cost of some bias toward the prior for examinees with genuinely extreme ability.</p>
+<p><strong>MLE</strong>: maximize <span class="math notranslate nohighlight">\(\ell(\theta) = \sum_i \big[x_i\log P_i(\theta) + (1-x_i)\log(1-P_i(\theta))\big]\)</span> via Newton-Raphson,</p>
+<div class="math notranslate nohighlight">
+\[
+\theta^{(t+1)} = \theta^{(t)} + \frac{\sum_i (x_i - P_i(\theta^{(t)}))}{\sum_i P_i(\theta^{(t)})(1-P_i(\theta^{(t)}))} \quad \text{(Rasch case, } a_i=1\text{)}.
+\]</div>
+<p>MLE is undefined (diverges to <span class="math notranslate nohighlight">\(\pm\infty\)</span>) for all-correct or all-incorrect response patterns, since the likelihood is then monotonic in <span class="math notranslate nohighlight">\(\theta\)</span> with no interior maximum.</p>
+<p><strong>EAP</strong> (expected a posteriori, Bayesian) avoids this by using a prior <span class="math notranslate nohighlight">\(g(\theta)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat\theta_{EAP} = E[\theta\mid x] = \frac{\int \theta\, L(x\mid\theta)\, g(\theta)\, d\theta}{\int L(x\mid\theta)\, g(\theta)\, d\theta},
+\]</div>
+<p>computed by quadrature. Like the BLUP of Lesson 1, EAP shrinks extreme response patterns toward the prior mean and is always finite, at the cost of some bias toward the prior for examinees with genuinely extreme ability.</p>
 </section>
 </section>
 <section id="dif-and-the-link-to-logistic-mixed-models">
@@ -259,24 +286,40 @@ computed by quadrature. Like the BLUP of Lesson 1, EAP shrinks extreme response 
 </section>
 <section id="link-to-logistic-mixed-models">
 <h3>Link to logistic mixed models<a class="headerlink" href="#link-to-logistic-mixed-models" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#link-to-logistic-mixed-models'"><span>#</span></a></h3>
-<p>Rewrite the Rasch model with person ability treated as random rather than fixed:
-$<span class="math notranslate nohighlight">\( \text{logit}\, P(X_{ij}=1) = \theta_j - b_i, \qquad \theta_j \sim N(0,\sigma^2), \)</span><span class="math notranslate nohighlight">\(
-with items as fixed effects (a factor with \)</span>K-1<span class="math notranslate nohighlight">\( contrasts) and persons as a random intercept. This is *exactly* a logistic mixed model (a generalized linear mixed model with binomial response and random intercept per person), fittable with standard mixed-model software using a person random effect and an item fixed effect, e.g. `glmer(correct ~ item + (1|person), family=binomial)`. Marginal ML for the Rasch model, integrating over the person random effect, coincides with GLMM estimation via Gauss-Hermite quadrature. The 2PL model, by contrast, has \)</span>a_i\theta_j$, a <em>product</em> of an item parameter and the random effect, which behaves like a person-specific “random slope on a latent factor” and is not a standard GLMM; it requires either specialized IRT software or a nonlinear mixed-model formulation. This connection is why many applied papers describe the Rasch model as “a logistic mixed model with items as fixed effects and persons as random effects.”</p>
+<p>Rewrite the Rasch model with person ability treated as random rather than fixed:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{logit}\, P(X_{ij}=1) = \theta_j - b_i, \qquad \theta_j \sim N(0,\sigma^2),
+\]</div>
+<p>with items as fixed effects (a factor with <span class="math notranslate nohighlight">\(K-1\)</span> contrasts) and persons as a random intercept. This is <em>exactly</em> a logistic mixed model (a generalized linear mixed model with binomial response and random intercept per person), fittable with standard mixed-model software using a person random effect and an item fixed effect, e.g. <code class="docutils literal notranslate"><span class="pre">glmer(correct</span> <span class="pre">~</span> <span class="pre">item</span> <span class="pre">+</span> <span class="pre">(1|person),</span> <span class="pre">family=binomial)</span></code>. Marginal ML for the Rasch model, integrating over the person random effect, coincides with GLMM estimation via Gauss-Hermite quadrature. The 2PL model, by contrast, has <span class="math notranslate nohighlight">\(a_i\theta_j\)</span>, a <em>product</em> of an item parameter and the random effect, which behaves like a person-specific “random slope on a latent factor” and is not a standard GLMM; it requires either specialized IRT software or a nonlinear mixed-model formulation. This connection is why many applied papers describe the Rasch model as “a logistic mixed model with items as fixed effects and persons as random effects.”</p>
 </section>
 </section>
 <section id="worked-example">
 <h2>Worked Example<a class="headerlink" href="#worked-example" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#worked-example'"><span>#</span></a></h2>
 <p>Three items with Rasch difficulties <span class="math notranslate nohighlight">\(b = (-1, 0, 1)\)</span>; examinee with <span class="math notranslate nohighlight">\(\theta = 0.5\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[ P_1 = \frac{e^{0.5-(-1)}}{1+e^{1.5}} = \frac{e^{1.5}}{1+e^{1.5}} = \frac{4.4817}{5.4817} = 0.8176 \]</div>
+\[
+P_1 = \frac{e^{0.5-(-1)}}{1+e^{1.5}} = \frac{e^{1.5}}{1+e^{1.5}} = \frac{4.4817}{5.4817} = 0.8176
+\]</div>
 <div class="math notranslate nohighlight">
-\[ P_2 = \frac{e^{0.5}}{1+e^{0.5}} = \frac{1.6487}{2.6487} = 0.6225, \qquad P_3 = \frac{e^{-0.5}}{1+e^{-0.5}} = \frac{0.6065}{1.6065} = 0.3775 \]</div>
+\[
+P_2 = \frac{e^{0.5}}{1+e^{0.5}} = \frac{1.6487}{2.6487} = 0.6225, \qquad P_3 = \frac{e^{-0.5}}{1+e^{-0.5}} = \frac{0.6065}{1.6065} = 0.3775
+\]</div>
 <p>Item informations (<span class="math notranslate nohighlight">\(I_i = P_i(1-P_i)\)</span> since <span class="math notranslate nohighlight">\(a_i=1\)</span>): <span class="math notranslate nohighlight">\(I_1 = 0.8176\times0.1824 = 0.1491\)</span>, <span class="math notranslate nohighlight">\(I_2 = 0.6225\times0.3775 = 0.2350\)</span>, <span class="math notranslate nohighlight">\(I_3 = 0.3775\times0.6225=0.2350\)</span>. Test information <span class="math notranslate nohighlight">\(I(0.5) = 0.6191\)</span>, so <span class="math notranslate nohighlight">\(SE(\hat\theta) = 1/\sqrt{0.6191} = 1.2708\)</span>.</p>
-<p>Suppose the examinee’s observed pattern is <span class="math notranslate nohighlight">\(x=(1,1,0)\)</span> (correct on items 1-2, incorrect on 3). One Newton-Raphson step from <span class="math notranslate nohighlight">\(\theta^{(0)}=0.5\)</span>:
-$<span class="math notranslate nohighlight">\( \text{score} = (1-0.8176)+(1-0.6225)+(0-0.3775) = 0.1824+0.3775-0.3775 = 0.1824 \)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( \text{information} = I_1+I_2+I_3 = 0.6191 \)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( \theta^{(1)} = 0.5 + \frac{0.1824}{0.6191} = 0.5+0.2947 = 0.7947. \)</span><span class="math notranslate nohighlight">\(
-This is identical in form to a Fisher-scoring step for logistic regression MLE, since the Rasch score/information equations are exactly the logistic-regression score/information equations with the \)</span>b_i$ acting as known offsets.</p>
+<p>Suppose the examinee’s observed pattern is <span class="math notranslate nohighlight">\(x=(1,1,0)\)</span> (correct on items 1-2, incorrect on 3). One Newton-Raphson step from <span class="math notranslate nohighlight">\(\theta^{(0)}=0.5\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{score} = (1-0.8176)+(1-0.6225)+(0-0.3775) = 0.1824+0.3775-0.3775 = 0.1824
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{information} = I_1+I_2+I_3 = 0.6191
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\theta^{(1)} = 0.5 + \frac{0.1824}{0.6191} = 0.5+0.2947 = 0.7947.
+\]</div>
+<p>This is identical in form to a Fisher-scoring step for logistic regression MLE, since the Rasch score/information equations are exactly the logistic-regression score/information equations with the <span class="math notranslate nohighlight">\(b_i\)</span> acting as known offsets.</p>
 </section>
 <section id="exercises">
 <h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercises'"><span>#</span></a></h2>
@@ -285,15 +328,24 @@ This is identical in form to a Fisher-scoring step for logistic regression MLE, 
 <p>Derive the score function and Fisher information for MLE ability estimation in the Rasch model with <span class="math notranslate nohighlight">\(K\)</span> items of known difficulties <span class="math notranslate nohighlight">\(b_1,\dots,b_K\)</span>, and show the resulting Newton-Raphson update is algebraically identical to a Fisher-scoring step for a logistic regression of <span class="math notranslate nohighlight">\(x_i\)</span> on a constant, with <span class="math notranslate nohighlight">\(-b_i\)</span> entered as a known offset.</p>
 <details>
 <summary>Solution</summary>
-<p>The log-likelihood for a single examinee’s pattern <span class="math notranslate nohighlight">\(x=(x_1,\dots,x_K)\)</span> given ability <span class="math notranslate nohighlight">\(\theta\)</span> is
-$<span class="math notranslate nohighlight">\( \ell(\theta) = \sum_{i=1}^K \Big[x_i\log P_i(\theta) + (1-x_i)\log(1-P_i(\theta))\Big], \qquad P_i(\theta) = \frac{e^{\theta-b_i}}{1+e^{\theta-b_i}}. \)</span><span class="math notranslate nohighlight">\(
-Since \)</span>\frac{d}{d\theta}P_i(\theta) = P_i(\theta)(1-P_i(\theta))<span class="math notranslate nohighlight">\( (standard logistic derivative), the score is
-\)</span><span class="math notranslate nohighlight">\( U(\theta) = \frac{d\ell}{d\theta} = \sum_i \left[\frac{x_i}{P_i}-\frac{1-x_i}{1-P_i}\right]P_i(1-P_i) = \sum_i\big(x_i - P_i(\theta)\big). \)</span><span class="math notranslate nohighlight">\(
-The observed information is \)</span>-\frac{d^2\ell}{d\theta^2} = \sum_i P_i(\theta)(1-P_i(\theta))<span class="math notranslate nohighlight">\(, which does not depend on \)</span>x_i<span class="math notranslate nohighlight">\(, so observed and expected (Fisher) information coincide: \)</span>I(\theta) = \sum_i P_i(1-P_i)$.</p>
+<p>The log-likelihood for a single examinee’s pattern <span class="math notranslate nohighlight">\(x=(x_1,\dots,x_K)\)</span> given ability <span class="math notranslate nohighlight">\(\theta\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\theta) = \sum_{i=1}^K \Big[x_i\log P_i(\theta) + (1-x_i)\log(1-P_i(\theta))\Big], \qquad P_i(\theta) = \frac{e^{\theta-b_i}}{1+e^{\theta-b_i}}.
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\frac{d}{d\theta}P_i(\theta) = P_i(\theta)(1-P_i(\theta))\)</span> (standard logistic derivative), the score is</p>
+<div class="math notranslate nohighlight">
+\[
+U(\theta) = \frac{d\ell}{d\theta} = \sum_i \left[\frac{x_i}{P_i}-\frac{1-x_i}{1-P_i}\right]P_i(1-P_i) = \sum_i\big(x_i - P_i(\theta)\big).
+\]</div>
+<p>The observed information is <span class="math notranslate nohighlight">\(-\frac{d^2\ell}{d\theta^2} = \sum_i P_i(\theta)(1-P_i(\theta))\)</span>, which does not depend on <span class="math notranslate nohighlight">\(x_i\)</span>, so observed and expected (Fisher) information coincide: <span class="math notranslate nohighlight">\(I(\theta) = \sum_i P_i(1-P_i)\)</span>.</p>
 <p>Newton-Raphson/Fisher scoring: <span class="math notranslate nohighlight">\(\theta^{(t+1)} = \theta^{(t)} + U(\theta^{(t)})/I(\theta^{(t)})\)</span>.</p>
-<p>Now consider ordinary logistic regression of binary outcomes <span class="math notranslate nohighlight">\(x_i\)</span> on an intercept-only model with a known offset <span class="math notranslate nohighlight">\(-b_i\)</span>: <span class="math notranslate nohighlight">\(\text{logit}(P_i) = \theta - b_i\)</span> (i.e., <span class="math notranslate nohighlight">\(\theta\)</span> is the only free parameter, <span class="math notranslate nohighlight">\(-b_i\)</span> is a fixed offset per observation). The GLM score and Fisher information for the single parameter <span class="math notranslate nohighlight">\(\theta\)</span> are, by the standard logistic regression formulas <span class="math notranslate nohighlight">\(U(\theta)=\sum_i (x_i-P_i)\cdot \partial \eta_i/\partial\theta\)</span> and <span class="math notranslate nohighlight">\(I(\theta) = \sum_i P_i(1-P_i)(\partial\eta_i/\partial\theta)^2\)</span> with <span class="math notranslate nohighlight">\(\partial\eta_i/\partial\theta=1\)</span>, exactly
-$<span class="math notranslate nohighlight">\( U(\theta) = \sum_i(x_i-P_i), \qquad I(\theta)=\sum_i P_i(1-P_i), \)</span>$
-identical to the Rasch ability score and information. Hence estimating a single examinee’s Rasch ability by Newton-Raphson is literally fitting an intercept-only logistic regression with known item-difficulty offsets, and the update formulas coincide term for term.</p>
+<p>Now consider ordinary logistic regression of binary outcomes <span class="math notranslate nohighlight">\(x_i\)</span> on an intercept-only model with a known offset <span class="math notranslate nohighlight">\(-b_i\)</span>: <span class="math notranslate nohighlight">\(\text{logit}(P_i) = \theta - b_i\)</span> (i.e., <span class="math notranslate nohighlight">\(\theta\)</span> is the only free parameter, <span class="math notranslate nohighlight">\(-b_i\)</span> is a fixed offset per observation). The GLM score and Fisher information for the single parameter <span class="math notranslate nohighlight">\(\theta\)</span> are, by the standard logistic regression formulas <span class="math notranslate nohighlight">\(U(\theta)=\sum_i (x_i-P_i)\cdot \partial \eta_i/\partial\theta\)</span> and <span class="math notranslate nohighlight">\(I(\theta) = \sum_i P_i(1-P_i)(\partial\eta_i/\partial\theta)^2\)</span> with <span class="math notranslate nohighlight">\(\partial\eta_i/\partial\theta=1\)</span>, exactly</p>
+<div class="math notranslate nohighlight">
+\[
+U(\theta) = \sum_i(x_i-P_i), \qquad I(\theta)=\sum_i P_i(1-P_i),
+\]</div>
+<p>identical to the Rasch ability score and information. Hence estimating a single examinee’s Rasch ability by Newton-Raphson is literally fitting an intercept-only logistic regression with known item-difficulty offsets, and the update formulas coincide term for term.</p>
 </details>
 </section>
 <section id="exercise-2">
@@ -301,13 +353,22 @@ identical to the Rasch ability score and information. Hence estimating a single 
 <p>Prove that in the Rasch model, the raw score <span class="math notranslate nohighlight">\(S = \sum_{i=1}^K X_i\)</span> is a sufficient statistic for <span class="math notranslate nohighlight">\(\theta\)</span> (fix item difficulties <span class="math notranslate nohighlight">\(b_1,\dots,b_K\)</span> as known).</p>
 <details>
 <summary>Solution</summary>
-<p>The joint probability of a response pattern <span class="math notranslate nohighlight">\(x=(x_1,\dots,x_K)\)</span> under local independence is
-$<span class="math notranslate nohighlight">\( P(X=x\mid\theta) = \prod_{i=1}^K \left(\frac{e^{\theta-b_i}}{1+e^{\theta-b_i}}\right)^{x_i}\left(\frac{1}{1+e^{\theta-b_i}}\right)^{1-x_i} = \frac{\prod_i e^{x_i(\theta-b_i)}}{\prod_i(1+e^{\theta-b_i})}. \)</span><span class="math notranslate nohighlight">\(
-Expand the numerator:
-\)</span><span class="math notranslate nohighlight">\( \prod_i e^{x_i(\theta-b_i)} = \exp\left(\theta\sum_i x_i - \sum_i x_i b_i\right) = e^{\theta S}\, e^{-\sum_i x_ib_i}. \)</span><span class="math notranslate nohighlight">\(
-So
-\)</span><span class="math notranslate nohighlight">\( P(X=x\mid\theta) = \underbrace{e^{\theta S}}_{\text{depends on }x\text{ only through }S}\cdot \underbrace{e^{-\sum_i x_ib_i}}_{h(x),\ \text{free of }\theta}\cdot\underbrace{\Big[\prod_i(1+e^{\theta-b_i})\Big]^{-1}}_{c(\theta),\ \text{free of }x}. \)</span><span class="math notranslate nohighlight">\(
-This is exactly the exponential-family factorization \)</span>P(X=x\mid\theta) = g(S,\theta),h(x)<span class="math notranslate nohighlight">\( with \)</span>g(S,\theta) = e^{\theta S}c(\theta)<span class="math notranslate nohighlight">\(. By the Fisher-Neyman factorization theorem, \)</span>S=\sum_i X_i<span class="math notranslate nohighlight">\( is a sufficient statistic for \)</span>\theta<span class="math notranslate nohighlight">\(. (Note this relies critically on the Rasch model's additive \)</span>\theta - b_i<span class="math notranslate nohighlight">\( form with a common coefficient of \)</span>1<span class="math notranslate nohighlight">\( on \)</span>\theta<span class="math notranslate nohighlight">\( for every item; in the 2PL model the coefficient is \)</span>a_i<span class="math notranslate nohighlight">\(, so the exponent becomes \)</span>\theta\sum_i a_ix_i<span class="math notranslate nohighlight">\(, meaning the *weighted* score \)</span>\sum_i a_i x_i<span class="math notranslate nohighlight">\(, not the raw score, would be sufficient, and since the \)</span>a_i$ are generally unknown/estimated this sufficiency is not usable in practice, which is why raw-score sufficiency is considered a special, prized property of the Rasch model.)</p>
+<p>The joint probability of a response pattern <span class="math notranslate nohighlight">\(x=(x_1,\dots,x_K)\)</span> under local independence is</p>
+<div class="math notranslate nohighlight">
+\[
+P(X=x\mid\theta) = \prod_{i=1}^K \left(\frac{e^{\theta-b_i}}{1+e^{\theta-b_i}}\right)^{x_i}\left(\frac{1}{1+e^{\theta-b_i}}\right)^{1-x_i} = \frac{\prod_i e^{x_i(\theta-b_i)}}{\prod_i(1+e^{\theta-b_i})}.
+\]</div>
+<p>Expand the numerator:</p>
+<div class="math notranslate nohighlight">
+\[
+\prod_i e^{x_i(\theta-b_i)} = \exp\left(\theta\sum_i x_i - \sum_i x_i b_i\right) = e^{\theta S}\, e^{-\sum_i x_ib_i}.
+\]</div>
+<p>So</p>
+<div class="math notranslate nohighlight">
+\[
+P(X=x\mid\theta) = \underbrace{e^{\theta S}}_{\text{depends on }x\text{ only through }S}\cdot \underbrace{e^{-\sum_i x_ib_i}}_{h(x),\ \text{free of }\theta}\cdot\underbrace{\Big[\prod_i(1+e^{\theta-b_i})\Big]^{-1}}_{c(\theta),\ \text{free of }x}.
+\]</div>
+<p>This is exactly the exponential-family factorization <span class="math notranslate nohighlight">\(P(X=x\mid\theta) = g(S,\theta)\,h(x)\)</span> with <span class="math notranslate nohighlight">\(g(S,\theta) = e^{\theta S}c(\theta)\)</span>. By the Fisher-Neyman factorization theorem, <span class="math notranslate nohighlight">\(S=\sum_i X_i\)</span> is a sufficient statistic for <span class="math notranslate nohighlight">\(\theta\)</span>. (Note this relies critically on the Rasch model’s additive <span class="math notranslate nohighlight">\(\theta - b_i\)</span> form with a common coefficient of <span class="math notranslate nohighlight">\(1\)</span> on <span class="math notranslate nohighlight">\(\theta\)</span> for every item; in the 2PL model the coefficient is <span class="math notranslate nohighlight">\(a_i\)</span>, so the exponent becomes <span class="math notranslate nohighlight">\(\theta\sum_i a_ix_i\)</span>, meaning the <em>weighted</em> score <span class="math notranslate nohighlight">\(\sum_i a_i x_i\)</span>, not the raw score, would be sufficient, and since the <span class="math notranslate nohighlight">\(a_i\)</span> are generally unknown/estimated this sufficiency is not usable in practice, which is why raw-score sufficiency is considered a special, prized property of the Rasch model.)</p>
 </details>
 </section>
 <section id="exercise-3">
@@ -315,12 +376,18 @@ This is exactly the exponential-family factorization \)</span>P(X=x\mid\theta) =
 <p>Sketch the derivation of the EM algorithm’s E-step for marginal maximum likelihood item calibration: derive the posterior density of <span class="math notranslate nohighlight">\(\theta_j\)</span> given examinee <span class="math notranslate nohighlight">\(j\)</span>’s response pattern and current parameter estimates <span class="math notranslate nohighlight">\(\xi^{(t)}\)</span>, and explain how Gauss-Hermite quadrature turns this into a computationally tractable weighted-likelihood update.</p>
 <details>
 <summary>Solution</summary>
-<p>By Bayes’ theorem, the posterior density of <span class="math notranslate nohighlight">\(\theta_j\)</span> given the response pattern <span class="math notranslate nohighlight">\(x_j\)</span> and current item-parameter estimates <span class="math notranslate nohighlight">\(\xi^{(t)}\)</span> is
-$<span class="math notranslate nohighlight">\( h(\theta \mid x_j, \xi^{(t)}) = \frac{\prod_{i=1}^K P_i(\theta;\xi_i^{(t)})^{x_{ij}}\big(1-P_i(\theta;\xi_i^{(t)})\big)^{1-x_{ij}}\; g(\theta)}{\int \prod_{i=1}^K P_i(\theta';\xi_i^{(t)})^{x_{ij}}\big(1-P_i(\theta';\xi_i^{(t)})\big)^{1-x_{ij}}\; g(\theta')\, d\theta'}, \)</span><span class="math notranslate nohighlight">\(
-i.e. the likelihood of the observed pattern at ability \)</span>\theta<span class="math notranslate nohighlight">\(, times the population prior \)</span>g(\theta)<span class="math notranslate nohighlight">\(, normalized. This follows directly from Bayes' rule applied to the joint density of \)</span>(\theta_j, x_j)<span class="math notranslate nohighlight">\( implied by the MMLE model (person ability random with density \)</span>g<span class="math notranslate nohighlight">\(, response pattern conditionally generated by the IRT model given \)</span>\theta_j$).</p>
-<p>The complete-data log-likelihood (if <span class="math notranslate nohighlight">\(\theta_j\)</span> were observed) would be <span class="math notranslate nohighlight">\(\sum_j \sum_i \big[x_{ij}\log P_i(\theta_j)+(1-x_{ij})\log(1-P_i(\theta_j))\big]\)</span>, linear in indicator-type sufficient statistics for each item. The E-step replaces this by its expectation under <span class="math notranslate nohighlight">\(h(\theta\mid x_j,\xi^{(t)})\)</span> for each examinee, i.e., needs <span class="math notranslate nohighlight">\(E_{h}[\log P_i(\theta)]\)</span>-type terms, which requires evaluating <span class="math notranslate nohighlight">\(\int \log P_i(\theta) \, h(\theta\mid x_j,\xi^{(t)})\, d\theta\)</span>. Since this integral has no closed form for logistic ICCs, <strong>Gauss-Hermite quadrature</strong> approximates it (and the normalizing integral) by a finite weighted sum over fixed nodes <span class="math notranslate nohighlight">\(\theta_1^*,\dots,\theta_Q^*\)</span> with quadrature weights <span class="math notranslate nohighlight">\(w_1,\dots,w_Q\)</span> chosen to integrate polynomials (times a Gaussian kernel) exactly:
-$<span class="math notranslate nohighlight">\( \int f(\theta)g(\theta)\,d\theta \approx \sum_{q=1}^Q w_q\, f(\theta_q^*). \)</span><span class="math notranslate nohighlight">\(
-Concretely, for each examinee \)</span>j<span class="math notranslate nohighlight">\( and each node \)</span>q<span class="math notranslate nohighlight">\(, compute the likelihood \)</span>L(x_j\mid\theta_q^<em>,\xi^{(t)})<span class="math notranslate nohighlight">\(, form the discretized posterior weight \)</span>\pi_{jq} \propto w_q L(x_j\mid\theta_q^</em>,\xi^{(t)}),g(\theta_q^*)<span class="math notranslate nohighlight">\( (normalized over \)</span>q<span class="math notranslate nohighlight">\(), and accumulate, for each item \)</span>i<span class="math notranslate nohighlight">\(, the "expected number of examinees at node \)</span>q<span class="math notranslate nohighlight">\(" and "expected number correct at node \)</span>q<span class="math notranslate nohighlight">\(" by summing \)</span>\pi_{jq}<span class="math notranslate nohighlight">\( and \)</span>\pi_{jq}x_{ij}<span class="math notranslate nohighlight">\( over \)</span>j<span class="math notranslate nohighlight">\(. The M-step then treats these accumulated pseudo-counts at each of the \)</span>Q<span class="math notranslate nohighlight">\( ability nodes as binomial data and updates each item's parameters \)</span>\xi_i$ by (weighted) logistic regression of expected-correct-count on the quadrature-node abilities. Iterating E and M steps converges to the MMLE item parameter estimates, exactly analogous to the EM algorithm used for GLMMs with a random intercept integrated out via quadrature.</p>
+<p>By Bayes’ theorem, the posterior density of <span class="math notranslate nohighlight">\(\theta_j\)</span> given the response pattern <span class="math notranslate nohighlight">\(x_j\)</span> and current item-parameter estimates <span class="math notranslate nohighlight">\(\xi^{(t)}\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+h(\theta \mid x_j, \xi^{(t)}) = \frac{\prod_{i=1}^K P_i(\theta;\xi_i^{(t)})^{x_{ij}}\big(1-P_i(\theta;\xi_i^{(t)})\big)^{1-x_{ij}}\; g(\theta)}{\int \prod_{i=1}^K P_i(\theta';\xi_i^{(t)})^{x_{ij}}\big(1-P_i(\theta';\xi_i^{(t)})\big)^{1-x_{ij}}\; g(\theta')\, d\theta'},
+\]</div>
+<p>i.e. the likelihood of the observed pattern at ability <span class="math notranslate nohighlight">\(\theta\)</span>, times the population prior <span class="math notranslate nohighlight">\(g(\theta)\)</span>, normalized. This follows directly from Bayes’ rule applied to the joint density of <span class="math notranslate nohighlight">\((\theta_j, x_j)\)</span> implied by the MMLE model (person ability random with density <span class="math notranslate nohighlight">\(g\)</span>, response pattern conditionally generated by the IRT model given <span class="math notranslate nohighlight">\(\theta_j\)</span>).</p>
+<p>The complete-data log-likelihood (if <span class="math notranslate nohighlight">\(\theta_j\)</span> were observed) would be <span class="math notranslate nohighlight">\(\sum_j \sum_i \big[x_{ij}\log P_i(\theta_j)+(1-x_{ij})\log(1-P_i(\theta_j))\big]\)</span>, linear in indicator-type sufficient statistics for each item. The E-step replaces this by its expectation under <span class="math notranslate nohighlight">\(h(\theta\mid x_j,\xi^{(t)})\)</span> for each examinee, i.e., needs <span class="math notranslate nohighlight">\(E_{h}[\log P_i(\theta)]\)</span>-type terms, which requires evaluating <span class="math notranslate nohighlight">\(\int \log P_i(\theta) \, h(\theta\mid x_j,\xi^{(t)})\, d\theta\)</span>. Since this integral has no closed form for logistic ICCs, <strong>Gauss-Hermite quadrature</strong> approximates it (and the normalizing integral) by a finite weighted sum over fixed nodes <span class="math notranslate nohighlight">\(\theta_1^*,\dots,\theta_Q^*\)</span> with quadrature weights <span class="math notranslate nohighlight">\(w_1,\dots,w_Q\)</span> chosen to integrate polynomials (times a Gaussian kernel) exactly:</p>
+<div class="math notranslate nohighlight">
+\[
+\int f(\theta)g(\theta)\,d\theta \approx \sum_{q=1}^Q w_q\, f(\theta_q^*).
+\]</div>
+<p>Concretely, for each examinee <span class="math notranslate nohighlight">\(j\)</span> and each node <span class="math notranslate nohighlight">\(q\)</span>, compute the likelihood <span class="math notranslate nohighlight">\(L(x_j\mid\theta_q^*,\xi^{(t)})\)</span>, form the discretized posterior weight <span class="math notranslate nohighlight">\(\pi_{jq} \propto w_q L(x_j\mid\theta_q^*,\xi^{(t)})\,g(\theta_q^*)\)</span> (normalized over <span class="math notranslate nohighlight">\(q\)</span>), and accumulate, for each item <span class="math notranslate nohighlight">\(i\)</span>, the “expected number of examinees at node <span class="math notranslate nohighlight">\(q\)</span>” and “expected number correct at node <span class="math notranslate nohighlight">\(q\)</span>” by summing <span class="math notranslate nohighlight">\(\pi_{jq}\)</span> and <span class="math notranslate nohighlight">\(\pi_{jq}x_{ij}\)</span> over <span class="math notranslate nohighlight">\(j\)</span>. The M-step then treats these accumulated pseudo-counts at each of the <span class="math notranslate nohighlight">\(Q\)</span> ability nodes as binomial data and updates each item’s parameters <span class="math notranslate nohighlight">\(\xi_i\)</span> by (weighted) logistic regression of expected-correct-count on the quadrature-node abilities. Iterating E and M steps converges to the MMLE item parameter estimates, exactly analogous to the EM algorithm used for GLMMs with a random intercept integrated out via quadrature.</p>
 </details>
 </section>
 <section id="exercise-4">
@@ -328,9 +395,12 @@ Concretely, for each examinee \)</span>j<span class="math notranslate nohighligh
 <p>An item is examined for uniform DIF between a Reference group and a Focal group using the Mantel-Haenszel procedure with two score strata. The 2x2 counts (correct/incorrect) are:</p>
 <p>Stratum 1 (n=55): Reference correct = 20, Reference incorrect = 10; Focal correct = 10, Focal incorrect = 15.
 Stratum 2 (n=58): Reference correct = 25, Reference incorrect = 5; Focal correct = 20, Focal incorrect = 8.</p>
-<p>Compute the Mantel-Haenszel common odds ratio
-$<span class="math notranslate nohighlight">\( OR_{MH} = \frac{\sum_k n_{R1k}n_{F0k}/n_{Tk}}{\sum_k n_{F1k}n_{R0k}/n_{Tk}} \)</span>$
-and interpret the result for DIF.</p>
+<p>Compute the Mantel-Haenszel common odds ratio</p>
+<div class="math notranslate nohighlight">
+\[
+OR_{MH} = \frac{\sum_k n_{R1k}n_{F0k}/n_{Tk}}{\sum_k n_{F1k}n_{R0k}/n_{Tk}}
+\]</div>
+<p>and interpret the result for DIF.</p>
 <details>
 <summary>Solution</summary>
 <p>Label within stratum <span class="math notranslate nohighlight">\(k\)</span>: <span class="math notranslate nohighlight">\(n_{R1k}\)</span> = reference correct, <span class="math notranslate nohighlight">\(n_{R0k}\)</span> = reference incorrect, <span class="math notranslate nohighlight">\(n_{F1k}\)</span> = focal correct, <span class="math notranslate nohighlight">\(n_{F0k}\)</span> = focal incorrect, <span class="math notranslate nohighlight">\(n_{Tk}\)</span> = stratum total.</p>
@@ -344,10 +414,19 @@ and interpret the result for DIF.</p>
 <li><p>Numerator term: <span class="math notranslate nohighlight">\(25\times8/58 = 200/58 = 3.4483\)</span></p></li>
 <li><p>Denominator term: <span class="math notranslate nohighlight">\(20\times5/58 = 100/58 = 1.7241\)</span></p></li>
 </ul>
-<p>Summing:
-$<span class="math notranslate nohighlight">\( \sum_k n_{R1k}n_{F0k}/n_{Tk} = 5.4545+3.4483 = 8.9028 \)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( \sum_k n_{F1k}n_{R0k}/n_{Tk} = 1.8182+1.7241 = 3.5423 \)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( OR_{MH} = \frac{8.9028}{3.5423} = 2.513. \)</span>$</p>
+<p>Summing:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_k n_{R1k}n_{F0k}/n_{Tk} = 5.4545+3.4483 = 8.9028
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_k n_{F1k}n_{R0k}/n_{Tk} = 1.8182+1.7241 = 3.5423
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+OR_{MH} = \frac{8.9028}{3.5423} = 2.513.
+\]</div>
 <p>Interpretation: after stratifying on ability (approximated by score group), reference-group examinees have about <span class="math notranslate nohighlight">\(2.5\times\)</span> the odds of answering the item correctly compared to focal-group examinees at the same ability level. Since <span class="math notranslate nohighlight">\(OR_{MH}\)</span> is far from 1 (a common rule of thumb, the ETS classification, flags <span class="math notranslate nohighlight">\(|\Delta MH| \)</span> corresponding to <span class="math notranslate nohighlight">\(OR_{MH}\)</span> outside roughly <span class="math notranslate nohighlight">\((0.53, 1.9)\)</span> or wider bounds as at least moderate DIF), this item shows evidence of uniform DIF favoring the reference group and would be a candidate for review or removal from the operational item bank.</p>
 </details>
 </section>

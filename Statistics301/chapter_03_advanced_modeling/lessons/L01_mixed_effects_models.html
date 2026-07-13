@@ -199,14 +199,23 @@
 </section>
 <section id="random-intercept-slope-model-in-matrix-form">
 <h3>Random intercept/slope model in matrix form<a class="headerlink" href="#random-intercept-slope-model-in-matrix-form" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#random-intercept-slope-model-in-matrix-form'"><span>#</span></a></h3>
-<p>For cluster <span class="math notranslate nohighlight">\(i = 1, \dots, m\)</span> with <span class="math notranslate nohighlight">\(n_i\)</span> observations, the linear mixed model is
-$<span class="math notranslate nohighlight">\( y_i = X_i \beta + Z_i b_i + \epsilon_i, \qquad b_i \sim N(0, D), \qquad \epsilon_i \sim N(0, \sigma^2 I_{n_i}), \)</span><span class="math notranslate nohighlight">\(
-with \)</span>b_1, \dots, b_m<span class="math notranslate nohighlight">\( mutually independent, independent across clusters of \)</span>\epsilon_i<span class="math notranslate nohighlight">\(, and \)</span>b_i \perp \epsilon_i<span class="math notranslate nohighlight">\(. Here \)</span>X_i<span class="math notranslate nohighlight">\( is the \)</span>n_i \times p<span class="math notranslate nohighlight">\( fixed-effects design matrix and \)</span>Z_i<span class="math notranslate nohighlight">\( is the \)</span>n_i \times q$ random-effects design matrix.</p>
-<p>For a <strong>random intercept and slope</strong> model with a single time covariate <span class="math notranslate nohighlight">\(t_{ij}\)</span>, <span class="math notranslate nohighlight">\(Z_i\)</span> has columns <span class="math notranslate nohighlight">\((1, t_{ij})\)</span> and <span class="math notranslate nohighlight">\(b_i = (b_{0i}, b_{1i})^T \sim N(0, D)\)</span> with
-$<span class="math notranslate nohighlight">\( D = \begin{pmatrix} \sigma_0^2 &amp; \sigma_{01} \\ \sigma_{01} &amp; \sigma_1^2 \end{pmatrix}. \)</span><span class="math notranslate nohighlight">\(
-Marginalizing over \)</span>b_i<span class="math notranslate nohighlight">\( gives \)</span>y_i \sim N(X_i\beta, V_i)<span class="math notranslate nohighlight">\( with
-\)</span><span class="math notranslate nohighlight">\( V_i = Z_i D Z_i^T + \sigma^2 I_{n_i}. \)</span><span class="math notranslate nohighlight">\(
-Stacking clusters, \)</span>y = X\beta + Zb + \epsilon<span class="math notranslate nohighlight">\( with \)</span>b \sim N(0, G)<span class="math notranslate nohighlight">\(, \)</span>G = I_m \otimes D<span class="math notranslate nohighlight">\( block-diagonal, and marginal covariance \)</span>V = ZGZ^T + R<span class="math notranslate nohighlight">\(, \)</span>R = \sigma^2 I$.</p>
+<p>For cluster <span class="math notranslate nohighlight">\(i = 1, \dots, m\)</span> with <span class="math notranslate nohighlight">\(n_i\)</span> observations, the linear mixed model is</p>
+<div class="math notranslate nohighlight">
+\[
+y_i = X_i \beta + Z_i b_i + \epsilon_i, \qquad b_i \sim N(0, D), \qquad \epsilon_i \sim N(0, \sigma^2 I_{n_i}),
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(b_1, \dots, b_m\)</span> mutually independent, independent across clusters of <span class="math notranslate nohighlight">\(\epsilon_i\)</span>, and <span class="math notranslate nohighlight">\(b_i \perp \epsilon_i\)</span>. Here <span class="math notranslate nohighlight">\(X_i\)</span> is the <span class="math notranslate nohighlight">\(n_i \times p\)</span> fixed-effects design matrix and <span class="math notranslate nohighlight">\(Z_i\)</span> is the <span class="math notranslate nohighlight">\(n_i \times q\)</span> random-effects design matrix.</p>
+<p>For a <strong>random intercept and slope</strong> model with a single time covariate <span class="math notranslate nohighlight">\(t_{ij}\)</span>, <span class="math notranslate nohighlight">\(Z_i\)</span> has columns <span class="math notranslate nohighlight">\((1, t_{ij})\)</span> and <span class="math notranslate nohighlight">\(b_i = (b_{0i}, b_{1i})^T \sim N(0, D)\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+D = \begin{pmatrix} \sigma_0^2 &amp; \sigma_{01} \\ \sigma_{01} &amp; \sigma_1^2 \end{pmatrix}.
+\end{split}\]</div>
+<p>Marginalizing over <span class="math notranslate nohighlight">\(b_i\)</span> gives <span class="math notranslate nohighlight">\(y_i \sim N(X_i\beta, V_i)\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+V_i = Z_i D Z_i^T + \sigma^2 I_{n_i}.
+\]</div>
+<p>Stacking clusters, <span class="math notranslate nohighlight">\(y = X\beta + Zb + \epsilon\)</span> with <span class="math notranslate nohighlight">\(b \sim N(0, G)\)</span>, <span class="math notranslate nohighlight">\(G = I_m \otimes D\)</span> block-diagonal, and marginal covariance <span class="math notranslate nohighlight">\(V = ZGZ^T + R\)</span>, <span class="math notranslate nohighlight">\(R = \sigma^2 I\)</span>.</p>
 </section>
 <section id="nested-vs-crossed-effects">
 <h3>Nested vs. crossed effects<a class="headerlink" href="#nested-vs-crossed-effects" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#nested-vs-crossed-effects'"><span>#</span></a></h3>
@@ -217,35 +226,53 @@ Stacking clusters, \)</span>y = X\beta + Zb + \epsilon<span class="math notransl
 <h2>Estimation: ML, REML, and BLUP<a class="headerlink" href="#estimation-ml-reml-and-blup" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#estimation-ml-reml-and-blup'"><span>#</span></a></h2>
 <section id="ml-vs-reml">
 <h3>ML vs. REML<a class="headerlink" href="#ml-vs-reml" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#ml-vs-reml'"><span>#</span></a></h3>
-<p>Given variance components <span class="math notranslate nohighlight">\(\theta\)</span> (the free parameters of <span class="math notranslate nohighlight">\(D\)</span> and <span class="math notranslate nohighlight">\(\sigma^2\)</span>), maximum likelihood maximizes
-$<span class="math notranslate nohighlight">\( L(\beta, \theta) = \prod_{i=1}^m \phi\big(y_i; X_i\beta, V_i(\theta)\big) \)</span><span class="math notranslate nohighlight">\(
-jointly over \)</span>\beta<span class="math notranslate nohighlight">\( and \)</span>\theta<span class="math notranslate nohighlight">\(. As in ordinary regression, where the MLE of \)</span>\sigma^2<span class="math notranslate nohighlight">\( divides by \)</span>n<span class="math notranslate nohighlight">\( rather than \)</span>n-p<span class="math notranslate nohighlight">\(, the ML estimator of the variance components is downward biased because it does not account for the degrees of freedom used to estimate \)</span>\beta$.</p>
-<p><strong>REML</strong> (restricted/residual maximum likelihood) corrects this by maximizing the likelihood of error contrasts, linear combinations <span class="math notranslate nohighlight">\(K^Ty\)</span> with <span class="math notranslate nohighlight">\(K^TX = 0\)</span>, that do not depend on <span class="math notranslate nohighlight">\(\beta\)</span> at all:
-$<span class="math notranslate nohighlight">\( L_{REML}(\theta) \propto |V(\theta)|^{-1/2}\, |X^TV(\theta)^{-1}X|^{-1/2} \exp\!\left(-\tfrac12 (y-X\hat\beta(\theta))^T V(\theta)^{-1} (y-X\hat\beta(\theta))\right). \)</span><span class="math notranslate nohighlight">\(
-REML variance-component estimates are unbiased in balanced designs and are the default for reporting variance components. However, because \)</span>L_{REML}<span class="math notranslate nohighlight">\( depends on \)</span>X<span class="math notranslate nohighlight">\( through the projection removing \)</span>\beta$, REML likelihoods are <strong>not comparable across models with different fixed effects</strong>; when comparing nested fixed-effects specifications by likelihood-ratio test, one must refit with ML.</p>
+<p>Given variance components <span class="math notranslate nohighlight">\(\theta\)</span> (the free parameters of <span class="math notranslate nohighlight">\(D\)</span> and <span class="math notranslate nohighlight">\(\sigma^2\)</span>), maximum likelihood maximizes</p>
+<div class="math notranslate nohighlight">
+\[
+L(\beta, \theta) = \prod_{i=1}^m \phi\big(y_i; X_i\beta, V_i(\theta)\big)
+\]</div>
+<p>jointly over <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\theta\)</span>. As in ordinary regression, where the MLE of <span class="math notranslate nohighlight">\(\sigma^2\)</span> divides by <span class="math notranslate nohighlight">\(n\)</span> rather than <span class="math notranslate nohighlight">\(n-p\)</span>, the ML estimator of the variance components is downward biased because it does not account for the degrees of freedom used to estimate <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<p><strong>REML</strong> (restricted/residual maximum likelihood) corrects this by maximizing the likelihood of error contrasts, linear combinations <span class="math notranslate nohighlight">\(K^Ty\)</span> with <span class="math notranslate nohighlight">\(K^TX = 0\)</span>, that do not depend on <span class="math notranslate nohighlight">\(\beta\)</span> at all:</p>
+<div class="math notranslate nohighlight">
+\[
+L_{REML}(\theta) \propto |V(\theta)|^{-1/2}\, |X^TV(\theta)^{-1}X|^{-1/2} \exp\!\left(-\tfrac12 (y-X\hat\beta(\theta))^T V(\theta)^{-1} (y-X\hat\beta(\theta))\right).
+\]</div>
+<p>REML variance-component estimates are unbiased in balanced designs and are the default for reporting variance components. However, because <span class="math notranslate nohighlight">\(L_{REML}\)</span> depends on <span class="math notranslate nohighlight">\(X\)</span> through the projection removing <span class="math notranslate nohighlight">\(\beta\)</span>, REML likelihoods are <strong>not comparable across models with different fixed effects</strong>; when comparing nested fixed-effects specifications by likelihood-ratio test, one must refit with ML.</p>
 </section>
 <section id="blup-and-shrinkage">
 <h3>BLUP and shrinkage<a class="headerlink" href="#blup-and-shrinkage" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#blup-and-shrinkage'"><span>#</span></a></h3>
-<p>For known <span class="math notranslate nohighlight">\(\theta\)</span>, the generalized least squares estimator is <span class="math notranslate nohighlight">\(\hat\beta = (X^TV^{-1}X)^{-1}X^TV^{-1}y\)</span>. The best linear unbiased predictor of the random effect is
-$<span class="math notranslate nohighlight">\( \hat b_i = D Z_i^T V_i^{-1}(y_i - X_i\hat\beta). \)</span><span class="math notranslate nohighlight">\(
-This is a **shrinkage** estimator: it pulls the cluster's raw deviation toward zero (the population value), with the amount of shrinkage governed by cluster size and the ratio of between- to within-cluster variance. In the random-intercept-only case,
-\)</span><span class="math notranslate nohighlight">\( \hat b_{0i} = \lambda_i (\bar y_i - x_i^T\hat\beta), \qquad \lambda_i = \frac{n_i \sigma_0^2}{n_i\sigma_0^2 + \sigma^2} \in (0,1). \)</span><span class="math notranslate nohighlight">\(
-Small or noisy clusters (small \)</span>n_i<span class="math notranslate nohighlight">\(, or small \)</span>\sigma_0^2<span class="math notranslate nohighlight">\( relative to \)</span>\sigma^2$) are shrunk more heavily toward the population mean; this is exactly the same shrinkage logic as in empirical Bayes estimation.</p>
+<p>For known <span class="math notranslate nohighlight">\(\theta\)</span>, the generalized least squares estimator is <span class="math notranslate nohighlight">\(\hat\beta = (X^TV^{-1}X)^{-1}X^TV^{-1}y\)</span>. The best linear unbiased predictor of the random effect is</p>
+<div class="math notranslate nohighlight">
+\[
+\hat b_i = D Z_i^T V_i^{-1}(y_i - X_i\hat\beta).
+\]</div>
+<p>This is a <strong>shrinkage</strong> estimator: it pulls the cluster’s raw deviation toward zero (the population value), with the amount of shrinkage governed by cluster size and the ratio of between- to within-cluster variance. In the random-intercept-only case,</p>
+<div class="math notranslate nohighlight">
+\[
+\hat b_{0i} = \lambda_i (\bar y_i - x_i^T\hat\beta), \qquad \lambda_i = \frac{n_i \sigma_0^2}{n_i\sigma_0^2 + \sigma^2} \in (0,1).
+\]</div>
+<p>Small or noisy clusters (small <span class="math notranslate nohighlight">\(n_i\)</span>, or small <span class="math notranslate nohighlight">\(\sigma_0^2\)</span> relative to <span class="math notranslate nohighlight">\(\sigma^2\)</span>) are shrunk more heavily toward the population mean; this is exactly the same shrinkage logic as in empirical Bayes estimation.</p>
 </section>
 </section>
 <section id="inference-on-variance-components">
 <h2>Inference on Variance Components<a class="headerlink" href="#inference-on-variance-components" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#inference-on-variance-components'"><span>#</span></a></h2>
 <section id="likelihood-ratio-testing-for-variance-components-the-boundary-issue">
 <h3>Likelihood-ratio testing for variance components (the boundary issue)<a class="headerlink" href="#likelihood-ratio-testing-for-variance-components-the-boundary-issue" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#likelihood-ratio-testing-for-variance-components-the-boundary-issue'"><span>#</span></a></h3>
-<p>Testing <span class="math notranslate nohighlight">\(H_0: \sigma_0^2 = 0\)</span> (no random intercept needed) is nonstandard: <span class="math notranslate nohighlight">\(0\)</span> is on the <strong>boundary</strong> of the parameter space for a variance, so the usual regularity conditions for <span class="math notranslate nohighlight">\(-2\log\Lambda \to \chi^2_1\)</span> under <span class="math notranslate nohighlight">\(H_0\)</span> fail. Self and Liang (1987) showed that when testing a single variance component at the boundary, the asymptotic null distribution of the LRT statistic is a 50:50 mixture of a point mass at 0 and a <span class="math notranslate nohighlight">\(\chi^2_1\)</span>:
-$<span class="math notranslate nohighlight">\( -2\log\Lambda \;\xrightarrow{d}\; \tfrac12 \chi^2_0 + \tfrac12 \chi^2_1 \quad \text{(written } \bar\chi^2_{01}\text{)}. \)</span><span class="math notranslate nohighlight">\(
-Practically, this means the naive p-value obtained by comparing the LRT statistic to a \)</span>\chi^2_1<span class="math notranslate nohighlight">\( reference is roughly **twice too large** (conservative); the corrected p-value is approximately half the naive one. When testing \)</span>q \geq 2<span class="math notranslate nohighlight">\( variance components jointly (e.g., a random slope's variance together with its covariance with the intercept), the reference distribution is a mixture of \)</span>\chi^2_{q-1}<span class="math notranslate nohighlight">\( and \)</span>\chi^2_q$ with mixing weights that generally must be simulated or looked up.</p>
+<p>Testing <span class="math notranslate nohighlight">\(H_0: \sigma_0^2 = 0\)</span> (no random intercept needed) is nonstandard: <span class="math notranslate nohighlight">\(0\)</span> is on the <strong>boundary</strong> of the parameter space for a variance, so the usual regularity conditions for <span class="math notranslate nohighlight">\(-2\log\Lambda \to \chi^2_1\)</span> under <span class="math notranslate nohighlight">\(H_0\)</span> fail. Self and Liang (1987) showed that when testing a single variance component at the boundary, the asymptotic null distribution of the LRT statistic is a 50:50 mixture of a point mass at 0 and a <span class="math notranslate nohighlight">\(\chi^2_1\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+-2\log\Lambda \;\xrightarrow{d}\; \tfrac12 \chi^2_0 + \tfrac12 \chi^2_1 \quad \text{(written } \bar\chi^2_{01}\text{)}.
+\]</div>
+<p>Practically, this means the naive p-value obtained by comparing the LRT statistic to a <span class="math notranslate nohighlight">\(\chi^2_1\)</span> reference is roughly <strong>twice too large</strong> (conservative); the corrected p-value is approximately half the naive one. When testing <span class="math notranslate nohighlight">\(q \geq 2\)</span> variance components jointly (e.g., a random slope’s variance together with its covariance with the intercept), the reference distribution is a mixture of <span class="math notranslate nohighlight">\(\chi^2_{q-1}\)</span> and <span class="math notranslate nohighlight">\(\chi^2_q\)</span> with mixing weights that generally must be simulated or looked up.</p>
 </section>
 <section id="icc">
 <h3>ICC<a class="headerlink" href="#icc" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#icc'"><span>#</span></a></h3>
-<p>For the random-intercept model, the <strong>intraclass correlation coefficient</strong> is
-$<span class="math notranslate nohighlight">\( \rho = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}. \)</span><span class="math notranslate nohighlight">\(
-It equals both the proportion of total variance attributable to between-cluster differences, and the model-implied correlation between two observations \)</span>y_{ij}, y_{ik}<span class="math notranslate nohighlight">\( (\)</span>j \ne k<span class="math notranslate nohighlight">\() drawn from the same cluster \)</span>i<span class="math notranslate nohighlight">\(, since \)</span>Cov(y_{ij}, y_{ik}) = \sigma_0^2<span class="math notranslate nohighlight">\( and \)</span>Var(y_{ij}) = \sigma_0^2+\sigma^2$ under the compound-symmetric marginal covariance implied by a single random intercept.</p>
+<p>For the random-intercept model, the <strong>intraclass correlation coefficient</strong> is</p>
+<div class="math notranslate nohighlight">
+\[
+\rho = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}.
+\]</div>
+<p>It equals both the proportion of total variance attributable to between-cluster differences, and the model-implied correlation between two observations <span class="math notranslate nohighlight">\(y_{ij}, y_{ik}\)</span> (<span class="math notranslate nohighlight">\(j \ne k\)</span>) drawn from the same cluster <span class="math notranslate nohighlight">\(i\)</span>, since <span class="math notranslate nohighlight">\(Cov(y_{ij}, y_{ik}) = \sigma_0^2\)</span> and <span class="math notranslate nohighlight">\(Var(y_{ij}) = \sigma_0^2+\sigma^2\)</span> under the compound-symmetric marginal covariance implied by a single random intercept.</p>
 </section>
 </section>
 <section id="worked-example">
@@ -279,17 +306,33 @@ It equals both the proportion of total variance attributable to between-cluster 
 </table>
 <p>Grand mean <span class="math notranslate nohighlight">\(\bar y = 6.75\)</span>. This is a balanced one-way random-effects design, so the ANOVA-based variance component estimators coincide with REML.</p>
 <div class="math notranslate nohighlight">
-\[ SSB = n\sum_i (\bar y_i - \bar y)^2 = 3\big[0.5625+5.0625+7.5625+1.5625\big] = 44.25, \quad MSB = 44.25/3 = 14.75 \]</div>
+\[
+SSB = n\sum_i (\bar y_i - \bar y)^2 = 3\big[0.5625+5.0625+7.5625+1.5625\big] = 44.25, \quad MSB = 44.25/3 = 14.75
+\]</div>
 <div class="math notranslate nohighlight">
-\[ SSW = \sum_i\sum_j (y_{ij}-\bar y_i)^2 = 2+2+2+2 = 8, \quad MSW = 8/8 = 1 \]</div>
-<p>So <span class="math notranslate nohighlight">\(\hat\sigma^2 = MSW = 1\)</span> and, using <span class="math notranslate nohighlight">\(n=3\)</span> observations per group,
-$<span class="math notranslate nohighlight">\( \hat\sigma_0^2 = \frac{MSB - MSW}{n} = \frac{14.75-1}{3} = 4.5833. \)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( \widehat{ICC} = \frac{4.5833}{4.5833+1} = 0.821. \)</span>$
-Over 82% of the variance in scores is between-school; schools differ substantially.</p>
-<p><strong>BLUP for group 3</strong> (raw mean 4.00, furthest below the grand mean): shrinkage factor
-$<span class="math notranslate nohighlight">\( \lambda_3 = \frac{3(4.5833)}{3(4.5833)+1} = \frac{13.75}{14.75} = 0.932, \)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( \hat b_{0,3} = \lambda_3(\bar y_3 - \hat\beta) = 0.932 \times (4.00 - 6.75) = -2.564. \)</span><span class="math notranslate nohighlight">\(
-The predicted school-3 intercept is \)</span>6.75 - 2.564 = 4.186<span class="math notranslate nohighlight">\(, shrunk slightly toward the grand mean rather than sitting at the raw 4.00, because with only \)</span>n_i=3<span class="math notranslate nohighlight">\( and \)</span>\sigma^2<span class="math notranslate nohighlight">\( non-negligible relative to \)</span>\sigma_0^2$, some of the observed deviation is attributed to noise.</p>
+\[
+SSW = \sum_i\sum_j (y_{ij}-\bar y_i)^2 = 2+2+2+2 = 8, \quad MSW = 8/8 = 1
+\]</div>
+<p>So <span class="math notranslate nohighlight">\(\hat\sigma^2 = MSW = 1\)</span> and, using <span class="math notranslate nohighlight">\(n=3\)</span> observations per group,</p>
+<div class="math notranslate nohighlight">
+\[
+\hat\sigma_0^2 = \frac{MSB - MSW}{n} = \frac{14.75-1}{3} = 4.5833.
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\widehat{ICC} = \frac{4.5833}{4.5833+1} = 0.821.
+\]</div>
+<p>Over 82% of the variance in scores is between-school; schools differ substantially.</p>
+<p><strong>BLUP for group 3</strong> (raw mean 4.00, furthest below the grand mean): shrinkage factor</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda_3 = \frac{3(4.5833)}{3(4.5833)+1} = \frac{13.75}{14.75} = 0.932,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\hat b_{0,3} = \lambda_3(\bar y_3 - \hat\beta) = 0.932 \times (4.00 - 6.75) = -2.564.
+\]</div>
+<p>The predicted school-3 intercept is <span class="math notranslate nohighlight">\(6.75 - 2.564 = 4.186\)</span>, shrunk slightly toward the grand mean rather than sitting at the raw 4.00, because with only <span class="math notranslate nohighlight">\(n_i=3\)</span> and <span class="math notranslate nohighlight">\(\sigma^2\)</span> non-negligible relative to <span class="math notranslate nohighlight">\(\sigma_0^2\)</span>, some of the observed deviation is attributed to noise.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>
 <span class="c1"># model = smf.mixedlm("score ~ 1", data, groups=data["school"]).fit(reml=True)</span>
 <span class="c1"># model.params, model.random_effects</span>
@@ -303,12 +346,18 @@ The predicted school-3 intercept is \)</span>6.75 - 2.564 = 4.186<span class="ma
 <p>Derive the marginal covariance matrix <span class="math notranslate nohighlight">\(V_i = Z_iDZ_i^T + \sigma^2 I_{n_i}\)</span> for a random-intercept-only model (<span class="math notranslate nohighlight">\(Z_i = \mathbf{1}_{n_i}\)</span>, <span class="math notranslate nohighlight">\(D = \sigma_0^2\)</span>), and show explicitly that <span class="math notranslate nohighlight">\(V_i\)</span> has the compound-symmetric form <span class="math notranslate nohighlight">\(\sigma^2 I_{n_i} + \sigma_0^2 J_{n_i}\)</span> (<span class="math notranslate nohighlight">\(J\)</span> the all-ones matrix). From this, derive the correlation between any two observations in the same cluster and confirm it equals the ICC formula given in the notes.</p>
 <details>
 <summary>Solution</summary>
-<p>With <span class="math notranslate nohighlight">\(Z_i = \mathbf{1}_{n_i}\)</span> (an <span class="math notranslate nohighlight">\(n_i \times 1\)</span> column of ones) and <span class="math notranslate nohighlight">\(D = \sigma_0^2\)</span> (a scalar), <span class="math notranslate nohighlight">\(Z_iDZ_i^T = \sigma_0^2 \mathbf{1}_{n_i}\mathbf{1}_{n_i}^T = \sigma_0^2 J_{n_i}\)</span>, where <span class="math notranslate nohighlight">\(J_{n_i}\)</span> is the <span class="math notranslate nohighlight">\(n_i\times n_i\)</span> matrix of all ones. Hence
-$<span class="math notranslate nohighlight">\( V_i = \sigma_0^2 J_{n_i} + \sigma^2 I_{n_i}. \)</span><span class="math notranslate nohighlight">\(
-Element-wise, the diagonal entries are \)</span>\sigma_0^2 + \sigma^2<span class="math notranslate nohighlight">\( (since \)</span>J_{ii}=1<span class="math notranslate nohighlight">\( and \)</span>I_{ii}=1<span class="math notranslate nohighlight">\() and the off-diagonal entries are \)</span>\sigma_0^2<span class="math notranslate nohighlight">\( (since \)</span>J_{ij}=1, I_{ij}=0<span class="math notranslate nohighlight">\( for \)</span>i\ne j$). This is exactly the compound-symmetric structure: constant variance, constant covariance.</p>
-<p>The correlation between <span class="math notranslate nohighlight">\(y_{ij}\)</span> and <span class="math notranslate nohighlight">\(y_{ik}\)</span>, <span class="math notranslate nohighlight">\(j\ne k\)</span>, in the same cluster is
-$<span class="math notranslate nohighlight">\( Corr(y_{ij},y_{ik}) = \frac{Cov(y_{ij},y_{ik})}{\sqrt{Var(y_{ij})Var(y_{ik})}} = \frac{\sigma_0^2}{\sigma_0^2+\sigma^2}, \)</span><span class="math notranslate nohighlight">\(
-since both variances equal \)</span>\sigma_0^2+\sigma^2<span class="math notranslate nohighlight">\(. This matches \)</span>\rho = \sigma_0^2/(\sigma_0^2+\sigma^2)$, confirming the ICC is precisely the within-cluster correlation implied by the random-intercept model, not merely a variance-decomposition heuristic.</p>
+<p>With <span class="math notranslate nohighlight">\(Z_i = \mathbf{1}_{n_i}\)</span> (an <span class="math notranslate nohighlight">\(n_i \times 1\)</span> column of ones) and <span class="math notranslate nohighlight">\(D = \sigma_0^2\)</span> (a scalar), <span class="math notranslate nohighlight">\(Z_iDZ_i^T = \sigma_0^2 \mathbf{1}_{n_i}\mathbf{1}_{n_i}^T = \sigma_0^2 J_{n_i}\)</span>, where <span class="math notranslate nohighlight">\(J_{n_i}\)</span> is the <span class="math notranslate nohighlight">\(n_i\times n_i\)</span> matrix of all ones. Hence</p>
+<div class="math notranslate nohighlight">
+\[
+V_i = \sigma_0^2 J_{n_i} + \sigma^2 I_{n_i}.
+\]</div>
+<p>Element-wise, the diagonal entries are <span class="math notranslate nohighlight">\(\sigma_0^2 + \sigma^2\)</span> (since <span class="math notranslate nohighlight">\(J_{ii}=1\)</span> and <span class="math notranslate nohighlight">\(I_{ii}=1\)</span>) and the off-diagonal entries are <span class="math notranslate nohighlight">\(\sigma_0^2\)</span> (since <span class="math notranslate nohighlight">\(J_{ij}=1, I_{ij}=0\)</span> for <span class="math notranslate nohighlight">\(i\ne j\)</span>). This is exactly the compound-symmetric structure: constant variance, constant covariance.</p>
+<p>The correlation between <span class="math notranslate nohighlight">\(y_{ij}\)</span> and <span class="math notranslate nohighlight">\(y_{ik}\)</span>, <span class="math notranslate nohighlight">\(j\ne k\)</span>, in the same cluster is</p>
+<div class="math notranslate nohighlight">
+\[
+Corr(y_{ij},y_{ik}) = \frac{Cov(y_{ij},y_{ik})}{\sqrt{Var(y_{ij})Var(y_{ik})}} = \frac{\sigma_0^2}{\sigma_0^2+\sigma^2},
+\]</div>
+<p>since both variances equal <span class="math notranslate nohighlight">\(\sigma_0^2+\sigma^2\)</span>. This matches <span class="math notranslate nohighlight">\(\rho = \sigma_0^2/(\sigma_0^2+\sigma^2)\)</span>, confirming the ICC is precisely the within-cluster correlation implied by the random-intercept model, not merely a variance-decomposition heuristic.</p>
 </details>
 </section>
 <section id="exercise-2">
@@ -316,16 +365,28 @@ since both variances equal \)</span>\sigma_0^2+\sigma^2<span class="math notrans
 <p>Derive the BLUP <span class="math notranslate nohighlight">\(\hat b_i = DZ_i^TV_i^{-1}(y_i - X_i\beta)\)</span> from the joint normality of <span class="math notranslate nohighlight">\((y_i, b_i)\)</span>, and show it minimizes mean squared prediction error among linear unbiased predictors (equivalently, that it equals <span class="math notranslate nohighlight">\(E[b_i \mid y_i]\)</span> under the normal model).</p>
 <details>
 <summary>Solution</summary>
-<p>Under the model, <span class="math notranslate nohighlight">\((y_i, b_i)\)</span> is jointly Gaussian with
-$<span class="math notranslate nohighlight">\( \begin{pmatrix} y_i \\ b_i \end{pmatrix} \sim N\left( \begin{pmatrix} X_i\beta \\ 0 \end{pmatrix}, \begin{pmatrix} V_i &amp; Z_iD \\ DZ_i^T &amp; D \end{pmatrix} \right), \)</span><span class="math notranslate nohighlight">\(
-because \)</span>Cov(y_i, b_i) = Cov(X_i\beta + Z_ib_i+\epsilon_i, b_i) = Z_i Cov(b_i,b_i) = Z_iD<span class="math notranslate nohighlight">\(, and \)</span>Var(b_i)=D$.</p>
-<p>For a jointly Gaussian vector <span class="math notranslate nohighlight">\((U,W)\)</span> with <span class="math notranslate nohighlight">\(U\sim N(\mu_U,\Sigma_{UU})\)</span>, <span class="math notranslate nohighlight">\(W \sim N(\mu_W,\Sigma_{WW})\)</span>, and cross-covariance <span class="math notranslate nohighlight">\(\Sigma_{WU}\)</span>, the conditional expectation is
-$<span class="math notranslate nohighlight">\( E[W\mid U] = \mu_W + \Sigma_{WU}\Sigma_{UU}^{-1}(U-\mu_U). \)</span><span class="math notranslate nohighlight">\(
-Applying this with \)</span>W = b_i<span class="math notranslate nohighlight">\( (\)</span>\mu_W=0<span class="math notranslate nohighlight">\(), \)</span>U = y_i<span class="math notranslate nohighlight">\( (\)</span>\mu_U = X_i\beta<span class="math notranslate nohighlight">\(), \)</span>\Sigma_{WU} = DZ_i^T<span class="math notranslate nohighlight">\(, \)</span>\Sigma_{UU}=V_i<span class="math notranslate nohighlight">\(:
-\)</span><span class="math notranslate nohighlight">\( E[b_i \mid y_i] = DZ_i^T V_i^{-1}(y_i - X_i\beta) = \hat b_i. \)</span>$</p>
-<p>Optimality among linear unbiased predictors: any linear predictor <span class="math notranslate nohighlight">\(\tilde b_i = A y_i\)</span> is unbiased for <span class="math notranslate nohighlight">\(b_i\)</span> (in the sense <span class="math notranslate nohighlight">\(E[\tilde b_i - b_i]=0\)</span> over the joint distribution) if <span class="math notranslate nohighlight">\(AX_i = 0\)</span>. Its MSE is <span class="math notranslate nohighlight">\(E\|Ay_i - b_i\|^2\)</span>. Writing <span class="math notranslate nohighlight">\(Ay_i - b_i = A(X_i\beta+Z_ib_i+\epsilon_i) - b_i = A\epsilon_i + (AZ_i-I)b_i\)</span> (using <span class="math notranslate nohighlight">\(AX_i\beta=0\)</span>), and using independence of <span class="math notranslate nohighlight">\(\epsilon_i,b_i\)</span>,
-$<span class="math notranslate nohighlight">\( MSE(A) = \sigma^2 AA^T + (AZ_i-I)D(AZ_i-I)^T. \)</span><span class="math notranslate nohighlight">\(
-Minimizing the trace of this quadratic form over \)</span>A<span class="math notranslate nohighlight">\( subject to \)</span>AX_i=0<span class="math notranslate nohighlight">\( is a constrained least-squares problem; setting the (constrained) gradient to zero yields exactly \)</span>A = DZ_i^TV_i^{-1}<span class="math notranslate nohighlight">\( up to the projection removing the \)</span>X_i\beta<span class="math notranslate nohighlight">\( component, reproducing \)</span>\hat b_i<span class="math notranslate nohighlight">\(. Since the conditional-expectation solution already satisfies \)</span>AX_i=0<span class="math notranslate nohighlight">\( (because \)</span>Cov(b_i, X_i\beta)=0$ makes the predictor automatically orthogonal to the fixed part), the two derivations agree: the BLUP is simultaneously the conditional mean under normality and the minimum-MSE linear unbiased predictor, which is why it generalizes (as the “best linear unbiased predictor”) to non-Gaussian settings via the Gauss-Markov-type argument alone.</p>
+<p>Under the model, <span class="math notranslate nohighlight">\((y_i, b_i)\)</span> is jointly Gaussian with</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{pmatrix} y_i \\ b_i \end{pmatrix} \sim N\left( \begin{pmatrix} X_i\beta \\ 0 \end{pmatrix}, \begin{pmatrix} V_i &amp; Z_iD \\ DZ_i^T &amp; D \end{pmatrix} \right),
+\end{split}\]</div>
+<p>because <span class="math notranslate nohighlight">\(Cov(y_i, b_i) = Cov(X_i\beta + Z_ib_i+\epsilon_i, b_i) = Z_i Cov(b_i,b_i) = Z_iD\)</span>, and <span class="math notranslate nohighlight">\(Var(b_i)=D\)</span>.</p>
+<p>For a jointly Gaussian vector <span class="math notranslate nohighlight">\((U,W)\)</span> with <span class="math notranslate nohighlight">\(U\sim N(\mu_U,\Sigma_{UU})\)</span>, <span class="math notranslate nohighlight">\(W \sim N(\mu_W,\Sigma_{WW})\)</span>, and cross-covariance <span class="math notranslate nohighlight">\(\Sigma_{WU}\)</span>, the conditional expectation is</p>
+<div class="math notranslate nohighlight">
+\[
+E[W\mid U] = \mu_W + \Sigma_{WU}\Sigma_{UU}^{-1}(U-\mu_U).
+\]</div>
+<p>Applying this with <span class="math notranslate nohighlight">\(W = b_i\)</span> (<span class="math notranslate nohighlight">\(\mu_W=0\)</span>), <span class="math notranslate nohighlight">\(U = y_i\)</span> (<span class="math notranslate nohighlight">\(\mu_U = X_i\beta\)</span>), <span class="math notranslate nohighlight">\(\Sigma_{WU} = DZ_i^T\)</span>, <span class="math notranslate nohighlight">\(\Sigma_{UU}=V_i\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+E[b_i \mid y_i] = DZ_i^T V_i^{-1}(y_i - X_i\beta) = \hat b_i.
+\]</div>
+<p>Optimality among linear unbiased predictors: any linear predictor <span class="math notranslate nohighlight">\(\tilde b_i = A y_i\)</span> is unbiased for <span class="math notranslate nohighlight">\(b_i\)</span> (in the sense <span class="math notranslate nohighlight">\(E[\tilde b_i - b_i]=0\)</span> over the joint distribution) if <span class="math notranslate nohighlight">\(AX_i = 0\)</span>. Its MSE is <span class="math notranslate nohighlight">\(E\|Ay_i - b_i\|^2\)</span>. Writing <span class="math notranslate nohighlight">\(Ay_i - b_i = A(X_i\beta+Z_ib_i+\epsilon_i) - b_i = A\epsilon_i + (AZ_i-I)b_i\)</span> (using <span class="math notranslate nohighlight">\(AX_i\beta=0\)</span>), and using independence of <span class="math notranslate nohighlight">\(\epsilon_i,b_i\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+MSE(A) = \sigma^2 AA^T + (AZ_i-I)D(AZ_i-I)^T.
+\]</div>
+<p>Minimizing the trace of this quadratic form over <span class="math notranslate nohighlight">\(A\)</span> subject to <span class="math notranslate nohighlight">\(AX_i=0\)</span> is a constrained least-squares problem; setting the (constrained) gradient to zero yields exactly <span class="math notranslate nohighlight">\(A = DZ_i^TV_i^{-1}\)</span> up to the projection removing the <span class="math notranslate nohighlight">\(X_i\beta\)</span> component, reproducing <span class="math notranslate nohighlight">\(\hat b_i\)</span>. Since the conditional-expectation solution already satisfies <span class="math notranslate nohighlight">\(AX_i=0\)</span> (because <span class="math notranslate nohighlight">\(Cov(b_i, X_i\beta)=0\)</span> makes the predictor automatically orthogonal to the fixed part), the two derivations agree: the BLUP is simultaneously the conditional mean under normality and the minimum-MSE linear unbiased predictor, which is why it generalizes (as the “best linear unbiased predictor”) to non-Gaussian settings via the Gauss-Markov-type argument alone.</p>
 </details>
 </section>
 <section id="exercise-3">
@@ -334,17 +395,32 @@ Minimizing the trace of this quadratic form over \)</span>A<span class="math not
 <details>
 <summary>Solution</summary>
 <p>Write <span class="math notranslate nohighlight">\(y_{ij} = \mu + b_i + \epsilon_{ij}\)</span>. Group mean <span class="math notranslate nohighlight">\(\bar y_i = \mu + b_i + \bar\epsilon_i\)</span>, grand mean <span class="math notranslate nohighlight">\(\bar y = \mu + \bar b + \bar{\bar\epsilon}\)</span> where <span class="math notranslate nohighlight">\(\bar b = m^{-1}\sum_i b_i\)</span>, <span class="math notranslate nohighlight">\(\bar\epsilon_i = n^{-1}\sum_j \epsilon_{ij}\)</span>.</p>
-<p><strong>Within groups:</strong> <span class="math notranslate nohighlight">\(y_{ij}-\bar y_i = \epsilon_{ij}-\bar\epsilon_i\)</span>, which does not involve <span class="math notranslate nohighlight">\(b_i\)</span> at all. So <span class="math notranslate nohighlight">\(SSW = \sum_i\sum_j(\epsilon_{ij}-\bar\epsilon_i)^2\)</span> is exactly the usual within-group sum of squares of iid <span class="math notranslate nohighlight">\(N(0,\sigma^2)\)</span> errors, with <span class="math notranslate nohighlight">\(m(n-1)\)</span> degrees of freedom. Standard result (same as one-way fixed-effects ANOVA from Stats 2): <span class="math notranslate nohighlight">\(E[SSW] = m(n-1)\sigma^2\)</span>, so
-$<span class="math notranslate nohighlight">\( E[MSW] = E[SSW/(m(n-1))] = \sigma^2. \)</span>$</p>
-<p><strong>Between groups:</strong> <span class="math notranslate nohighlight">\(\bar y_i - \bar y = (b_i - \bar b) + (\bar\epsilon_i - \bar{\bar\epsilon})\)</span>. Then
-$<span class="math notranslate nohighlight">\( SSB = n\sum_i(\bar y_i-\bar y)^2 = n\sum_i\big[(b_i-\bar b)+(\bar\epsilon_i-\bar{\bar\epsilon})\big]^2. \)</span><span class="math notranslate nohighlight">\(
-Expand the square; cross terms vanish in expectation since \)</span>b_i \perp \epsilon<span class="math notranslate nohighlight">\(. So
-\)</span><span class="math notranslate nohighlight">\( E[SSB] = n\, E\Big[\sum_i (b_i-\bar b)^2\Big] + n\, E\Big[\sum_i(\bar\epsilon_i - \bar{\bar\epsilon})^2\Big]. \)</span><span class="math notranslate nohighlight">\(
-For the first term, \)</span>b_1,\dots,b_m<span class="math notranslate nohighlight">\( are iid \)</span>N(0,\sigma_0^2)<span class="math notranslate nohighlight">\(, so \)</span>\sum_i(b_i-\bar b)^2<span class="math notranslate nohighlight">\( has expectation \)</span>(m-1)\sigma_0^2<span class="math notranslate nohighlight">\( (standard unbiased-sample-variance identity). For the second term, \)</span>\bar\epsilon_i<span class="math notranslate nohighlight">\( are iid \)</span>N(0,\sigma^2/n)<span class="math notranslate nohighlight">\(, so \)</span>\sum_i(\bar\epsilon_i-\bar{\bar\epsilon})^2<span class="math notranslate nohighlight">\( has expectation \)</span>(m-1)\sigma^2/n<span class="math notranslate nohighlight">\(. Hence
-\)</span><span class="math notranslate nohighlight">\( E[SSB] = n(m-1)\sigma_0^2 + (m-1)\sigma^2, \qquad E[MSB] = E[SSB/(m-1)] = n\sigma_0^2+\sigma^2. \)</span>$</p>
-<p><strong>Unbiasedness of the moment estimators:</strong>
-$<span class="math notranslate nohighlight">\( E[\hat\sigma^2] = E[MSW] = \sigma^2, \qquad E[\hat\sigma_0^2] = \frac{E[MSB]-E[MSW]}{n} = \frac{(n\sigma_0^2+\sigma^2)-\sigma^2}{n} = \sigma_0^2. \)</span><span class="math notranslate nohighlight">\(
-Both are unbiased. This ANOVA-based construction coincides with the REML estimators in the balanced case, which is why REML (not ML) is the natural generalization of the "\)</span>n-p$ correction” intuition from Stats 1/2 to variance components.</p>
+<p><strong>Within groups:</strong> <span class="math notranslate nohighlight">\(y_{ij}-\bar y_i = \epsilon_{ij}-\bar\epsilon_i\)</span>, which does not involve <span class="math notranslate nohighlight">\(b_i\)</span> at all. So <span class="math notranslate nohighlight">\(SSW = \sum_i\sum_j(\epsilon_{ij}-\bar\epsilon_i)^2\)</span> is exactly the usual within-group sum of squares of iid <span class="math notranslate nohighlight">\(N(0,\sigma^2)\)</span> errors, with <span class="math notranslate nohighlight">\(m(n-1)\)</span> degrees of freedom. Standard result (same as one-way fixed-effects ANOVA from Stats 2): <span class="math notranslate nohighlight">\(E[SSW] = m(n-1)\sigma^2\)</span>, so</p>
+<div class="math notranslate nohighlight">
+\[
+E[MSW] = E[SSW/(m(n-1))] = \sigma^2.
+\]</div>
+<p><strong>Between groups:</strong> <span class="math notranslate nohighlight">\(\bar y_i - \bar y = (b_i - \bar b) + (\bar\epsilon_i - \bar{\bar\epsilon})\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[
+SSB = n\sum_i(\bar y_i-\bar y)^2 = n\sum_i\big[(b_i-\bar b)+(\bar\epsilon_i-\bar{\bar\epsilon})\big]^2.
+\]</div>
+<p>Expand the square; cross terms vanish in expectation since <span class="math notranslate nohighlight">\(b_i \perp \epsilon\)</span>. So</p>
+<div class="math notranslate nohighlight">
+\[
+E[SSB] = n\, E\Big[\sum_i (b_i-\bar b)^2\Big] + n\, E\Big[\sum_i(\bar\epsilon_i - \bar{\bar\epsilon})^2\Big].
+\]</div>
+<p>For the first term, <span class="math notranslate nohighlight">\(b_1,\dots,b_m\)</span> are iid <span class="math notranslate nohighlight">\(N(0,\sigma_0^2)\)</span>, so <span class="math notranslate nohighlight">\(\sum_i(b_i-\bar b)^2\)</span> has expectation <span class="math notranslate nohighlight">\((m-1)\sigma_0^2\)</span> (standard unbiased-sample-variance identity). For the second term, <span class="math notranslate nohighlight">\(\bar\epsilon_i\)</span> are iid <span class="math notranslate nohighlight">\(N(0,\sigma^2/n)\)</span>, so <span class="math notranslate nohighlight">\(\sum_i(\bar\epsilon_i-\bar{\bar\epsilon})^2\)</span> has expectation <span class="math notranslate nohighlight">\((m-1)\sigma^2/n\)</span>. Hence</p>
+<div class="math notranslate nohighlight">
+\[
+E[SSB] = n(m-1)\sigma_0^2 + (m-1)\sigma^2, \qquad E[MSB] = E[SSB/(m-1)] = n\sigma_0^2+\sigma^2.
+\]</div>
+<p><strong>Unbiasedness of the moment estimators:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+E[\hat\sigma^2] = E[MSW] = \sigma^2, \qquad E[\hat\sigma_0^2] = \frac{E[MSB]-E[MSW]}{n} = \frac{(n\sigma_0^2+\sigma^2)-\sigma^2}{n} = \sigma_0^2.
+\]</div>
+<p>Both are unbiased. This ANOVA-based construction coincides with the REML estimators in the balanced case, which is why REML (not ML) is the natural generalization of the “<span class="math notranslate nohighlight">\(n-p\)</span> correction” intuition from Stats 1/2 to variance components.</p>
 </details>
 </section>
 <section id="exercise-4">
@@ -352,10 +428,16 @@ Both are unbiased. This ANOVA-based construction coincides with the REML estimat
 <p>In a study, you fit a random-intercept model and a fixed-effects-only model by REML/ML and obtain a likelihood-ratio statistic <span class="math notranslate nohighlight">\(-2\log\Lambda = 3.5\)</span> for <span class="math notranslate nohighlight">\(H_0:\sigma_0^2=0\)</span> against <span class="math notranslate nohighlight">\(H_1:\sigma_0^2&gt;0\)</span> (one variance component, boundary case). (a) Compute the naive p-value using a <span class="math notranslate nohighlight">\(\chi^2_1\)</span> reference distribution. (b) Compute the corrected p-value using the Self-Liang <span class="math notranslate nohighlight">\(\tfrac12\chi^2_0+\tfrac12\chi^2_1\)</span> mixture, and explain the direction of the discrepancy.</p>
 <details>
 <summary>Solution</summary>
-<p>(a) Naive approach: treat <span class="math notranslate nohighlight">\(-2\log\Lambda = 3.5\)</span> as <span class="math notranslate nohighlight">\(\chi^2_1\)</span>. We need <span class="math notranslate nohighlight">\(P(\chi^2_1 &gt; 3.5)\)</span>. Since <span class="math notranslate nohighlight">\(\chi^2_1 = Z^2\)</span> for <span class="math notranslate nohighlight">\(Z\sim N(0,1)\)</span>, <span class="math notranslate nohighlight">\(P(\chi^2_1&gt;3.5) = P(|Z|&gt;\sqrt{3.5}) = P(|Z|&gt;1.8708) = 2(1-\Phi(1.8708))\)</span>. From the standard normal table, <span class="math notranslate nohighlight">\(\Phi(1.8708)\approx 0.9693\)</span>, so
-$<span class="math notranslate nohighlight">\( p_{naive} = 2(1-0.9693) = 2(0.0307) = 0.0614. \)</span>$</p>
-<p>(b) Under the correct mixture <span class="math notranslate nohighlight">\(\tfrac12\chi^2_0 + \tfrac12\chi^2_1\)</span>, the point mass <span class="math notranslate nohighlight">\(\chi^2_0\)</span> contributes zero probability to the event <span class="math notranslate nohighlight">\(\{T&gt;3.5\}\)</span> for any <span class="math notranslate nohighlight">\(3.5&gt;0\)</span>, so
-$<span class="math notranslate nohighlight">\( p_{corrected} = P(\bar\chi^2_{01} &gt; 3.5) = \tfrac12 P(\chi^2_0&gt;3.5) + \tfrac12 P(\chi^2_1&gt;3.5) = 0 + \tfrac12(0.0614) = 0.0307. \)</span>$</p>
+<p>(a) Naive approach: treat <span class="math notranslate nohighlight">\(-2\log\Lambda = 3.5\)</span> as <span class="math notranslate nohighlight">\(\chi^2_1\)</span>. We need <span class="math notranslate nohighlight">\(P(\chi^2_1 &gt; 3.5)\)</span>. Since <span class="math notranslate nohighlight">\(\chi^2_1 = Z^2\)</span> for <span class="math notranslate nohighlight">\(Z\sim N(0,1)\)</span>, <span class="math notranslate nohighlight">\(P(\chi^2_1&gt;3.5) = P(|Z|&gt;\sqrt{3.5}) = P(|Z|&gt;1.8708) = 2(1-\Phi(1.8708))\)</span>. From the standard normal table, <span class="math notranslate nohighlight">\(\Phi(1.8708)\approx 0.9693\)</span>, so</p>
+<div class="math notranslate nohighlight">
+\[
+p_{naive} = 2(1-0.9693) = 2(0.0307) = 0.0614.
+\]</div>
+<p>(b) Under the correct mixture <span class="math notranslate nohighlight">\(\tfrac12\chi^2_0 + \tfrac12\chi^2_1\)</span>, the point mass <span class="math notranslate nohighlight">\(\chi^2_0\)</span> contributes zero probability to the event <span class="math notranslate nohighlight">\(\{T&gt;3.5\}\)</span> for any <span class="math notranslate nohighlight">\(3.5&gt;0\)</span>, so</p>
+<div class="math notranslate nohighlight">
+\[
+p_{corrected} = P(\bar\chi^2_{01} &gt; 3.5) = \tfrac12 P(\chi^2_0&gt;3.5) + \tfrac12 P(\chi^2_1&gt;3.5) = 0 + \tfrac12(0.0614) = 0.0307.
+\]</div>
 <p>The corrected p-value is exactly half the naive one, as the general theory predicts: comparing the boundary LRT statistic to an ordinary <span class="math notranslate nohighlight">\(\chi^2_1\)</span> reference is conservative (the naive p-value overstates the true p-value by a factor of 2), because half of the null sampling distribution’s mass sits at exactly 0 (whenever the unconstrained REML/ML optimizer would want <span class="math notranslate nohighlight">\(\hat\sigma_0^2&lt;0\)</span>, it is truncated to <span class="math notranslate nohighlight">\(0\)</span>, making <span class="math notranslate nohighlight">\(-2\log\Lambda=0\)</span> on those samples) rather than following <span class="math notranslate nohighlight">\(\chi^2_1\)</span> throughout. Using the naive <span class="math notranslate nohighlight">\(\chi^2_1\)</span> p-value as a decision rule at <span class="math notranslate nohighlight">\(\alpha=0.05\)</span> would fail to reject in this example (<span class="math notranslate nohighlight">\(0.0614&gt;0.05\)</span>), while the corrected mixture test does reject (<span class="math notranslate nohighlight">\(0.0307&lt;0.05\)</span>), so the boundary correction can change the conclusion of the test.</p>
 </details>
 </section>

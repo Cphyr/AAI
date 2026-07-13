@@ -198,61 +198,97 @@
 </section>
 <section id="definitions-and-relations">
 <h3>Definitions and relations<a class="headerlink" href="#definitions-and-relations" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#definitions-and-relations'"><span>#</span></a></h3>
-<p>Let <span class="math notranslate nohighlight">\(T\geq0\)</span> be the (possibly unobserved) event time with density <span class="math notranslate nohighlight">\(f(t)\)</span> and CDF <span class="math notranslate nohighlight">\(F(t)\)</span>. The <strong>survival function</strong> is
-$<span class="math notranslate nohighlight">\( S(t) = P(T&gt;t) = 1-F(t). \)</span><span class="math notranslate nohighlight">\(
-The **hazard function** is the instantaneous event rate given survival to \)</span>t<span class="math notranslate nohighlight">\(:
-\)</span><span class="math notranslate nohighlight">\( h(t) = \lim_{\Delta t\to 0} \frac{P(t\leq T&lt;t+\Delta t \mid T\geq t)}{\Delta t} = \frac{f(t)}{S(t)}. \)</span><span class="math notranslate nohighlight">\(
-Since \)</span>f(t) = -S’(t)<span class="math notranslate nohighlight">\(, we have \)</span>h(t) = -S’(t)/S(t) = -\frac{d}{dt}\log S(t)<span class="math notranslate nohighlight">\(. Integrating,
-\)</span><span class="math notranslate nohighlight">\( H(t) = \int_0^t h(u)\,du = -\log S(t) \quad\Longleftrightarrow\quad S(t) = \exp\big(-H(t)\big), \)</span><span class="math notranslate nohighlight">\(
-where \)</span>H(t)<span class="math notranslate nohighlight">\( is the **cumulative hazard function**. These identities let us move freely between \)</span>f<span class="math notranslate nohighlight">\(, \)</span>S<span class="math notranslate nohighlight">\(, \)</span>h<span class="math notranslate nohighlight">\(, and \)</span>H<span class="math notranslate nohighlight">\(: e.g. \)</span>f(t) = h(t)S(t) = h(t)\exp(-H(t))$.</p>
+<p>Let <span class="math notranslate nohighlight">\(T\geq0\)</span> be the (possibly unobserved) event time with density <span class="math notranslate nohighlight">\(f(t)\)</span> and CDF <span class="math notranslate nohighlight">\(F(t)\)</span>. The <strong>survival function</strong> is</p>
+<div class="math notranslate nohighlight">
+\[
+S(t) = P(T&gt;t) = 1-F(t).
+\]</div>
+<p>The <strong>hazard function</strong> is the instantaneous event rate given survival to <span class="math notranslate nohighlight">\(t\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+h(t) = \lim_{\Delta t\to 0} \frac{P(t\leq T&lt;t+\Delta t \mid T\geq t)}{\Delta t} = \frac{f(t)}{S(t)}.
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(f(t) = -S'(t)\)</span>, we have <span class="math notranslate nohighlight">\(h(t) = -S'(t)/S(t) = -\frac{d}{dt}\log S(t)\)</span>. Integrating,</p>
+<div class="math notranslate nohighlight">
+\[
+H(t) = \int_0^t h(u)\,du = -\log S(t) \quad\Longleftrightarrow\quad S(t) = \exp\big(-H(t)\big),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(H(t)\)</span> is the <strong>cumulative hazard function</strong>. These identities let us move freely between <span class="math notranslate nohighlight">\(f\)</span>, <span class="math notranslate nohighlight">\(S\)</span>, <span class="math notranslate nohighlight">\(h\)</span>, and <span class="math notranslate nohighlight">\(H\)</span>: e.g. <span class="math notranslate nohighlight">\(f(t) = h(t)S(t) = h(t)\exp(-H(t))\)</span>.</p>
 </section>
 </section>
 <section id="kaplan-meier-estimator-and-greenwood-s-formula">
 <h2>Kaplan-Meier Estimator and Greenwood’s Formula<a class="headerlink" href="#kaplan-meier-estimator-and-greenwood-s-formula" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#kaplan-meier-estimator-and-greenwood-s-formula'"><span>#</span></a></h2>
 <section id="derivation-of-the-km-estimator">
 <h3>Derivation of the KM estimator<a class="headerlink" href="#derivation-of-the-km-estimator" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#derivation-of-the-km-estimator'"><span>#</span></a></h3>
-<p>Let <span class="math notranslate nohighlight">\(t_{(1)}&lt;t_{(2)}&lt;\dots&lt;t_{(k)}\)</span> be the distinct observed <strong>event</strong> times. At <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, let <span class="math notranslate nohighlight">\(n_j\)</span> be the number of subjects still at risk (neither having had the event nor been censored before <span class="math notranslate nohighlight">\(t_{(j)}\)</span>) and <span class="math notranslate nohighlight">\(d_j\)</span> the number of events occurring exactly at <span class="math notranslate nohighlight">\(t_{(j)}\)</span>. Model the survival process via discrete hazards <span class="math notranslate nohighlight">\(\lambda_j = P(\text{event at } t_{(j)} \mid \text{at risk at } t_{(j)})\)</span>, one per distinct event time, and zero hazard elsewhere. Conditional on the risk sets, the number of events at <span class="math notranslate nohighlight">\(t_{(j)}\)</span> given <span class="math notranslate nohighlight">\(n_j\)</span> at risk is (treating individuals as exchangeable within the risk set) Binomial<span class="math notranslate nohighlight">\((n_j,\lambda_j)\)</span>, so the nonparametric likelihood factors as
-$<span class="math notranslate nohighlight">\( L(\lambda_1,\dots,\lambda_k) = \prod_{j=1}^k \binom{n_j}{d_j}\lambda_j^{d_j}(1-\lambda_j)^{n_j-d_j}. \)</span><span class="math notranslate nohighlight">\(
-This factors into separate terms for each \)</span>j<span class="math notranslate nohighlight">\(, so maximizing over each \)</span>\lambda_j<span class="math notranslate nohighlight">\( independently gives the ordinary binomial MLE \)</span>\hat\lambda_j = d_j/n_j<span class="math notranslate nohighlight">\(. Since \)</span>S(t) = \prod_{j: t_{(j)}\leq t}(1-\lambda_j)<span class="math notranslate nohighlight">\( under this discrete-hazard construction (the probability of surviving past \)</span>t<span class="math notranslate nohighlight">\( is the probability of surviving each intervening discrete hazard), plugging in the MLEs gives the **Kaplan-Meier estimator**:
-\)</span><span class="math notranslate nohighlight">\( \hat S(t) = \prod_{j:\, t_{(j)}\leq t} \left(1-\frac{d_j}{n_j}\right). \)</span><span class="math notranslate nohighlight">\(
-Censored observations enter only through the risk sets \)</span>n_j<span class="math notranslate nohighlight">\( (they reduce \)</span>n_j<span class="math notranslate nohighlight">\( for all later event times) and contribute no \)</span>d_j$, which is exactly the correct partial-information treatment.</p>
+<p>Let <span class="math notranslate nohighlight">\(t_{(1)}&lt;t_{(2)}&lt;\dots&lt;t_{(k)}\)</span> be the distinct observed <strong>event</strong> times. At <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, let <span class="math notranslate nohighlight">\(n_j\)</span> be the number of subjects still at risk (neither having had the event nor been censored before <span class="math notranslate nohighlight">\(t_{(j)}\)</span>) and <span class="math notranslate nohighlight">\(d_j\)</span> the number of events occurring exactly at <span class="math notranslate nohighlight">\(t_{(j)}\)</span>. Model the survival process via discrete hazards <span class="math notranslate nohighlight">\(\lambda_j = P(\text{event at } t_{(j)} \mid \text{at risk at } t_{(j)})\)</span>, one per distinct event time, and zero hazard elsewhere. Conditional on the risk sets, the number of events at <span class="math notranslate nohighlight">\(t_{(j)}\)</span> given <span class="math notranslate nohighlight">\(n_j\)</span> at risk is (treating individuals as exchangeable within the risk set) Binomial<span class="math notranslate nohighlight">\((n_j,\lambda_j)\)</span>, so the nonparametric likelihood factors as</p>
+<div class="math notranslate nohighlight">
+\[
+L(\lambda_1,\dots,\lambda_k) = \prod_{j=1}^k \binom{n_j}{d_j}\lambda_j^{d_j}(1-\lambda_j)^{n_j-d_j}.
+\]</div>
+<p>This factors into separate terms for each <span class="math notranslate nohighlight">\(j\)</span>, so maximizing over each <span class="math notranslate nohighlight">\(\lambda_j\)</span> independently gives the ordinary binomial MLE <span class="math notranslate nohighlight">\(\hat\lambda_j = d_j/n_j\)</span>. Since <span class="math notranslate nohighlight">\(S(t) = \prod_{j: t_{(j)}\leq t}(1-\lambda_j)\)</span> under this discrete-hazard construction (the probability of surviving past <span class="math notranslate nohighlight">\(t\)</span> is the probability of surviving each intervening discrete hazard), plugging in the MLEs gives the <strong>Kaplan-Meier estimator</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat S(t) = \prod_{j:\, t_{(j)}\leq t} \left(1-\frac{d_j}{n_j}\right).
+\]</div>
+<p>Censored observations enter only through the risk sets <span class="math notranslate nohighlight">\(n_j\)</span> (they reduce <span class="math notranslate nohighlight">\(n_j\)</span> for all later event times) and contribute no <span class="math notranslate nohighlight">\(d_j\)</span>, which is exactly the correct partial-information treatment.</p>
 </section>
 <section id="greenwood-s-formula">
 <h3>Greenwood’s formula<a class="headerlink" href="#greenwood-s-formula" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#greenwood-s-formula'"><span>#</span></a></h3>
-<p>The variance of <span class="math notranslate nohighlight">\(\hat S(t)\)</span> is obtained via the delta method applied to <span class="math notranslate nohighlight">\(\log\hat S(t) = \sum_{j:t_{(j)}\leq t}\log(1-d_j/n_j)\)</span> (full derivation in Exercise 2):
-$<span class="math notranslate nohighlight">\( \widehat{Var}\big(\hat S(t)\big) = \hat S(t)^2 \sum_{j:\, t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)}. \)</span><span class="math notranslate nohighlight">\(
-This is used to build confidence intervals for \)</span>S(t)<span class="math notranslate nohighlight">\(; because the normal-approximation interval \)</span>\hat S(t)\pm z_{\alpha/2}SE<span class="math notranslate nohighlight">\( can extend outside \)</span>[0,1]<span class="math notranslate nohighlight">\( (especially near the tails of follow-up where few subjects remain at risk), it is common practice to construct the interval on a transformed scale (e.g. \)</span>\log(-\log S(t))$) and back-transform.</p>
+<p>The variance of <span class="math notranslate nohighlight">\(\hat S(t)\)</span> is obtained via the delta method applied to <span class="math notranslate nohighlight">\(\log\hat S(t) = \sum_{j:t_{(j)}\leq t}\log(1-d_j/n_j)\)</span> (full derivation in Exercise 2):</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{Var}\big(\hat S(t)\big) = \hat S(t)^2 \sum_{j:\, t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)}.
+\]</div>
+<p>This is used to build confidence intervals for <span class="math notranslate nohighlight">\(S(t)\)</span>; because the normal-approximation interval <span class="math notranslate nohighlight">\(\hat S(t)\pm z_{\alpha/2}SE\)</span> can extend outside <span class="math notranslate nohighlight">\([0,1]\)</span> (especially near the tails of follow-up where few subjects remain at risk), it is common practice to construct the interval on a transformed scale (e.g. <span class="math notranslate nohighlight">\(\log(-\log S(t))\)</span>) and back-transform.</p>
 </section>
 </section>
 <section id="log-rank-test-and-cox-proportional-hazards-model">
 <h2>Log-Rank Test and Cox Proportional Hazards Model<a class="headerlink" href="#log-rank-test-and-cox-proportional-hazards-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#log-rank-test-and-cox-proportional-hazards-model'"><span>#</span></a></h2>
 <section id="log-rank-test">
 <h3>Log-rank test<a class="headerlink" href="#log-rank-test" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#log-rank-test'"><span>#</span></a></h3>
-<p>To compare survival between two groups, at each distinct event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span> (pooling both groups) form a 2x2 table of group membership by event/no-event among those at risk, and compare observed events in group 1, <span class="math notranslate nohighlight">\(O_{1j}\)</span>, to their expectation under the null hypergeometric distribution (fixing the margins, <span class="math notranslate nohighlight">\(d_j\)</span> total events and <span class="math notranslate nohighlight">\(n_{1j}, n_{2j}\)</span> at risk in each group):
-$<span class="math notranslate nohighlight">\( E_{1j} = \frac{n_{1j}\,d_j}{n_j}, \qquad V_j = \frac{n_{1j}n_{2j}\,d_j\,(n_j-d_j)}{n_j^2(n_j-1)}. \)</span><span class="math notranslate nohighlight">\(
-Summing over all event times and standardizing,
-\)</span><span class="math notranslate nohighlight">\( Z = \frac{\sum_j (O_{1j}-E_{1j})}{\sqrt{\sum_j V_j}} \;\xrightarrow{d}\; N(0,1) \quad \text{under } H_0: S_1=S_2, \)</span><span class="math notranslate nohighlight">\(
-equivalently \)</span>Z^2 \to \chi^2_1$. This is exactly a Mantel-Haenszel test stratified over the distinct event times.</p>
+<p>To compare survival between two groups, at each distinct event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span> (pooling both groups) form a 2x2 table of group membership by event/no-event among those at risk, and compare observed events in group 1, <span class="math notranslate nohighlight">\(O_{1j}\)</span>, to their expectation under the null hypergeometric distribution (fixing the margins, <span class="math notranslate nohighlight">\(d_j\)</span> total events and <span class="math notranslate nohighlight">\(n_{1j}, n_{2j}\)</span> at risk in each group):</p>
+<div class="math notranslate nohighlight">
+\[
+E_{1j} = \frac{n_{1j}\,d_j}{n_j}, \qquad V_j = \frac{n_{1j}n_{2j}\,d_j\,(n_j-d_j)}{n_j^2(n_j-1)}.
+\]</div>
+<p>Summing over all event times and standardizing,</p>
+<div class="math notranslate nohighlight">
+\[
+Z = \frac{\sum_j (O_{1j}-E_{1j})}{\sqrt{\sum_j V_j}} \;\xrightarrow{d}\; N(0,1) \quad \text{under } H_0: S_1=S_2,
+\]</div>
+<p>equivalently <span class="math notranslate nohighlight">\(Z^2 \to \chi^2_1\)</span>. This is exactly a Mantel-Haenszel test stratified over the distinct event times.</p>
 </section>
 <section id="cox-proportional-hazards-model">
 <h3>Cox proportional hazards model<a class="headerlink" href="#cox-proportional-hazards-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#cox-proportional-hazards-model'"><span>#</span></a></h3>
-<p>The Cox model specifies the hazard for an individual with covariates <span class="math notranslate nohighlight">\(x\)</span> as
-$<span class="math notranslate nohighlight">\( h(t\mid x) = h_0(t)\, \exp(x^T\beta), \)</span><span class="math notranslate nohighlight">\(
-where \)</span>h_0(t)<span class="math notranslate nohighlight">\( is an unspecified (nonparametric) baseline hazard, and the **proportional hazards (PH) assumption** is that the hazard ratio between any two covariate profiles, \)</span>\exp((x_1-x_2)^T\beta)$, is constant over time.</p>
+<p>The Cox model specifies the hazard for an individual with covariates <span class="math notranslate nohighlight">\(x\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+h(t\mid x) = h_0(t)\, \exp(x^T\beta),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(h_0(t)\)</span> is an unspecified (nonparametric) baseline hazard, and the <strong>proportional hazards (PH) assumption</strong> is that the hazard ratio between any two covariate profiles, <span class="math notranslate nohighlight">\(\exp((x_1-x_2)^T\beta)\)</span>, is constant over time.</p>
 </section>
 <section id="partial-likelihood">
 <h3>Partial likelihood<a class="headerlink" href="#partial-likelihood" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#partial-likelihood'"><span>#</span></a></h3>
-<p>Cox’s key idea eliminates the infinite-dimensional nuisance <span class="math notranslate nohighlight">\(h_0(t)\)</span> by conditioning, at each observed event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, on the identity of the risk set <span class="math notranslate nohighlight">\(R(t_{(j)})\)</span> and on the fact that exactly one event occurred, asking only <em>which</em> member of the risk set it was:
-$<span class="math notranslate nohighlight">\( P\big(\text{subject } (j) \text{ fails} \mid \text{one failure at } t_{(j)}, R(t_{(j)})\big) = \frac{h_0(t_{(j)})\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})} h_0(t_{(j)})\exp(x_l^T\beta)} = \frac{\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\beta)}, \)</span><span class="math notranslate nohighlight">\(
-the baseline hazard cancels. Multiplying these conditional probabilities over all \)</span>k<span class="math notranslate nohighlight">\( event times gives the **partial likelihood**
-\)</span><span class="math notranslate nohighlight">\( L_p(\beta) = \prod_{j=1}^k \frac{\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\beta)}. \)</span><span class="math notranslate nohighlight">\(
-Maximizing \)</span>\log L_p(\beta)<span class="math notranslate nohighlight">\( by Newton-Raphson gives \)</span>\hat\beta<span class="math notranslate nohighlight">\(, and standard likelihood asymptotics (score, Wald, and likelihood-ratio tests, using the observed information from \)</span>\log L_p<span class="math notranslate nohighlight">\() apply even though \)</span>L_p$ is not a full likelihood, a foundational (and nontrivial) result due to Cox (1972, 1975).</p>
+<p>Cox’s key idea eliminates the infinite-dimensional nuisance <span class="math notranslate nohighlight">\(h_0(t)\)</span> by conditioning, at each observed event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, on the identity of the risk set <span class="math notranslate nohighlight">\(R(t_{(j)})\)</span> and on the fact that exactly one event occurred, asking only <em>which</em> member of the risk set it was:</p>
+<div class="math notranslate nohighlight">
+\[
+P\big(\text{subject } (j) \text{ fails} \mid \text{one failure at } t_{(j)}, R(t_{(j)})\big) = \frac{h_0(t_{(j)})\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})} h_0(t_{(j)})\exp(x_l^T\beta)} = \frac{\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\beta)},
+\]</div>
+<p>the baseline hazard cancels. Multiplying these conditional probabilities over all <span class="math notranslate nohighlight">\(k\)</span> event times gives the <strong>partial likelihood</strong></p>
+<div class="math notranslate nohighlight">
+\[
+L_p(\beta) = \prod_{j=1}^k \frac{\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\beta)}.
+\]</div>
+<p>Maximizing <span class="math notranslate nohighlight">\(\log L_p(\beta)\)</span> by Newton-Raphson gives <span class="math notranslate nohighlight">\(\hat\beta\)</span>, and standard likelihood asymptotics (score, Wald, and likelihood-ratio tests, using the observed information from <span class="math notranslate nohighlight">\(\log L_p\)</span>) apply even though <span class="math notranslate nohighlight">\(L_p\)</span> is not a full likelihood, a foundational (and nontrivial) result due to Cox (1972, 1975).</p>
 </section>
 <section id="checking-the-ph-assumption-schoenfeld-residuals">
 <h3>Checking the PH assumption: Schoenfeld residuals<a class="headerlink" href="#checking-the-ph-assumption-schoenfeld-residuals" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#checking-the-ph-assumption-schoenfeld-residuals'"><span>#</span></a></h3>
-<p>For covariate <span class="math notranslate nohighlight">\(k\)</span> and event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, the <strong>Schoenfeld residual</strong> compares the failing subject’s observed covariate value to the risk-set-weighted expectation under the fitted model:
-$<span class="math notranslate nohighlight">\( r_{jk} = x_{(j)k} - \frac{\sum_{l\in R(t_{(j)})} x_{lk}\exp(x_l^T\hat\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\hat\beta)}. \)</span><span class="math notranslate nohighlight">\(
-Under a correctly specified PH model, these residuals should fluctuate randomly around zero with no systematic trend in time. A significant correlation between (scaled) Schoenfeld residuals and time, or a function of time, formally tested via the Grambsch-Therneau test, indicates that the effect of covariate \)</span>k$ is not actually constant over time (the PH assumption is violated), suggesting remedies such as stratification, time-varying coefficients, or splitting follow-up time.</p>
+<p>For covariate <span class="math notranslate nohighlight">\(k\)</span> and event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, the <strong>Schoenfeld residual</strong> compares the failing subject’s observed covariate value to the risk-set-weighted expectation under the fitted model:</p>
+<div class="math notranslate nohighlight">
+\[
+r_{jk} = x_{(j)k} - \frac{\sum_{l\in R(t_{(j)})} x_{lk}\exp(x_l^T\hat\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\hat\beta)}.
+\]</div>
+<p>Under a correctly specified PH model, these residuals should fluctuate randomly around zero with no systematic trend in time. A significant correlation between (scaled) Schoenfeld residuals and time, or a function of time, formally tested via the Grambsch-Therneau test, indicates that the effect of covariate <span class="math notranslate nohighlight">\(k\)</span> is not actually constant over time (the PH assumption is violated), suggesting remedies such as stratification, time-varying coefficients, or splitting follow-up time.</p>
 </section>
 </section>
 <section id="worked-example">
@@ -320,9 +356,15 @@ Under a correctly specified PH model, these residuals should fluctuate randomly 
 </tr>
 </tbody>
 </table>
-<p><strong>Greenwood variance at <span class="math notranslate nohighlight">\(t=7\)</span></strong> (<span class="math notranslate nohighlight">\(\hat S(7)=0.375\)</span>):
-$<span class="math notranslate nohighlight">\( \sum \frac{d_j}{n_j(n_j-d_j)} = \frac{1}{8\cdot7}+\frac{1}{7\cdot6}+\frac{1}{6\cdot5}+\frac{1}{5\cdot4}+\frac{1}{4\cdot3} = 0.01786+0.02381+0.03333+0.05+0.08333 = 0.20833 \)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( \widehat{Var}(\hat S(7)) = 0.375^2 \times 0.20833 = 0.14063\times0.20833 = 0.02930, \qquad SE = 0.1712. \)</span>$</p>
+<p><strong>Greenwood variance at <span class="math notranslate nohighlight">\(t=7\)</span></strong> (<span class="math notranslate nohighlight">\(\hat S(7)=0.375\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+\sum \frac{d_j}{n_j(n_j-d_j)} = \frac{1}{8\cdot7}+\frac{1}{7\cdot6}+\frac{1}{6\cdot5}+\frac{1}{5\cdot4}+\frac{1}{4\cdot3} = 0.01786+0.02381+0.03333+0.05+0.08333 = 0.20833
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\widehat{Var}(\hat S(7)) = 0.375^2 \times 0.20833 = 0.14063\times0.20833 = 0.02930, \qquad SE = 0.1712.
+\]</div>
 <p><strong>Log-rank test</strong> (Group A vs. Group B): tracking <span class="math notranslate nohighlight">\(n_{Aj}, n_{Bj}\)</span> at each event time (A starts with 4 at risk, B starts with 4):</p>
 <table class="docutils align-default">
 <thead>
@@ -402,9 +444,13 @@ $<span class="math notranslate nohighlight">\( \sum \frac{d_j}{n_j(n_j-d_j)} = \
 </table>
 <p>(Censoring at <span class="math notranslate nohighlight">\(t=8,9\)</span> reduces risk sets but contributes no row since <span class="math notranslate nohighlight">\(d_j=0\)</span> there.)</p>
 <div class="math notranslate nohighlight">
-\[ \sum (O_{Aj}-E_{Aj}) = -0.500+0.429-0.500+0.400-0.500+0 = -0.671, \qquad \sum V_j = 1.2349 \]</div>
+\[
+\sum (O_{Aj}-E_{Aj}) = -0.500+0.429-0.500+0.400-0.500+0 = -0.671, \qquad \sum V_j = 1.2349
+\]</div>
 <div class="math notranslate nohighlight">
-\[ Z = \frac{-0.671}{\sqrt{1.2349}} = \frac{-0.671}{1.1113} = -0.604, \qquad Z^2 = 0.365. \]</div>
+\[
+Z = \frac{-0.671}{\sqrt{1.2349}} = \frac{-0.671}{1.1113} = -0.604, \qquad Z^2 = 0.365.
+\]</div>
 <p>With <span class="math notranslate nohighlight">\(\chi^2_1\)</span> reference, <span class="math notranslate nohighlight">\(p\approx0.55\)</span>: no evidence of a survival difference between groups, unsurprising given the tiny sample.</p>
 </section>
 <section id="exercises">
@@ -415,11 +461,17 @@ $<span class="math notranslate nohighlight">\( \sum \frac{d_j}{n_j(n_j-d_j)} = \
 <details>
 <summary>Solution</summary>
 <p>If <span class="math notranslate nohighlight">\(h(t)=\lambda\)</span> (constant) for all <span class="math notranslate nohighlight">\(t\geq0\)</span>, then <span class="math notranslate nohighlight">\(H(t) = \int_0^t \lambda\,du = \lambda t\)</span>, and therefore <span class="math notranslate nohighlight">\(S(t) = \exp(-H(t)) = e^{-\lambda t}\)</span> (recovering the exponential survival function; density <span class="math notranslate nohighlight">\(f(t)=h(t)S(t)=\lambda e^{-\lambda t}\)</span>).</p>
-<p>To show memorylessness follows from constant hazard, use the conditional survival identity: for <span class="math notranslate nohighlight">\(s,t\geq0\)</span>,
-$<span class="math notranslate nohighlight">\( P(T&gt;s+t\mid T&gt;s) = \frac{P(T&gt;s+t, T&gt;s)}{P(T&gt;s)} = \frac{P(T&gt;s+t)}{P(T&gt;s)} = \frac{S(s+t)}{S(s)}, \)</span><span class="math notranslate nohighlight">\(
-since \)</span>{T&gt;s+t}\subseteq{T&gt;s}<span class="math notranslate nohighlight">\(. Substituting the constant-hazard survival function,
-\)</span><span class="math notranslate nohighlight">\( \frac{S(s+t)}{S(s)} = \frac{e^{-\lambda(s+t)}}{e^{-\lambda s}} = e^{-\lambda t} = S(t) = P(T&gt;t). \)</span><span class="math notranslate nohighlight">\(
-So \)</span>P(T&gt;s+t\mid T&gt;s) = P(T&gt;t)<span class="math notranslate nohighlight">\( for all \)</span>s,t\geq 0<span class="math notranslate nohighlight">\(: having survived to time \)</span>s<span class="math notranslate nohighlight">\( gives no information about additional survival time beyond \)</span>t<span class="math notranslate nohighlight">\(, the memoryless property, and it follows purely from \)</span>h(t)<span class="math notranslate nohighlight">\( being constant (the hazard, "instantaneous risk given survival so far", literally does not depend on how long one has already survived, which is the mechanistic reason memorylessness holds). Conversely, one can show any absolutely continuous memoryless distribution must have \)</span>S(s+t)=S(s)S(t)<span class="math notranslate nohighlight">\(, whose only continuous solution is \)</span>S(t)=e^{-\lambda t}<span class="math notranslate nohighlight">\( for some \)</span>\lambda\geq0$, so constant hazard and memorylessness are in fact equivalent characterizations of the exponential family among continuous distributions.</p>
+<p>To show memorylessness follows from constant hazard, use the conditional survival identity: for <span class="math notranslate nohighlight">\(s,t\geq0\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+P(T&gt;s+t\mid T&gt;s) = \frac{P(T&gt;s+t, T&gt;s)}{P(T&gt;s)} = \frac{P(T&gt;s+t)}{P(T&gt;s)} = \frac{S(s+t)}{S(s)},
+\]</div>
+<p>since <span class="math notranslate nohighlight">\(\{T&gt;s+t\}\subseteq\{T&gt;s\}\)</span>. Substituting the constant-hazard survival function,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{S(s+t)}{S(s)} = \frac{e^{-\lambda(s+t)}}{e^{-\lambda s}} = e^{-\lambda t} = S(t) = P(T&gt;t).
+\]</div>
+<p>So <span class="math notranslate nohighlight">\(P(T&gt;s+t\mid T&gt;s) = P(T&gt;t)\)</span> for all <span class="math notranslate nohighlight">\(s,t\geq 0\)</span>: having survived to time <span class="math notranslate nohighlight">\(s\)</span> gives no information about additional survival time beyond <span class="math notranslate nohighlight">\(t\)</span>, the memoryless property, and it follows purely from <span class="math notranslate nohighlight">\(h(t)\)</span> being constant (the hazard, “instantaneous risk given survival so far”, literally does not depend on how long one has already survived, which is the mechanistic reason memorylessness holds). Conversely, one can show any absolutely continuous memoryless distribution must have <span class="math notranslate nohighlight">\(S(s+t)=S(s)S(t)\)</span>, whose only continuous solution is <span class="math notranslate nohighlight">\(S(t)=e^{-\lambda t}\)</span> for some <span class="math notranslate nohighlight">\(\lambda\geq0\)</span>, so constant hazard and memorylessness are in fact equivalent characterizations of the exponential family among continuous distributions.</p>
 </details>
 </section>
 <section id="exercise-2">
@@ -427,17 +479,32 @@ So \)</span>P(T&gt;s+t\mid T&gt;s) = P(T&gt;t)<span class="math notranslate nohi
 <p>Derive Greenwood’s formula via the delta method, starting from <span class="math notranslate nohighlight">\(\log\hat S(t) = \sum_{j:t_{(j)}\leq t}\log(1-d_j/n_j)\)</span> and treating <span class="math notranslate nohighlight">\(d_j\mid n_j\)</span> as approximately <span class="math notranslate nohighlight">\(Binomial(n_j,\lambda_j)\)</span> with the <span class="math notranslate nohighlight">\(d_j\)</span>’s (conditionally on their risk sets) approximately independent across <span class="math notranslate nohighlight">\(j\)</span>.</p>
 <details>
 <summary>Solution</summary>
-<p>Write <span class="math notranslate nohighlight">\(\hat\lambda_j = d_j/n_j\)</span> and <span class="math notranslate nohighlight">\(\log\hat S(t) = \sum_{j} \log(1-\hat\lambda_j)\)</span>, sum over <span class="math notranslate nohighlight">\(j\)</span> with <span class="math notranslate nohighlight">\(t_{(j)}\leq t\)</span>. Treating <span class="math notranslate nohighlight">\(d_j \mid n_j \sim Binomial(n_j,\lambda_j)\)</span> (approximately, conditional on the risk-set structure) and the terms across different <span class="math notranslate nohighlight">\(j\)</span> as approximately independent (a standard martingale-based argument makes this rigorous, but the binomial-approximation route gives the same classical formula), we have
-$<span class="math notranslate nohighlight">\( Var(\hat\lambda_j) \approx \frac{\lambda_j(1-\lambda_j)}{n_j}, \)</span><span class="math notranslate nohighlight">\(
-the usual binomial-proportion variance. Apply the delta method to \)</span>g(\hat\lambda_j) = \log(1-\hat\lambda_j)<span class="math notranslate nohighlight">\(, with \)</span>g’(\lambda_j) = -1/(1-\lambda_j)<span class="math notranslate nohighlight">\(:
-\)</span><span class="math notranslate nohighlight">\( Var\big(\log(1-\hat\lambda_j)\big) \approx \big[g'(\lambda_j)\big]^2 Var(\hat\lambda_j) = \frac{1}{(1-\lambda_j)^2}\cdot\frac{\lambda_j(1-\lambda_j)}{n_j} = \frac{\lambda_j}{n_j(1-\lambda_j)}. \)</span><span class="math notranslate nohighlight">\(
-Substituting the plug-in estimate \)</span>\hat\lambda_j = d_j/n_j<span class="math notranslate nohighlight">\( (so \)</span>1-\hat\lambda_j = (n_j-d_j)/n_j<span class="math notranslate nohighlight">\():
-\)</span><span class="math notranslate nohighlight">\( \widehat{Var}\big(\log(1-\hat\lambda_j)\big) = \frac{d_j/n_j}{n_j\cdot (n_j-d_j)/n_j} = \frac{d_j}{n_j(n_j-d_j)}. \)</span><span class="math notranslate nohighlight">\(
-By the assumed independence across event times, variances of the log-terms add:
-\)</span><span class="math notranslate nohighlight">\( \widehat{Var}\big(\log\hat S(t)\big) = \sum_{j:t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)}. \)</span><span class="math notranslate nohighlight">\(
-Finally, apply the delta method once more to transform back from \)</span>\log S<span class="math notranslate nohighlight">\( to \)</span>S<span class="math notranslate nohighlight">\(: with \)</span>S = \exp(\log S)<span class="math notranslate nohighlight">\(, \)</span>\frac{dS}{d(\log S)} = S<span class="math notranslate nohighlight">\(, so
-\)</span><span class="math notranslate nohighlight">\( \widehat{Var}\big(\hat S(t)\big) \approx \hat S(t)^2 \cdot \widehat{Var}\big(\log\hat S(t)\big) = \hat S(t)^2 \sum_{j:t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)}, \)</span>$
-which is exactly Greenwood’s formula.</p>
+<p>Write <span class="math notranslate nohighlight">\(\hat\lambda_j = d_j/n_j\)</span> and <span class="math notranslate nohighlight">\(\log\hat S(t) = \sum_{j} \log(1-\hat\lambda_j)\)</span>, sum over <span class="math notranslate nohighlight">\(j\)</span> with <span class="math notranslate nohighlight">\(t_{(j)}\leq t\)</span>. Treating <span class="math notranslate nohighlight">\(d_j \mid n_j \sim Binomial(n_j,\lambda_j)\)</span> (approximately, conditional on the risk-set structure) and the terms across different <span class="math notranslate nohighlight">\(j\)</span> as approximately independent (a standard martingale-based argument makes this rigorous, but the binomial-approximation route gives the same classical formula), we have</p>
+<div class="math notranslate nohighlight">
+\[
+Var(\hat\lambda_j) \approx \frac{\lambda_j(1-\lambda_j)}{n_j},
+\]</div>
+<p>the usual binomial-proportion variance. Apply the delta method to <span class="math notranslate nohighlight">\(g(\hat\lambda_j) = \log(1-\hat\lambda_j)\)</span>, with <span class="math notranslate nohighlight">\(g'(\lambda_j) = -1/(1-\lambda_j)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+Var\big(\log(1-\hat\lambda_j)\big) \approx \big[g'(\lambda_j)\big]^2 Var(\hat\lambda_j) = \frac{1}{(1-\lambda_j)^2}\cdot\frac{\lambda_j(1-\lambda_j)}{n_j} = \frac{\lambda_j}{n_j(1-\lambda_j)}.
+\]</div>
+<p>Substituting the plug-in estimate <span class="math notranslate nohighlight">\(\hat\lambda_j = d_j/n_j\)</span> (so <span class="math notranslate nohighlight">\(1-\hat\lambda_j = (n_j-d_j)/n_j\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{Var}\big(\log(1-\hat\lambda_j)\big) = \frac{d_j/n_j}{n_j\cdot (n_j-d_j)/n_j} = \frac{d_j}{n_j(n_j-d_j)}.
+\]</div>
+<p>By the assumed independence across event times, variances of the log-terms add:</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{Var}\big(\log\hat S(t)\big) = \sum_{j:t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)}.
+\]</div>
+<p>Finally, apply the delta method once more to transform back from <span class="math notranslate nohighlight">\(\log S\)</span> to <span class="math notranslate nohighlight">\(S\)</span>: with <span class="math notranslate nohighlight">\(S = \exp(\log S)\)</span>, <span class="math notranslate nohighlight">\(\frac{dS}{d(\log S)} = S\)</span>, so</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{Var}\big(\hat S(t)\big) \approx \hat S(t)^2 \cdot \widehat{Var}\big(\log\hat S(t)\big) = \hat S(t)^2 \sum_{j:t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)},
+\]</div>
+<p>which is exactly Greenwood’s formula.</p>
 </details>
 </section>
 <section id="exercise-3">
@@ -445,18 +512,33 @@ which is exactly Greenwood’s formula.</p>
 <p>Show that the log-rank test statistic is the score test for <span class="math notranslate nohighlight">\(H_0:\beta=0\)</span> in a Cox proportional hazards model with a single binary covariate <span class="math notranslate nohighlight">\(x\in\{0,1\}\)</span> indicating group membership. That is, derive the score <span class="math notranslate nohighlight">\(U(\beta)\)</span> and expected information <span class="math notranslate nohighlight">\(I(\beta)\)</span> of the Cox partial likelihood at <span class="math notranslate nohighlight">\(\beta=0\)</span>, and show <span class="math notranslate nohighlight">\(U(0)^2/I(0)\)</span> matches the log-rank <span class="math notranslate nohighlight">\(Z^2\)</span> statistic.</p>
 <details>
 <summary>Solution</summary>
-<p>The Cox partial log-likelihood is <span class="math notranslate nohighlight">\(\ell(\beta) = \sum_{j=1}^k \left[x_{(j)}\beta - \log\sum_{l\in R(t_{(j)})} e^{x_l\beta}\right]\)</span> for a single covariate. The score is
-$<span class="math notranslate nohighlight">\( U(\beta) = \frac{d\ell}{d\beta} = \sum_{j=1}^k \left[x_{(j)} - \frac{\sum_{l\in R(t_{(j)})} x_l e^{x_l\beta}}{\sum_{l\in R(t_{(j)})}e^{x_l\beta}}\right]. \)</span><span class="math notranslate nohighlight">\(
-At \)</span>\beta=0<span class="math notranslate nohighlight">\(, \)</span>e^{x_l\beta}=1<span class="math notranslate nohighlight">\( for all \)</span>l<span class="math notranslate nohighlight">\(, so the weighted average collapses to a simple average over the risk set:
-\)</span><span class="math notranslate nohighlight">\( \frac{\sum_{l\in R(t_{(j)})}x_l}{|R(t_{(j)})|} = \frac{n_{1j}}{n_j}, \)</span><span class="math notranslate nohighlight">\(
-since \)</span>x_l\in{0,1}<span class="math notranslate nohighlight">\( and \)</span>\sum_l x_l = n_{1j}<span class="math notranslate nohighlight">\( (number of group-1 subjects at risk), \)</span>|R(t_{(j)})|=n_j<span class="math notranslate nohighlight">\(. Also \)</span>x_{(j)}=1<span class="math notranslate nohighlight">\( if the subject who failed at \)</span>t_{(j)}<span class="math notranslate nohighlight">\( is in group 1, else \)</span>0<span class="math notranslate nohighlight">\(; that is, \)</span>x_{(j)}<span class="math notranslate nohighlight">\( is the observed count \)</span>O_{1j}\in{0,1}<span class="math notranslate nohighlight">\( (since exactly one event per distinct time in the no-ties case) and \)</span>n_{1j}/n_j = E_{1j}/d_j<span class="math notranslate nohighlight">\( with \)</span>d_j=1<span class="math notranslate nohighlight">\(. Hence
-\)</span><span class="math notranslate nohighlight">\( U(0) = \sum_{j=1}^k \big(O_{1j}-E_{1j}\big), \)</span>$
-exactly the log-rank numerator.</p>
-<p>The observed/expected information at <span class="math notranslate nohighlight">\(\beta=0\)</span> is <span class="math notranslate nohighlight">\(-\ell''(\beta)\)</span> evaluated at <span class="math notranslate nohighlight">\(\beta=0\)</span>; a standard calculation for the Cox partial likelihood gives, at each risk set, a “weighted variance” term
-$<span class="math notranslate nohighlight">\( -\frac{d^2\ell_j}{d\beta^2}\bigg|_{\beta=0} = \frac{\sum_l x_l^2}{n_j} - \left(\frac{\sum_l x_l}{n_j}\right)^2 = \frac{n_{1j}}{n_j}-\left(\frac{n_{1j}}{n_j}\right)^2 = \frac{n_{1j}}{n_j}\cdot\frac{n_{2j}}{n_j} = \frac{n_{1j}n_{2j}}{n_j^2} \)</span><span class="math notranslate nohighlight">\(
-(using \)</span>x_l^2=x_l<span class="math notranslate nohighlight">\( for binary \)</span>x_l<span class="math notranslate nohighlight">\(). Summing over event times gives \)</span>I(0) = \sum_j n_{1j}n_{2j}/n_j^2<span class="math notranslate nohighlight">\(. This differs from the log-rank \)</span>V_j = n_{1j}n_{2j}d_j(n_j-d_j)/[n_j^2(n_j-1)]<span class="math notranslate nohighlight">\( only by the finite-population correction factor \)</span>d_j(n_j-d_j)/(n_j-1)<span class="math notranslate nohighlight">\(, which equals \)</span>1<span class="math notranslate nohighlight">\( when \)</span>d_j=1<span class="math notranslate nohighlight">\( (the no-ties case used throughout this lesson's examples), since then \)</span>d_j(n_j-d_j)/(n_j-1) = 1\cdot(n_j-1)/(n_j-1)=1<span class="math notranslate nohighlight">\(. So under no ties, \)</span>I(0) = \sum_j V_j<span class="math notranslate nohighlight">\( exactly, and
-\)</span><span class="math notranslate nohighlight">\( \frac{U(0)^2}{I(0)} = \frac{\left(\sum_j(O_{1j}-E_{1j})\right)^2}{\sum_j V_j} = Z^2_{\text{log-rank}}, \)</span><span class="math notranslate nohighlight">\(
-confirming that the log-rank test is precisely the Cox partial-likelihood score test for \)</span>\beta=0$ with a single binary covariate (with ties, the two differ by the finite-population correction, which is why software sometimes reports “Score test” and “Log-rank test” as extremely close but not bit-identical numbers when there are tied event times).</p>
+<p>The Cox partial log-likelihood is <span class="math notranslate nohighlight">\(\ell(\beta) = \sum_{j=1}^k \left[x_{(j)}\beta - \log\sum_{l\in R(t_{(j)})} e^{x_l\beta}\right]\)</span> for a single covariate. The score is</p>
+<div class="math notranslate nohighlight">
+\[
+U(\beta) = \frac{d\ell}{d\beta} = \sum_{j=1}^k \left[x_{(j)} - \frac{\sum_{l\in R(t_{(j)})} x_l e^{x_l\beta}}{\sum_{l\in R(t_{(j)})}e^{x_l\beta}}\right].
+\]</div>
+<p>At <span class="math notranslate nohighlight">\(\beta=0\)</span>, <span class="math notranslate nohighlight">\(e^{x_l\beta}=1\)</span> for all <span class="math notranslate nohighlight">\(l\)</span>, so the weighted average collapses to a simple average over the risk set:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\sum_{l\in R(t_{(j)})}x_l}{|R(t_{(j)})|} = \frac{n_{1j}}{n_j},
+\]</div>
+<p>since <span class="math notranslate nohighlight">\(x_l\in\{0,1\}\)</span> and <span class="math notranslate nohighlight">\(\sum_l x_l = n_{1j}\)</span> (number of group-1 subjects at risk), <span class="math notranslate nohighlight">\(|R(t_{(j)})|=n_j\)</span>. Also <span class="math notranslate nohighlight">\(x_{(j)}=1\)</span> if the subject who failed at <span class="math notranslate nohighlight">\(t_{(j)}\)</span> is in group 1, else <span class="math notranslate nohighlight">\(0\)</span>; that is, <span class="math notranslate nohighlight">\(x_{(j)}\)</span> is the observed count <span class="math notranslate nohighlight">\(O_{1j}\in\{0,1\}\)</span> (since exactly one event per distinct time in the no-ties case) and <span class="math notranslate nohighlight">\(n_{1j}/n_j = E_{1j}/d_j\)</span> with <span class="math notranslate nohighlight">\(d_j=1\)</span>. Hence</p>
+<div class="math notranslate nohighlight">
+\[
+U(0) = \sum_{j=1}^k \big(O_{1j}-E_{1j}\big),
+\]</div>
+<p>exactly the log-rank numerator.</p>
+<p>The observed/expected information at <span class="math notranslate nohighlight">\(\beta=0\)</span> is <span class="math notranslate nohighlight">\(-\ell''(\beta)\)</span> evaluated at <span class="math notranslate nohighlight">\(\beta=0\)</span>; a standard calculation for the Cox partial likelihood gives, at each risk set, a “weighted variance” term</p>
+<div class="math notranslate nohighlight">
+\[
+-\frac{d^2\ell_j}{d\beta^2}\bigg|_{\beta=0} = \frac{\sum_l x_l^2}{n_j} - \left(\frac{\sum_l x_l}{n_j}\right)^2 = \frac{n_{1j}}{n_j}-\left(\frac{n_{1j}}{n_j}\right)^2 = \frac{n_{1j}}{n_j}\cdot\frac{n_{2j}}{n_j} = \frac{n_{1j}n_{2j}}{n_j^2}
+\]</div>
+<p>(using <span class="math notranslate nohighlight">\(x_l^2=x_l\)</span> for binary <span class="math notranslate nohighlight">\(x_l\)</span>). Summing over event times gives <span class="math notranslate nohighlight">\(I(0) = \sum_j n_{1j}n_{2j}/n_j^2\)</span>. This differs from the log-rank <span class="math notranslate nohighlight">\(V_j = n_{1j}n_{2j}d_j(n_j-d_j)/[n_j^2(n_j-1)]\)</span> only by the finite-population correction factor <span class="math notranslate nohighlight">\(d_j(n_j-d_j)/(n_j-1)\)</span>, which equals <span class="math notranslate nohighlight">\(1\)</span> when <span class="math notranslate nohighlight">\(d_j=1\)</span> (the no-ties case used throughout this lesson’s examples), since then <span class="math notranslate nohighlight">\(d_j(n_j-d_j)/(n_j-1) = 1\cdot(n_j-1)/(n_j-1)=1\)</span>. So under no ties, <span class="math notranslate nohighlight">\(I(0) = \sum_j V_j\)</span> exactly, and</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{U(0)^2}{I(0)} = \frac{\left(\sum_j(O_{1j}-E_{1j})\right)^2}{\sum_j V_j} = Z^2_{\text{log-rank}},
+\]</div>
+<p>confirming that the log-rank test is precisely the Cox partial-likelihood score test for <span class="math notranslate nohighlight">\(\beta=0\)</span> with a single binary covariate (with ties, the two differ by the finite-population correction, which is why software sometimes reports “Score test” and “Log-rank test” as extremely close but not bit-identical numbers when there are tied event times).</p>
 </details>
 </section>
 <section id="exercise-4">
@@ -472,12 +554,23 @@ confirming that the log-rank test is precisely the Cox partial-likelihood score 
 <li><p><span class="math notranslate nohighlight">\(t=5\)</span>: <span class="math notranslate nohighlight">\(n_3=3\)</span>, <span class="math notranslate nohighlight">\(d_3=1\)</span> <span class="math notranslate nohighlight">\(\Rightarrow\)</span> factor <span class="math notranslate nohighlight">\(=2/3\)</span>.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
-\[ \hat S(2) = 5/6 = 0.8333, \qquad \hat S(3) = 0.8333\times4/5 = 0.6667, \qquad \hat S(5) = 0.6667\times2/3 = 0.4444. \]</div>
-<p><strong>Greenwood variance at <span class="math notranslate nohighlight">\(t=5\)</span>:</strong>
-$<span class="math notranslate nohighlight">\( \sum_{j:t_{(j)}\leq5} \frac{d_j}{n_j(n_j-d_j)} = \frac{1}{6\times5}+\frac{1}{5\times4}+\frac{1}{3\times2} = 0.03333+0.05+0.16667 = 0.25000. \)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( \widehat{Var}(\hat S(5)) = 0.4444^2 \times 0.25 = 0.19753\times0.25 = 0.049383, \qquad SE = \sqrt{0.049383} = 0.2222. \)</span>$</p>
-<p><strong>95% CI (normal approximation):</strong>
-$<span class="math notranslate nohighlight">\( \hat S(5) \pm 1.96\times SE = 0.4444 \pm 1.96(0.2222) = 0.4444 \pm 0.4355 = (0.0089,\ 0.8799). \)</span>$</p>
+\[
+\hat S(2) = 5/6 = 0.8333, \qquad \hat S(3) = 0.8333\times4/5 = 0.6667, \qquad \hat S(5) = 0.6667\times2/3 = 0.4444.
+\]</div>
+<p><strong>Greenwood variance at <span class="math notranslate nohighlight">\(t=5\)</span>:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{j:t_{(j)}\leq5} \frac{d_j}{n_j(n_j-d_j)} = \frac{1}{6\times5}+\frac{1}{5\times4}+\frac{1}{3\times2} = 0.03333+0.05+0.16667 = 0.25000.
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\widehat{Var}(\hat S(5)) = 0.4444^2 \times 0.25 = 0.19753\times0.25 = 0.049383, \qquad SE = \sqrt{0.049383} = 0.2222.
+\]</div>
+<p><strong>95% CI (normal approximation):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\hat S(5) \pm 1.96\times SE = 0.4444 \pm 1.96(0.2222) = 0.4444 \pm 0.4355 = (0.0089,\ 0.8799).
+\]</div>
 <p>This interval is very wide, reflecting the small risk sets late in follow-up (only 3 subjects at risk by <span class="math notranslate nohighlight">\(t=5\)</span>), and it comes close to the boundary at 0, a sign that with even slightly different data the naive normal-approximation interval could exceed <span class="math notranslate nohighlight">\([0,1]\)</span>. In practice one would instead compute the interval on the <span class="math notranslate nohighlight">\(\log(-\log \hat S)\)</span> scale and back-transform to guarantee the endpoints stay within <span class="math notranslate nohighlight">\([0,1]\)</span>; the simple normal-approximation interval computed here is adequate pedagogically but would not be the production-quality choice for such a small risk set.</p>
 </details>
 </section>
