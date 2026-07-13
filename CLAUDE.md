@@ -42,6 +42,22 @@
   environment above, and can break the build outright (pandas 2.0.3 had no
   Python 3.12 wheel; myst_nb was unpinned).
 
+- Display math must be a standalone block with **blank lines before and
+  after** the `$$` fences. A `$$ ... $$` equation crammed directly against a
+  prose line (no blank line between) is not parsed as display by MyST
+  dollarmath (`dmath_double_inline` is off) — the `$` pairing cascades and
+  renders the surrounding text as run-on italic math. Write:
+
+  ```
+  text before,
+
+  $$
+  equation
+  $$
+
+  more text.
+  ```
+
 - Hidden exercise solutions in lessons use native HTML `<details>` /
   `<summary>Solution</summary>` blocks with blank lines around the inner
   markdown (so MyST parses the math inside). No extra Sphinx extension needed.
