@@ -4,6 +4,6 @@
 :hidden:
 
 Datascience101
-Statistics101
+Statistics301
 MLCrashCourse
 ```

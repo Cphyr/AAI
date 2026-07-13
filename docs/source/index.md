@@ -15,7 +15,7 @@ title: Welcome to AAI!
 
 Overviews/overviews
 Datascience101/main
-Statistics101/main
+Statistics301/main
 MLCrashCourse/main
 ```
 
