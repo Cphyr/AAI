@@ -31,7 +31,6 @@ At this point it is less important to be familiar with the ins and outs of these
 
 More examples for activation functions and the characteristics of the ones listed can be found on [Wikipedia](https://en.wikipedia.org/wiki/Activation_function):
 
-
 ## Linear Layer
 
 Let's think about performing multiple logistic regressions in parallel, each with its own weight vector and bias, and then applying the activation function on each of these.
@@ -39,7 +38,6 @@ Let's think about performing multiple logistic regressions in parallel, each wit
 <img src="https://www.cs.rice.edu/~vo9/vislang/2017/notebooks/linear_layer.png" alt="deep_learning_lab" style="zoom:50%;" />
 
 Mathematically it can be written as: $a = g\left(W^Tx + b \right)$, whereas $W\in\mathbb{R}^{d\times l}, x\in\mathbb{R}^d, b\in\mathbb{R}^l, a\in Im(g)^l$, $l$ being the number of regression, and $g(\cdot)$​​ preformed per regression.
-
 
 ## Deep Fully Connected Neural Networks
 
@@ -53,11 +51,14 @@ There is a big importance for choosing a nonlinear activation function. By choos
 
 Mathematically: suppose a dual layer architecture with the parameters: $W_1\in\mathbb{R}^{d_1\times d_2}, b_1\in\mathbb{R}^{d_2}, W_2\in\mathbb{R}^{d_2\times d_3}, b_2\in\mathbb{R}^{d_3}$ and assume that for all layers, $g\left( W_l^Tx + b_l \right) = W_l^Tx + b_l$. 
 Hence, the output of the network is:
-$$W_2^T\left(W_1^Tx+b_1\right)+b_2=W_2^TW_1^Tx+W_2^Tb_1+b_2=\tilde{W}^Tx+\tilde{b},$$
+
+$$
+W_2^T\left(W_1^Tx+b_1\right)+b_2=W_2^TW_1^Tx+W_2^Tb_1+b_2=\tilde{W}^Tx+\tilde{b},
+$$
+
  which is practically equivalent for a single linear layer.
 
 ## Related Material
 
 [But what is a neural network? | Chapter 1, Deep learning - YouTube](https://www.youtube.com/watch?v=aircAruvnKk&ab_channel=3Blue1Brown)
-
 

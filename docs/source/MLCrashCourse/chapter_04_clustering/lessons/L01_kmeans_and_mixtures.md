@@ -49,15 +49,18 @@ $$
 Fitting by maximum likelihood has no closed form (the log of a sum), so we use **Expectation-Maximization**, which looks exactly like a soft Lloyd's algorithm:
 
 * **E-step** — soft assignment via Bayes' rule (the *responsibilities*):
-  $$
+
+$$
   \gamma_{ij}=\frac{\pi_j\,\mathcal{N}(x_i\mid\mu_j,\Sigma_j)}{\sum_{l}\pi_l\,\mathcal{N}(x_i\mid\mu_l,\Sigma_l)} .
-  $$
+$$
+
 * **M-step** — weighted maximum-likelihood updates:
-  $$
+
+$$
   \mu_j=\frac{\sum_i\gamma_{ij}x_i}{\sum_i\gamma_{ij}},\qquad
   \Sigma_j=\frac{\sum_i\gamma_{ij}(x_i-\mu_j)(x_i-\mu_j)^T}{\sum_i\gamma_{ij}},\qquad
   \pi_j=\frac{1}{n}\sum_i\gamma_{ij} .
-  $$
+$$
 
 Each iteration provably increases the likelihood (EM maximizes a lower bound that is tight at the current parameters). In the limit of shared covariances $\Sigma_j=\sigma^2 I$ with $\sigma\to0$, the responsibilities harden to nearest-center assignment and EM *becomes* k-means — which tells you precisely which assumptions k-means silently makes.
 
