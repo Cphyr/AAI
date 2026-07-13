@@ -48,9 +48,11 @@ A fully grown tree has zero training error and huge variance: change a few sampl
 
 1. **Pre-pruning**: `max_depth`, `min_samples_leaf`, `min_impurity_decrease`.
 2. **Post-pruning** (CART's cost-complexity pruning): grow fully, then minimize
-   $$
+
+$$
    C_\alpha(T)=\sum_{m=1}^{|T|}n_m H(t_m)+\alpha|T|,
-   $$
+$$
+
    where $|T|$ is the number of leaves. Sweeping $\alpha$ produces a nested sequence of subtrees; pick $\alpha$ by cross-validation. This is $\ell_0$ regularization on the number of leaves — remember this form, XGBoost's objective (Lesson 05) contains exactly such a $\gamma|T|$ term.
 
 ## The Tree Family (the gist)
