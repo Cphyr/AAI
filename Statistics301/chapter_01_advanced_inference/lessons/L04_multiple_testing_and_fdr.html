@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Multiple Testing &amp; FDR | AAI 1.0 documentation</title>
+<meta content="Multiple Testing &amp; FDR | AAI 1.0 documentation" property="og:title"/>
+<meta content="Multiple Testing &amp; FDR | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../chapter_02_resampling_and_computation/main.html" rel="next" title="Chapter 02: Resampling &amp; Computation"/>
+<link href="L03_bayesian_inference_and_mcmc.html" rel="prev" title="Bayesian Inference &amp; MCMC"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Statistics 301<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 01: Advanced Inference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="L01_likelihood_theory_and_asymptotics.html">Likelihood Theory &amp; Asymptotics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L02_em_algorithm_and_latent_variables.html">The EM Algorithm &amp; Latent Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L03_bayesian_inference_and_mcmc.html">Bayesian Inference &amp; MCMC</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Multiple Testing &amp; FDR</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_02_resampling_and_computation/main.html">Chapter 02: Resampling &amp; Computation<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L01_bootstrap_methods.html">Bootstrap Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L02_permutation_and_randomization_tests.html">Permutation &amp; Randomization Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L03_missing_data_and_multiple_imputation.html">Missing Data &amp; Multiple Imputation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L04_model_selection_and_cross_validation.html">Model Selection &amp; Cross-Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_03_advanced_modeling/main.html">Chapter 03: Advanced Modeling<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_advanced_modeling/lessons/L01_mixed_effects_models.html">Mixed-Effects Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_advanced_modeling/lessons/L02_item_response_theory.html">Item Response Theory (IRT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_advanced_modeling/lessons/L03_nonparametric_and_semiparametric_methods.html">Nonparametric &amp; Semiparametric Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_advanced_modeling/lessons/L04_survival_analysis.html">Survival Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">Statistics 301</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 01: Advanced Inference</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Multiple Testing &amp; FDR</span>
+</nav>
+<div id="content" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="multiple-testing-fdr">
+<h1>Multiple Testing &amp; FDR<a class="headerlink" href="#multiple-testing-fdr" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>Statistics 2 taught you to control the Type I error of a <em>single</em> test. Applied work rarely
+involves a single test: A/B testing platforms evaluate dozens of metrics per experiment, genomics
+studies test thousands of genes. If you run <span class="math notranslate nohighlight">\(m\)</span> independent tests at <span class="math notranslate nohighlight">\(\alpha=0.05\)</span> under the
+global null, <span class="math notranslate nohighlight">\(P(\text{at least one false rejection}) = 1-(1-\alpha)^m\)</span> exceeds 50% by around
+<span class="math notranslate nohighlight">\(m=14\)</span>. This lesson develops the two dominant error-control frameworks – family-wise error rate
+(FWER) and false discovery rate (FDR) – and the classical procedures (Bonferroni, Holm,
+Benjamini-Hochberg) used to control them, closing with A/B testing and genomics applications.</p>
+</section>
+<section id="fwer-versus-fdr">
+<h2>FWER versus FDR<a class="headerlink" href="#fwer-versus-fdr" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#fwer-versus-fdr'"><span>#</span></a></h2>
+<p>Let <span class="math notranslate nohighlight">\(m\)</span> nulls be tested, <span class="math notranslate nohighlight">\(m_0\leq m\)</span> true, <span class="math notranslate nohighlight">\(V\)</span> = false rejections, <span class="math notranslate nohighlight">\(R\)</span> = total rejections.</p>
+<p><strong>FWER</strong> <span class="math notranslate nohighlight">\(=P(V\geq1)\)</span>: probability of <em>any</em> false rejection. Controlling FWER at <span class="math notranslate nohighlight">\(\alpha\)</span> is a
+strong guarantee – with probability <span class="math notranslate nohighlight">\(1-\alpha\)</span>, zero false discoveries across the whole family.
+Appropriate when even one false positive is costly.</p>
+<p><strong>FDR</strong> <span class="math notranslate nohighlight">\(=E[V/\max(R,1)]\)</span>: expected <em>proportion</em> of rejections that are false. Controlling FDR at
+<span class="math notranslate nohighlight">\(q\)</span> allows some false discoveries as long as they are a bounded fraction of all discoveries –
+appropriate for exploratory, high-volume settings where a modest contamination rate buys far
+greater power. When all nulls are true, <span class="math notranslate nohighlight">\(V=R\)</span> whenever <span class="math notranslate nohighlight">\(R&gt;0\)</span>, so FDR reduces exactly to FWER
+(Exercise 2); when many nulls are false, FDR can be far smaller, which is why FDR-controlling
+procedures reject far more hypotheses at the same nominal level.</p>
+</section>
+<section id="fwer-procedures-bonferroni-and-holm">
+<h2>FWER Procedures: Bonferroni and Holm<a class="headerlink" href="#fwer-procedures-bonferroni-and-holm" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#fwer-procedures-bonferroni-and-holm'"><span>#</span></a></h2>
+<p><strong>Bonferroni.</strong> Reject <span class="math notranslate nohighlight">\(H_i\)</span> if <span class="math notranslate nohighlight">\(p_i\leq\alpha/m\)</span>. By the union bound,
+<span class="math notranslate nohighlight">\(\mathrm{FWER}=P(\bigcup_{i\in\mathcal I_0}\{p_i\leq\alpha/m\}) \leq \sum_{i\in\mathcal I_0}
+\alpha/m \leq m_0\alpha/m \leq \alpha\)</span>, valid under <em>any</em> dependence.</p>
+<p><strong>Holm (step-down).</strong> Order <span class="math notranslate nohighlight">\(p_{(1)}\leq\dots\leq p_{(m)}\)</span>. Find the smallest <span class="math notranslate nohighlight">\(k\)</span> with
+<span class="math notranslate nohighlight">\(p_{(k)}&gt;\alpha/(m-k+1)\)</span>; reject <span class="math notranslate nohighlight">\(H_{(1)},\dots,H_{(k-1)}\)</span>. Since thresholds <span class="math notranslate nohighlight">\(\alpha/(m-k+1)\geq
+\alpha/m\)</span> for every <span class="math notranslate nohighlight">\(k\)</span>, Holm rejects at least as much as Bonferroni (Exercise 1) while still
+controlling FWER at <span class="math notranslate nohighlight">\(\alpha\)</span> under arbitrary dependence: the calibrated threshold sequence lets
+the same union-bound argument apply to the true nulls alone, regardless of where false nulls’
+p-values fall.</p>
+</section>
+<section id="benjamini-hochberg-and-fdr-control">
+<h2>Benjamini-Hochberg and FDR Control<a class="headerlink" href="#benjamini-hochberg-and-fdr-control" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#benjamini-hochberg-and-fdr-control'"><span>#</span></a></h2>
+<p><strong>BH at level <span class="math notranslate nohighlight">\(q\)</span>.</strong> Order <span class="math notranslate nohighlight">\(p_{(1)}\leq\dots\leq p_{(m)}\)</span>; find the largest <span class="math notranslate nohighlight">\(k\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+p_{(k)} \leq \frac{k}{m}q,
+\]</div>
+<p>reject <span class="math notranslate nohighlight">\(H_{(1)},\dots,H_{(k)}\)</span>.</p>
+<p><strong>Proof intuition under independence.</strong> For a true null <span class="math notranslate nohighlight">\(H_i\)</span>, conditional on the data-dependent
+threshold <span class="math notranslate nohighlight">\(\frac{R}{m}q\)</span> (with <span class="math notranslate nohighlight">\(R\)</span> the realized rejection count), independence and uniformity of
+true-null p-values give <span class="math notranslate nohighlight">\(E\left[\mathbb 1[p_i\leq\frac{R}{m}q]/\max(R,1)\right] \leq q/m\)</span> for each
+true null. Summing over the <span class="math notranslate nohighlight">\(m_0\)</span> true nulls,</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{FDR} = \sum_{i\in\mathcal I_0} E\left[\frac{\mathbb 1[i\text{ rejected}]}{\max(R,1)}\right] \leq m_0\cdot\frac{q}{m} \leq q.
+\]</div>
+<p>Each true null contributes at most <span class="math notranslate nohighlight">\(q/m\)</span>; summing over at most <span class="math notranslate nohighlight">\(m\)</span> of them caps FDR at <span class="math notranslate nohighlight">\(q\)</span>. Since
+the threshold <span class="math notranslate nohighlight">\(\frac{k}{m}q\)</span> grows linearly with rank (vs. fixed <span class="math notranslate nohighlight">\(\alpha/m\)</span> for Bonferroni or
+slowly-relaxing Holm thresholds), BH rejects substantially more when many nulls are truly false.</p>
+</section>
+<section id="q-values-and-dependence-caveats">
+<h2>Q-values and Dependence Caveats<a class="headerlink" href="#q-values-and-dependence-caveats" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#q-values-and-dependence-caveats'"><span>#</span></a></h2>
+<p>A <strong>q-value</strong> is the minimum FDR level at which a hypothesis would be rejected by BH: <span class="math notranslate nohighlight">\(\hat
+q_{(i)} = \min_{j\geq i}\frac{m}{j}p_{(j)}\)</span> (running minimum for monotonicity), the FDR analogue of
+a p-value.</p>
+<p><strong>Dependence caveats.</strong> BH’s proof assumed independence; it also holds under <em>positive regression
+dependence</em>. Under arbitrary (including negative) dependence it can fail, and the
+<strong>Benjamini-Yekutieli (BY)</strong> correction uses</p>
+<div class="math notranslate nohighlight">
+\[
+p_{(k)} \leq \frac{k}{m\,c(m)}q, \qquad c(m)=\sum_{j=1}^m\frac1j \approx \ln m + 0.577,
+\]</div>
+<p>controlling FDR under any dependence at the cost of far fewer rejections (Exercise 4). BH is used
+by default; BY is reserved for suspected adversarial/negative dependence.</p>
+</section>
+<section id="applications-a-b-testing-and-genomics">
+<h2>Applications: A/B Testing and Genomics<a class="headerlink" href="#applications-a-b-testing-and-genomics" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#applications-a-b-testing-and-genomics'"><span>#</span></a></h2>
+<p><strong>A/B testing.</strong> Platforms report p-values for many metrics per experiment simultaneously
+(conversion, revenue, retention, segment cuts). Treating each in isolation at <span class="math notranslate nohighlight">\(\alpha=0.05\)</span>
+inflates the platform-wide false-positive rate; standard fixes are BH across reported metrics
+within an experiment, or Holm when the decision is binary “ship or don’t” and one false positive
+could trigger a costly launch. Sequential peeking before a fixed sample size is a related but
+distinct problem (testing the same hypothesis repeatedly over time), requiring separate
+corrections (alpha-spending), not covered by BH/Holm directly.</p>
+<p><strong>Genomics.</strong> A study testing <span class="math notranslate nohighlight">\(m=20{,}000\)</span> genes at <span class="math notranslate nohighlight">\(\alpha=0.05\)</span> uncorrected would expect
+<span class="math notranslate nohighlight">\(\sim1{,}000\)</span> false positives under the global null. Bonferroni/Holm require <span class="math notranslate nohighlight">\(p&lt;2.5\times10^{-6}\)</span>
+per gene, often leaving too few discoveries for an exploratory screen. BH at <span class="math notranslate nohighlight">\(q=0.05\)</span> is the
+field-standard compromise: among “significant” genes, on average no more than 5% are expected
+false, while retaining useful power. Q-values are typically reported alongside p-values.</p>
+</section>
+<section id="worked-example">
+<h2>Worked Example<a class="headerlink" href="#worked-example" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#worked-example'"><span>#</span></a></h2>
+<p>Five p-values <span class="math notranslate nohighlight">\(p=(0.001,0.008,0.015,0.04,0.20)\)</span>, <span class="math notranslate nohighlight">\(m=5\)</span>.</p>
+<p><strong>Bonferroni</strong> (<span class="math notranslate nohighlight">\(\alpha/5=0.01\)</span>): reject <span class="math notranslate nohighlight">\(0.001,0.008\)</span> only (<span class="math notranslate nohighlight">\(0.015&gt;0.01\)</span>).</p>
+<p><strong>Holm</strong>: thresholds <span class="math notranslate nohighlight">\(\alpha/(m-i+1)\)</span> for <span class="math notranslate nohighlight">\(i=1..5\)</span>: <span class="math notranslate nohighlight">\(0.01,0.0125,0.0167,0.025,0.05\)</span>. Compare
+sequentially: <span class="math notranslate nohighlight">\(0.001\leq0.01\)</span> reject; <span class="math notranslate nohighlight">\(0.008\leq0.0125\)</span> reject; <span class="math notranslate nohighlight">\(0.015\leq0.0167\)</span> reject;
+<span class="math notranslate nohighlight">\(0.04&gt;0.025\)</span> stop. Rejects 3 – one more than Bonferroni.</p>
+<p><strong>BH</strong> (<span class="math notranslate nohighlight">\(q=0.05\)</span>): thresholds <span class="math notranslate nohighlight">\(\frac{k}{5}(0.05)\)</span>: <span class="math notranslate nohighlight">\(0.01,0.02,0.03,0.04,0.05\)</span>. Check: all of
+<span class="math notranslate nohighlight">\(0.001,0.008,0.015,0.04\)</span> are <span class="math notranslate nohighlight">\(\leq\)</span> their threshold (<span class="math notranslate nohighlight">\(0.04\leq0.04\)</span> exactly); <span class="math notranslate nohighlight">\(0.20&gt;0.05\)</span> fails.
+Largest valid <span class="math notranslate nohighlight">\(k=4\)</span>, so BH rejects 4 – illustrating Bonferroni <span class="math notranslate nohighlight">\(\subseteq\)</span> Holm <span class="math notranslate nohighlight">\(\subseteq\)</span> BH.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.008</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">])</span>
+<span class="n">m</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="mf">0.05</span>
+
+<span class="n">bonf_reject</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;=</span> <span class="n">alpha</span> <span class="o">/</span> <span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="n">holm_thresh</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+<span class="n">holm_reject</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="n">order</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">holm_thresh</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+        <span class="n">holm_reject</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">break</span>
+
+<span class="n">bh_thresh</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span>
+<span class="n">below</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">order</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">bh_thresh</span>
+<span class="n">bh_reject</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">below</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">below</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="k">else</span> <span class="mi">0</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">bonf_reject</span><span class="p">,</span> <span class="n">holm_reject</span><span class="p">,</span> <span class="n">bh_reject</span><span class="p">)</span>  <span class="c1"># 2 3 4</span>
+</pre></div>
+</div>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercises'"><span>#</span></a></h2>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-1'"><span>#</span></a></h3>
+<p>Prove Holm rejects a superset of Bonferroni’s rejections: if <span class="math notranslate nohighlight">\(p_i\leq\alpha/m\)</span>, Holm also rejects
+<span class="math notranslate nohighlight">\(H_i\)</span>.</p>
+<details>
+<summary>Solution</summary>
+<p>Let <span class="math notranslate nohighlight">\(p_i=p_{(r)}\)</span> for rank <span class="math notranslate nohighlight">\(r\)</span>. Since <span class="math notranslate nohighlight">\(p_{(1)}\leq\dots\leq p_{(r)}\leq\alpha/m\)</span>, every <span class="math notranslate nohighlight">\(p_{(j)}\)</span>
+for <span class="math notranslate nohighlight">\(j\leq r\)</span> satisfies <span class="math notranslate nohighlight">\(p_{(j)}\leq\alpha/m\)</span>. Holm’s threshold at position <span class="math notranslate nohighlight">\(j\)</span> is
+<span class="math notranslate nohighlight">\(\alpha/(m-j+1)\geq\alpha/m\)</span> (since <span class="math notranslate nohighlight">\(m-j+1\leq m\)</span>). So for <span class="math notranslate nohighlight">\(j\leq r\)</span>, <span class="math notranslate nohighlight">\(p_{(j)}\leq\alpha/m\leq
+\alpha/(m-j+1)\)</span>: no failure can occur at or before position <span class="math notranslate nohighlight">\(r\)</span>. Holm’s first-failure index <span class="math notranslate nohighlight">\(k\)</span>
+must therefore satisfy <span class="math notranslate nohighlight">\(k&gt;r\)</span>, so Holm rejects at least <span class="math notranslate nohighlight">\(H_{(1)},\dots,H_{(r)}\)</span>, including
+<span class="math notranslate nohighlight">\(H_{(r)}=H_i\)</span>. The worked example shows the containment can be strict (Holm rejected 3,
+Bonferroni 2).</p>
+</details>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-2'"><span>#</span></a></h3>
+<p>Prove that under the global null (<span class="math notranslate nohighlight">\(m_0=m\)</span>), FDR control at level <span class="math notranslate nohighlight">\(q\)</span> is exactly equivalent to
+FWER control at level <span class="math notranslate nohighlight">\(q\)</span>, for any procedure.</p>
+<details>
+<summary>Solution</summary>
+<p>Under the global null every rejection is false, so <span class="math notranslate nohighlight">\(R=V\)</span> deterministically. Then <span class="math notranslate nohighlight">\(R/\max(R,1) =
+\mathbb 1[R\geq1]\)</span> exactly: if <span class="math notranslate nohighlight">\(R=0\)</span> the ratio is <span class="math notranslate nohighlight">\(0\)</span>; if <span class="math notranslate nohighlight">\(R\geq1\)</span>, <span class="math notranslate nohighlight">\(\max(R,1)=R\)</span> so the ratio is
+<span class="math notranslate nohighlight">\(1\)</span>. Thus</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{FDR} = E\left[\frac{V}{\max(R,1)}\right] = E\left[\frac{R}{\max(R,1)}\right] = E[\mathbb 1[R\geq1]] = P(R\geq1) = P(V\geq1) = \mathrm{FWER}.
+\]</div>
+<p>FDR and FWER are literally the same quantity under the global null for any procedure, so
+controlling one at <span class="math notranslate nohighlight">\(q\)</span> controls the other at <span class="math notranslate nohighlight">\(q\)</span>. Practical differences (BH rejecting more than
+Holm/Bonferroni) only emerge when <span class="math notranslate nohighlight">\(m_1=m-m_0&gt;0\)</span>, since then <span class="math notranslate nohighlight">\(R&gt;V\)</span> and <span class="math notranslate nohighlight">\(V/R\)</span> can be much smaller
+than <span class="math notranslate nohighlight">\(\mathbb 1[R\geq1]\)</span>.</p>
+</details>
+</section>
+<section id="exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-3'"><span>#</span></a></h3>
+<p>A study tests <span class="math notranslate nohighlight">\(m=10{,}000\)</span> genes: <span class="math notranslate nohighlight">\(m_0=9{,}500\)</span> true nulls (assume negligible false rejections
+among them), <span class="math notranslate nohighlight">\(m_1=500\)</span> true signals each detected with power <span class="math notranslate nohighlight">\(0.6\)</span>. A realization gives <span class="math notranslate nohighlight">\(V=15\)</span>
+false rejections and the expected number of true rejections. Compute <span class="math notranslate nohighlight">\(R\)</span> and the realized FDP
+<span class="math notranslate nohighlight">\(V/R\)</span>, compare to target <span class="math notranslate nohighlight">\(q=0.05\)</span>, and comment on whether a single realization’s FDP matching <span class="math notranslate nohighlight">\(q\)</span>
+is meaningful.</p>
+<details>
+<summary>Solution</summary>
+<p>True rejections: <span class="math notranslate nohighlight">\(0.6\times500=300\)</span>. So <span class="math notranslate nohighlight">\(R=300+15=315\)</span>, and <span class="math notranslate nohighlight">\(V/R = 15/315\approx0.0476\)</span>, close to
+but not identical to <span class="math notranslate nohighlight">\(q=0.05\)</span>.</p>
+<p><strong>Comment.</strong> FDR control is a statement about <span class="math notranslate nohighlight">\(E[V/\max(R,1)]\)</span> averaged over hypothetical repeated
+realizations of the entire experiment, not a guarantee about the false discovery proportion in any
+single realized dataset. In one realization, <span class="math notranslate nohighlight">\(V\)</span> (and <span class="math notranslate nohighlight">\(V/R\)</span>) is random and can deviate from <span class="math notranslate nohighlight">\(q\)</span>
+by chance, exactly analogous to how a 95% confidence interval does not guarantee 95% coverage in a
+single realized interval – it is a property of the procedure, not of one outcome. A q-value or
+FDR target should always be understood as a long-run procedural guarantee.</p>
+</details>
+</section>
+<section id="exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#exercise-4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-4'"><span>#</span></a></h3>
+<p>Sketch why the Benjamini-Yekutieli correction factor <span class="math notranslate nohighlight">\(c(m)=\sum_{j=1}^m 1/j\)</span> restores FDR control
+under arbitrary dependence, and why BY is more conservative than BH.</p>
+<details>
+<summary>Solution</summary>
+<p>BH’s independence-based proof bounds each true null’s contribution to <span class="math notranslate nohighlight">\(E[V/\max(R,1)]\)</span> by exactly
+<span class="math notranslate nohighlight">\(q/m\)</span>. Under arbitrary dependence this per-null bound can fail: correlated p-values break the
+“each true null contributes independently” argument. A general Boole-type inequality for
+arbitrarily dependent variables shows that, in the worst case, the bound that holds exactly under
+independence picks up a multiplicative penalty <span class="math notranslate nohighlight">\(c(m)=\sum_{j=1}^m1/j\)</span>, giving
+<span class="math notranslate nohighlight">\(\mathrm{FDR}\leq\frac{m_0}{m}c(m)q\leq c(m)q\)</span> under the unmodified BH threshold. Replacing <span class="math notranslate nohighlight">\(q\)</span>
+with <span class="math notranslate nohighlight">\(q/c(m)\)</span> – i.e. the BY threshold <span class="math notranslate nohighlight">\(p_{(k)}\leq\frac{k}{m\,c(m)}q\)</span> – brings this back down to
+exactly <span class="math notranslate nohighlight">\(q\)</span>, valid under any dependence structure.</p>
+<p><strong>Why more conservative.</strong> <span class="math notranslate nohighlight">\(c(m)\approx\ln m + 0.577\)</span> grows without bound (e.g. <span class="math notranslate nohighlight">\(c(10{,}000)
+\approx9.79\)</span>), so the BY threshold is roughly ten-fold stricter than BH’s for <span class="math notranslate nohighlight">\(m=10{,}000\)</span>, and
+the gap widens with <span class="math notranslate nohighlight">\(m\)</span>. This is the price of making no assumption about dependence, versus BH’s
+un-penalized guarantee which relies on independence or positive regression dependence.</p>
+</details>
+</section>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L03_bayesian_inference_and_mcmc.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Bayesian Inference &amp; MCMC
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="../../chapter_02_resampling_and_computation/main.html">
+        Chapter 02: Resampling &amp; Computation
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#fwer-versus-fdr'" class="reference internal" href="#fwer-versus-fdr">FWER versus FDR</a></li>
+<li><a :data-current="activeSection === '#fwer-procedures-bonferroni-and-holm'" class="reference internal" href="#fwer-procedures-bonferroni-and-holm">FWER Procedures: Bonferroni and Holm</a></li>
+<li><a :data-current="activeSection === '#benjamini-hochberg-and-fdr-control'" class="reference internal" href="#benjamini-hochberg-and-fdr-control">Benjamini-Hochberg and FDR Control</a></li>
+<li><a :data-current="activeSection === '#q-values-and-dependence-caveats'" class="reference internal" href="#q-values-and-dependence-caveats">Q-values and Dependence Caveats</a></li>
+<li><a :data-current="activeSection === '#applications-a-b-testing-and-genomics'" class="reference internal" href="#applications-a-b-testing-and-genomics">Applications: A/B Testing and Genomics</a></li>
+<li><a :data-current="activeSection === '#worked-example'" class="reference internal" href="#worked-example">Worked Example</a></li>
+<li><a :data-current="activeSection === '#exercises'" class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a :data-current="activeSection === '#exercise-1'" class="reference internal" href="#exercise-1">Exercise 1</a></li>
+<li><a :data-current="activeSection === '#exercise-2'" class="reference internal" href="#exercise-2">Exercise 2</a></li>
+<li><a :data-current="activeSection === '#exercise-3'" class="reference internal" href="#exercise-3">Exercise 3</a></li>
+<li><a :data-current="activeSection === '#exercise-4'" class="reference internal" href="#exercise-4">Exercise 4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

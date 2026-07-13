@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Nonparametric &amp; Semiparametric Methods | AAI 1.0 documentation</title>
+<meta content="Nonparametric &amp; Semiparametric Methods | AAI 1.0 documentation" property="og:title"/>
+<meta content="Nonparametric &amp; Semiparametric Methods | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="L04_survival_analysis.html" rel="next" title="Survival Analysis"/>
+<link href="L02_item_response_theory.html" rel="prev" title="Item Response Theory (IRT)"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Statistics 301<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_01_advanced_inference/main.html">Chapter 01: Advanced Inference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L01_likelihood_theory_and_asymptotics.html">Likelihood Theory &amp; Asymptotics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L02_em_algorithm_and_latent_variables.html">The EM Algorithm &amp; Latent Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L03_bayesian_inference_and_mcmc.html">Bayesian Inference &amp; MCMC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L04_multiple_testing_and_fdr.html">Multiple Testing &amp; FDR</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_02_resampling_and_computation/main.html">Chapter 02: Resampling &amp; Computation<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L01_bootstrap_methods.html">Bootstrap Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L02_permutation_and_randomization_tests.html">Permutation &amp; Randomization Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L03_missing_data_and_multiple_imputation.html">Missing Data &amp; Multiple Imputation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L04_model_selection_and_cross_validation.html">Model Selection &amp; Cross-Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 03: Advanced Modeling<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="L01_mixed_effects_models.html">Mixed-Effects Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L02_item_response_theory.html">Item Response Theory (IRT)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Nonparametric &amp; Semiparametric Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L04_survival_analysis.html">Survival Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">Statistics 301</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 03: Advanced Modeling</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Nonparametric &amp; Semiparametric Methods</span>
+</nav>
+<div id="content" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="nonparametric-semiparametric-methods">
+<h1>Nonparametric &amp; Semiparametric Methods<a class="headerlink" href="#nonparametric-semiparametric-methods" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>The t-test, ANOVA, and linear regression from Statistics 1 and 2 rest on distributional assumptions, normal errors for exact small-sample inference, or a fixed functional form (linearity) for the mean. When these assumptions are doubtful, for example with skewed or heavy-tailed data, small samples, or a mean function whose shape is genuinely unknown, we want procedures that make weaker assumptions while sacrificing as little efficiency as possible. This lesson covers three such tools: rank-based hypothesis tests that trade a controlled amount of efficiency under normality for large robustness gains under non-normality; kernel density estimation, which estimates an entire density with no parametric family assumed; and nonparametric/semiparametric regression (local regression, smoothing splines, partial linear models), which lets the mean function be estimated flexibly while keeping some structure interpretable.</p>
+</section>
+<section id="rank-based-tests">
+<h2>Rank-Based Tests<a class="headerlink" href="#rank-based-tests" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#rank-based-tests'"><span>#</span></a></h2>
+<section id="wilcoxon-signed-rank-test">
+<h3>Wilcoxon signed-rank test<a class="headerlink" href="#wilcoxon-signed-rank-test" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#wilcoxon-signed-rank-test'"><span>#</span></a></h3>
+<p>For paired data (or one sample) testing symmetry of the differences <span class="math notranslate nohighlight">\(d_1,\dots,d_n\)</span> about 0, rank <span class="math notranslate nohighlight">\(|d_1|,\dots,|d_n|\)</span> from smallest (rank 1) to largest, and let <span class="math notranslate nohighlight">\(W^+\)</span> be the sum of ranks belonging to positive <span class="math notranslate nohighlight">\(d_i\)</span>. Under <span class="math notranslate nohighlight">\(H_0\)</span> (distribution of <span class="math notranslate nohighlight">\(d_i\)</span> symmetric about 0), each rank is independently equally likely to belong to a positive or negative difference, giving
+$<span class="math notranslate nohighlight">\( E[W^+] = \frac{n(n+1)}{4}, \qquad Var(W^+) = \frac{n(n+1)(2n+1)}{24}. \)</span><span class="math notranslate nohighlight">\(
+For moderate/large \)</span>n<span class="math notranslate nohighlight">\(, \)</span>Z = (W^+ - E[W^+])/\sqrt{Var(W^+)}$ is approximately standard normal.</p>
+</section>
+<section id="mann-whitney-u-wilcoxon-rank-sum-test">
+<h3>Mann-Whitney U / Wilcoxon rank-sum test<a class="headerlink" href="#mann-whitney-u-wilcoxon-rank-sum-test" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#mann-whitney-u-wilcoxon-rank-sum-test'"><span>#</span></a></h3>
+<p>For two independent samples <span class="math notranslate nohighlight">\(X_1,\dots,X_{n_1}\)</span> and <span class="math notranslate nohighlight">\(Y_1,\dots,Y_{n_2}\)</span>, testing equality of distributions against a shift alternative, define
+$<span class="math notranslate nohighlight">\( U = \sum_{i=1}^{n_1}\sum_{j=1}^{n_2} \mathbb{1}(X_i&gt;Y_j). \)</span><span class="math notranslate nohighlight">\(
+\)</span>U<span class="math notranslate nohighlight">\( relates to the rank-sum \)</span>R_1<span class="math notranslate nohighlight">\( of the \)</span>X<span class="math notranslate nohighlight">\('s in the pooled sample by \)</span>U = R_1 - n_1(n_1+1)/2<span class="math notranslate nohighlight">\(. Under \)</span>H_0<span class="math notranslate nohighlight">\(,
+\)</span><span class="math notranslate nohighlight">\( E[U] = \frac{n_1n_2}{2}, \qquad Var(U) = \frac{n_1n_2(n_1+n_2+1)}{12}. \)</span>$</p>
+</section>
+<section id="asymptotic-relative-efficiency-vs-the-t-test">
+<h3>Asymptotic relative efficiency vs. the t-test<a class="headerlink" href="#asymptotic-relative-efficiency-vs-the-t-test" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#asymptotic-relative-efficiency-vs-the-t-test'"><span>#</span></a></h3>
+<p>The <strong>Pitman asymptotic relative efficiency</strong> compares the sample sizes two tests need for the same asymptotic power against local alternatives; <span class="math notranslate nohighlight">\(ARE(A,B)=2\)</span> means test <span class="math notranslate nohighlight">\(B\)</span> needs twice the sample size of <span class="math notranslate nohighlight">\(A\)</span> for equivalent power. For the Wilcoxon signed-rank test against the (paired) t-test, for a symmetric density <span class="math notranslate nohighlight">\(f\)</span> with variance <span class="math notranslate nohighlight">\(\sigma_f^2\)</span>,
+$<span class="math notranslate nohighlight">\( ARE(W,t) = 12\,\sigma_f^2\left(\int_{-\infty}^{\infty} f(x)^2\,dx\right)^2. \)</span><span class="math notranslate nohighlight">\(
+For \)</span>f = N(0,\sigma^2)<span class="math notranslate nohighlight">\(: \)</span>\int f^2,dx = \frac{1}{2\sigma\sqrt\pi}<span class="math notranslate nohighlight">\(, so
+\)</span><span class="math notranslate nohighlight">\( ARE(W,t) = 12\sigma^2\left(\frac{1}{2\sigma\sqrt\pi}\right)^2 = \frac{12}{4\pi} = \frac{3}{\pi} \approx 0.955. \)</span><span class="math notranslate nohighlight">\(
+Remarkably, under exact normality the Wilcoxon test loses only about 4.5% asymptotic efficiency relative to the (optimal, under normality) t-test. Under other distributions the comparison can favor Wilcoxon substantially: the classical table of values is Normal \)</span>3/\pi \approx 0.955<span class="math notranslate nohighlight">\(, Uniform \)</span>1.0<span class="math notranslate nohighlight">\(, Logistic \)</span>\pi^2/9\approx1.097<span class="math notranslate nohighlight">\(, Double-exponential (Laplace) \)</span>1.5$, and for the Cauchy distribution the ARE is unbounded (the t-test’s efficiency collapses because sample means of Cauchy variables do not even have finite variance, while rank tests remain well-behaved). This is the standard justification for preferring rank tests when normality is doubtful: bounded downside (about 5% under normality), unbounded upside under heavy tails.</p>
+</section>
+</section>
+<section id="kernel-density-estimation">
+<h2>Kernel Density Estimation<a class="headerlink" href="#kernel-density-estimation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#kernel-density-estimation'"><span>#</span></a></h2>
+<section id="definition-bias-and-variance">
+<h3>Definition, bias, and variance<a class="headerlink" href="#definition-bias-and-variance" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#definition-bias-and-variance'"><span>#</span></a></h3>
+<p>Given iid <span class="math notranslate nohighlight">\(X_1,\dots,X_n \sim f\)</span>, the kernel density estimator with bandwidth <span class="math notranslate nohighlight">\(h\)</span> and kernel <span class="math notranslate nohighlight">\(K\)</span> (a symmetric density) is
+$<span class="math notranslate nohighlight">\( \hat f_h(x) = \frac{1}{nh}\sum_{i=1}^n K\!\left(\frac{x-X_i}{h}\right). \)</span><span class="math notranslate nohighlight">\(
+A second-order Taylor expansion of \)</span>f<span class="math notranslate nohighlight">\( around \)</span>x<span class="math notranslate nohighlight">\( inside \)</span>E[\hat f_h(x)]<span class="math notranslate nohighlight">\( gives, for small \)</span>h<span class="math notranslate nohighlight">\(,
+\)</span><span class="math notranslate nohighlight">\( Bias\big(\hat f_h(x)\big) \approx \frac{h^2}{2} f''(x)\, \mu_2(K), \qquad \mu_2(K) = \int u^2K(u)\,du, \)</span><span class="math notranslate nohighlight">\(
+and a standard variance calculation gives
+\)</span><span class="math notranslate nohighlight">\( Var\big(\hat f_h(x)\big) \approx \frac{f(x)}{nh}\, R(K), \qquad R(K) = \int K(u)^2\,du. \)</span><span class="math notranslate nohighlight">\(
+Bias grows with \)</span>h<span class="math notranslate nohighlight">\( (more smoothing washes out curvature) while variance shrinks with \)</span>h$ (more data points contribute to each local average): the classic bias-variance tradeoff.</p>
+</section>
+<section id="mise-and-the-optimal-bandwidth">
+<h3>MISE and the optimal bandwidth<a class="headerlink" href="#mise-and-the-optimal-bandwidth" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#mise-and-the-optimal-bandwidth'"><span>#</span></a></h3>
+<p>The mean integrated squared error is
+$<span class="math notranslate nohighlight">\( MISE(h) = \int E\big[(\hat f_h(x)-f(x))^2\big]dx \approx \underbrace{\frac{h^4}{4}\mu_2(K)^2\int f''(x)^2\,dx}_{\text{integrated squared bias}} + \underbrace{\frac{R(K)}{nh}}_{\text{integrated variance}}. \)</span><span class="math notranslate nohighlight">\(
+Differentiating with respect to \)</span>h<span class="math notranslate nohighlight">\( and setting to zero gives the asymptotically optimal bandwidth
+\)</span><span class="math notranslate nohighlight">\( h_{opt} = \left[\frac{R(K)}{\mu_2(K)^2 \int f''(x)^2\,dx \cdot n}\right]^{1/5} = O(n^{-1/5}), \)</span><span class="math notranslate nohighlight">\(
+and plugging back in, \)</span>AMISE(h_{opt}) = O(n^{-4/5})<span class="math notranslate nohighlight">\(. This is slower than the parametric rate \)</span>O(n^{-1})$: nonparametric density estimation pays a price in convergence rate for not assuming a parametric family, which is the generic phenomenon behind “the curse of dimensionality” in nonparametric statistics.</p>
+</section>
+</section>
+<section id="local-regression-and-smoothing-splines">
+<h2>Local Regression and Smoothing Splines<a class="headerlink" href="#local-regression-and-smoothing-splines" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#local-regression-and-smoothing-splines'"><span>#</span></a></h2>
+<section id="nadaraya-watson-estimator">
+<h3>Nadaraya-Watson estimator<a class="headerlink" href="#nadaraya-watson-estimator" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#nadaraya-watson-estimator'"><span>#</span></a></h3>
+<p>For regression data <span class="math notranslate nohighlight">\((X_i,Y_i)\)</span>, <span class="math notranslate nohighlight">\(i=1,\dots,n\)</span>, with <span class="math notranslate nohighlight">\(Y_i = m(X_i)+\epsilon_i\)</span>, the Nadaraya-Watson (local constant) estimator is a kernel-weighted local average:
+$<span class="math notranslate nohighlight">\( \hat m(x) = \frac{\sum_{i=1}^n K_h(x-X_i)\,Y_i}{\sum_{i=1}^n K_h(x-X_i)}, \qquad K_h(u)=K(u/h)/h. \)</span><span class="math notranslate nohighlight">\(
+This estimator has known boundary bias (near the edges of the covariate range the kernel window is asymmetric). **Local linear regression** corrects this by fitting a weighted least-squares line locally rather than a constant:
+\)</span><span class="math notranslate nohighlight">\( (\hat a,\hat b) = \arg\min_{a,b}\sum_{i=1}^n K_h(x-X_i)\big(Y_i-a-b(X_i-x)\big)^2, \qquad \hat m(x)=\hat a. \)</span>$
+Locally weighting by a line rather than a constant cancels the leading bias term at boundaries and reduces bias in regions of curvature.</p>
+</section>
+<section id="smoothing-splines">
+<h3>Smoothing splines<a class="headerlink" href="#smoothing-splines" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#smoothing-splines'"><span>#</span></a></h3>
+<p>An alternative formulation directly penalizes roughness. The smoothing spline estimator solves the penalized least-squares problem over all twice-differentiable functions <span class="math notranslate nohighlight">\(m\)</span>:
+$<span class="math notranslate nohighlight">\( \hat m = \arg\min_{m}\ \sum_{i=1}^n \big(Y_i - m(X_i)\big)^2 + \lambda \int \big(m''(t)\big)^2\,dt, \)</span><span class="math notranslate nohighlight">\(
+where \)</span>\lambda \geq 0<span class="math notranslate nohighlight">\( is the smoothing parameter. As \)</span>\lambda\to0<span class="math notranslate nohighlight">\(, \)</span>\hat m<span class="math notranslate nohighlight">\( interpolates the data (a natural cubic spline through every point); as \)</span>\lambda\to\infty<span class="math notranslate nohighlight">\(, the penalty forces \)</span>m’’\equiv0<span class="math notranslate nohighlight">\(, i.e., \)</span>\hat m<span class="math notranslate nohighlight">\( becomes the OLS regression line. It is a classical result that the minimizer, for any \)</span>\lambda&gt;0<span class="math notranslate nohighlight">\(, is a **natural cubic spline** with knots at the distinct \)</span>X_i<span class="math notranslate nohighlight">\( values. The fitted values are a linear smoother, \)</span>\hat Y = S_\lambda Y<span class="math notranslate nohighlight">\(, and the **effective degrees of freedom** are \)</span>df_\lambda = tr(S_\lambda)<span class="math notranslate nohighlight">\(, generalizing the notion of "number of parameters" to a continuously tunable amount of flexibility. \)</span>\lambda<span class="math notranslate nohighlight">\( is typically chosen by generalized cross-validation,
+\)</span><span class="math notranslate nohighlight">\( GCV(\lambda) = \frac{n^{-1}\sum_i (Y_i-\hat m_\lambda(X_i))^2}{\big(1-tr(S_\lambda)/n\big)^2}. \)</span>$</p>
+</section>
+<section id="semiparametric-partial-linear-models-brief">
+<h3>Semiparametric partial linear models (brief)<a class="headerlink" href="#semiparametric-partial-linear-models-brief" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#semiparametric-partial-linear-models-brief'"><span>#</span></a></h3>
+<p>Sometimes we want the interpretability of a linear effect for covariates of primary interest while flexibly adjusting for a nuisance covariate:
+$<span class="math notranslate nohighlight">\( Y_i = X_i^T\beta + g(T_i) + \epsilon_i, \)</span><span class="math notranslate nohighlight">\(
+with \)</span>g(\cdot)<span class="math notranslate nohighlight">\( an unspecified smooth function. Robinson's (1988) double-residual estimator profiles out \)</span>g<span class="math notranslate nohighlight">\(: regress (nonparametrically, e.g., via kernel smoothing) \)</span>Y<span class="math notranslate nohighlight">\( on \)</span>T<span class="math notranslate nohighlight">\( and each column of \)</span>X<span class="math notranslate nohighlight">\( on \)</span>T<span class="math notranslate nohighlight">\(, take residuals \)</span>\tilde Y_i = Y_i - \hat E[Y\mid T_i]<span class="math notranslate nohighlight">\( and \)</span>\tilde X_i = X_i-\hat E[X\mid T_i]<span class="math notranslate nohighlight">\(, then run OLS of \)</span>\tilde Y<span class="math notranslate nohighlight">\( on \)</span>\tilde X<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\( \hat\beta = \left(\sum_i \tilde X_i \tilde X_i^T\right)^{-1}\sum_i \tilde X_i \tilde Y_i. \)</span><span class="math notranslate nohighlight">\(
+Remarkably, \)</span>\hat\beta<span class="math notranslate nohighlight">\( is \)</span>\sqrt n<span class="math notranslate nohighlight">\(-consistent and asymptotically normal for \)</span>\beta<span class="math notranslate nohighlight">\(, at the parametric rate, despite \)</span>g$ being estimated only at the slower nonparametric rate; this is the hallmark “semiparametric efficiency” phenomenon: the parameter of interest is unaffected in its rate of convergence by the presence of an infinite-dimensional nuisance parameter, provided that nuisance is estimated consistently.</p>
+</section>
+</section>
+<section id="worked-example">
+<h2>Worked Example<a class="headerlink" href="#worked-example" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#worked-example'"><span>#</span></a></h2>
+<p>Paired differences (treatment minus control) for <span class="math notranslate nohighlight">\(n=6\)</span> subjects: <span class="math notranslate nohighlight">\(d = (2,\,-1,\,3,\,4,\,-0.5,\,1.5)\)</span>.</p>
+<p>Absolute values and ranks: <span class="math notranslate nohighlight">\(|d| = (2,1,3,4,0.5,1.5)\)</span>, sorted <span class="math notranslate nohighlight">\(0.5&lt;1&lt;1.5&lt;2&lt;3&lt;4\)</span>, so ranks are: <span class="math notranslate nohighlight">\(d=-0.5\to\)</span> rank 1, <span class="math notranslate nohighlight">\(d=-1\to\)</span> rank 2, <span class="math notranslate nohighlight">\(d=1.5\to\)</span> rank 3, <span class="math notranslate nohighlight">\(d=2\to\)</span> rank 4, <span class="math notranslate nohighlight">\(d=3\to\)</span> rank 5, <span class="math notranslate nohighlight">\(d=4\to\)</span> rank 6.</p>
+<p>Positive differences are <span class="math notranslate nohighlight">\(2, 3, 4, 1.5\)</span> with ranks <span class="math notranslate nohighlight">\(4,5,6,3\)</span>, so
+$<span class="math notranslate nohighlight">\( W^+ = 4+5+6+3 = 18. \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( E[W^+] = \frac{6\times7}{4} = 10.5, \qquad Var(W^+) = \frac{6\times7\times13}{24} = \frac{546}{24} = 22.75. \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( Z = \frac{18-10.5}{\sqrt{22.75}} = \frac{7.5}{4.7697} = 1.572. \)</span><span class="math notranslate nohighlight">\(
+Two-sided p-value \)</span>\approx 2(1-\Phi(1.572)) = 2(0.058) = 0.116<span class="math notranslate nohighlight">\(: not significant at \)</span>\alpha=0.05$ despite five of six differences being positive, illustrating how the small sample size limits power even for a robust test.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">wilcoxon</span>
+<span class="c1"># stat, p = wilcoxon([2, -1, 3, 4, -0.5, 1.5])</span>
+</pre></div>
+</div>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercises'"><span>#</span></a></h2>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-1'"><span>#</span></a></h3>
+<p>Derive <span class="math notranslate nohighlight">\(E[W^+]\)</span> and <span class="math notranslate nohighlight">\(Var(W^+)\)</span> under <span class="math notranslate nohighlight">\(H_0\)</span> from first principles, using the representation <span class="math notranslate nohighlight">\(W^+ = \sum_{i=1}^n i\,\psi_i\)</span> where <span class="math notranslate nohighlight">\(\psi_i\)</span> is the indicator that the observation with rank <span class="math notranslate nohighlight">\(i\)</span> (by <span class="math notranslate nohighlight">\(|d|\)</span>) has a positive sign.</p>
+<details>
+<summary>Solution</summary>
+<p>Under <span class="math notranslate nohighlight">\(H_0\)</span> (the distribution of each <span class="math notranslate nohighlight">\(d_k\)</span> is symmetric about 0), the sign of <span class="math notranslate nohighlight">\(d_k\)</span> is independent of <span class="math notranslate nohighlight">\(|d_k|\)</span>, and by symmetry each sign is an independent fair coin flip: <span class="math notranslate nohighlight">\(P(\text{sign}=+)=P(\text{sign}=-)=1/2\)</span>, independently across the <span class="math notranslate nohighlight">\(n\)</span> observations, <em>regardless of</em> the ranks of the <span class="math notranslate nohighlight">\(|d_k|\)</span>’s. Consequently, if we let <span class="math notranslate nohighlight">\(\psi_i \in \{0,1\}\)</span> denote the sign attached to the observation whose <span class="math notranslate nohighlight">\(|d|\)</span> has rank <span class="math notranslate nohighlight">\(i\)</span> (for <span class="math notranslate nohighlight">\(i=1,\dots,n\)</span>), the <span class="math notranslate nohighlight">\(\psi_i\)</span> are iid <span class="math notranslate nohighlight">\(Bernoulli(1/2)\)</span>, independent of which observation got which rank. Then
+$<span class="math notranslate nohighlight">\( W^+ = \sum_{i=1}^n i\,\psi_i. \)</span>$</p>
+<p><strong>Mean:</strong>
+$<span class="math notranslate nohighlight">\( E[W^+] = \sum_{i=1}^n i\, E[\psi_i] = \sum_{i=1}^n i\cdot\frac12 = \frac12\cdot\frac{n(n+1)}{2} = \frac{n(n+1)}{4}. \)</span>$</p>
+<p><strong>Variance:</strong> since the <span class="math notranslate nohighlight">\(\psi_i\)</span> are independent, <span class="math notranslate nohighlight">\(Var(W^+) = \sum_{i=1}^n i^2\,Var(\psi_i)\)</span>. For <span class="math notranslate nohighlight">\(\psi_i\sim Bernoulli(1/2)\)</span>, <span class="math notranslate nohighlight">\(Var(\psi_i) = \tfrac12(1-\tfrac12)=\tfrac14\)</span>. So
+$<span class="math notranslate nohighlight">\( Var(W^+) = \frac14 \sum_{i=1}^n i^2 = \frac14\cdot\frac{n(n+1)(2n+1)}{6} = \frac{n(n+1)(2n+1)}{24}, \)</span><span class="math notranslate nohighlight">\(
+using the standard identity \)</span>\sum_{i=1}^n i^2 = n(n+1)(2n+1)/6$. Both formulas match the ones quoted in the notes.</p>
+</details>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-2'"><span>#</span></a></h3>
+<p>Derive <span class="math notranslate nohighlight">\(E[U]\)</span> and <span class="math notranslate nohighlight">\(Var(U)\)</span> for the Mann-Whitney statistic under <span class="math notranslate nohighlight">\(H_0\)</span> (both samples drawn from the same continuous distribution), using the fact that under <span class="math notranslate nohighlight">\(H_0\)</span> every assignment of ranks <span class="math notranslate nohighlight">\(1,\dots,n_1+n_2\)</span> to the pooled sample, with <span class="math notranslate nohighlight">\(n_1\)</span> of them going to the <span class="math notranslate nohighlight">\(X\)</span> sample, is equally likely.</p>
+<details>
+<summary>Solution</summary>
+<p>Let <span class="math notranslate nohighlight">\(N=n_1+n_2\)</span>. Under <span class="math notranslate nohighlight">\(H_0\)</span>, the <span class="math notranslate nohighlight">\(N\)</span> observations are exchangeable, so the set of ranks <span class="math notranslate nohighlight">\(1,\dots,N\)</span> assigned to the <span class="math notranslate nohighlight">\(X\)</span>-sample is a uniformly random subset of size <span class="math notranslate nohighlight">\(n_1\)</span> out of <span class="math notranslate nohighlight">\(N\)</span> (all <span class="math notranslate nohighlight">\(\binom{N}{n_1}\)</span> subsets equally likely). Write <span class="math notranslate nohighlight">\(R_1 = \sum_{i=1}^{n_1} \text{rank}(X_i)\)</span> for the rank sum of the <span class="math notranslate nohighlight">\(X\)</span>’s, and recall <span class="math notranslate nohighlight">\(U = R_1 - n_1(n_1+1)/2\)</span>.</p>
+<p><strong>Mean of <span class="math notranslate nohighlight">\(R_1\)</span>:</strong> each of the <span class="math notranslate nohighlight">\(N\)</span> ranks <span class="math notranslate nohighlight">\(1,\dots,N\)</span> is equally likely to be any particular rank value, and by symmetry each individual <span class="math notranslate nohighlight">\(X_i\)</span>’s rank has the same marginal distribution as a single rank drawn uniformly from <span class="math notranslate nohighlight">\(\{1,\dots,N\}\)</span> (this follows from the exchangeability/uniform-subset argument: the marginal probability that any specific rank value <span class="math notranslate nohighlight">\(r\)</span> is assigned to <em>some</em> <span class="math notranslate nohighlight">\(X\)</span> is <span class="math notranslate nohighlight">\(n_1/N\)</span>, and by symmetry this is spread equally over which <span class="math notranslate nohighlight">\(X_i\)</span> gets it). So
+$<span class="math notranslate nohighlight">\( E[R_1] = n_1 \cdot E[\text{rank}] = n_1\cdot \frac{N+1}{2}. \)</span><span class="math notranslate nohighlight">\(
+Then
+\)</span><span class="math notranslate nohighlight">\( E[U] = E[R_1] - \frac{n_1(n_1+1)}{2} = n_1\frac{N+1}{2} - \frac{n_1(n_1+1)}{2} = \frac{n_1}{2}\big[(N+1)-(n_1+1)\big] = \frac{n_1}{2}(N-n_1) = \frac{n_1n_2}{2}, \)</span><span class="math notranslate nohighlight">\(
+using \)</span>N-n_1=n_2$.</p>
+<p><strong>Variance of <span class="math notranslate nohighlight">\(R_1\)</span>:</strong> <span class="math notranslate nohighlight">\(R_1\)</span> is the sum of <span class="math notranslate nohighlight">\(n_1\)</span> values drawn <em>without replacement</em> from <span class="math notranslate nohighlight">\(\{1,\dots,N\}\)</span>. For sampling without replacement, the variance of a sum of <span class="math notranslate nohighlight">\(n_1\)</span> draws from a finite population of size <span class="math notranslate nohighlight">\(N\)</span> with population variance <span class="math notranslate nohighlight">\(\sigma_P^2 = \frac{1}{N}\sum_{r=1}^N (r-\bar r)^2 = \frac{N^2-1}{12}\)</span> (variance of a discrete uniform on <span class="math notranslate nohighlight">\(1,\dots,N\)</span>) is
+$<span class="math notranslate nohighlight">\( Var(R_1) = n_1\sigma_P^2\cdot\frac{N-n_1}{N-1} = n_1\cdot\frac{N^2-1}{12}\cdot\frac{n_2}{N-1} = \frac{n_1n_2(N+1)}{12}, \)</span><span class="math notranslate nohighlight">\(
+using \)</span>(N^2-1)/(N-1) = N+1<span class="math notranslate nohighlight">\(. Since \)</span>U = R_1 - \text{const}<span class="math notranslate nohighlight">\(, \)</span>Var(U)=Var(R_1)<span class="math notranslate nohighlight">\(, so
+\)</span><span class="math notranslate nohighlight">\( Var(U) = \frac{n_1n_2(n_1+n_2+1)}{12}, \)</span>$
+matching the notes.</p>
+</details>
+</section>
+<section id="exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-3'"><span>#</span></a></h3>
+<p>Derive the bias formula <span class="math notranslate nohighlight">\(Bias(\hat f_h(x)) \approx \frac{h^2}{2}f''(x)\mu_2(K)\)</span> for the kernel density estimator via a Taylor expansion, stating the regularity conditions used.</p>
+<details>
+<summary>Solution</summary>
+<p>By definition, <span class="math notranslate nohighlight">\(E[\hat f_h(x)] = E\left[\frac1h K\left(\frac{x-X}{h}\right)\right] = \int \frac1h K\left(\frac{x-u}{h}\right) f(u)\, du\)</span> (using that the <span class="math notranslate nohighlight">\(X_i\)</span> are iid with density <span class="math notranslate nohighlight">\(f\)</span>, and linearity of expectation over the sum of <span class="math notranslate nohighlight">\(n\)</span> identical terms divided by <span class="math notranslate nohighlight">\(n\)</span>).</p>
+<p>Substitute <span class="math notranslate nohighlight">\(u = x - ht\)</span> (so <span class="math notranslate nohighlight">\(t = (x-u)/h\)</span>, <span class="math notranslate nohighlight">\(du = -h\,dt\)</span>; as <span class="math notranslate nohighlight">\(u\)</span> ranges over <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>, so does <span class="math notranslate nohighlight">\(t\)</span>, with the sign flip absorbed by reversing limits):
+$<span class="math notranslate nohighlight">\( E[\hat f_h(x)] = \int K(t)\, f(x-ht)\, dt. \)</span><span class="math notranslate nohighlight">\(
+Assume \)</span>f<span class="math notranslate nohighlight">\( is twice continuously differentiable in a neighborhood of \)</span>x<span class="math notranslate nohighlight">\( with bounded second derivative, and \)</span>K<span class="math notranslate nohighlight">\( is a symmetric density with \)</span>\int K(t)dt=1<span class="math notranslate nohighlight">\(, \)</span>\int tK(t),dt=0<span class="math notranslate nohighlight">\( (symmetry), \)</span>\int t^2K(t),dt = \mu_2(K) &lt; \infty<span class="math notranslate nohighlight">\(. Taylor-expand \)</span>f(x-ht)<span class="math notranslate nohighlight">\( around \)</span>t=0<span class="math notranslate nohighlight">\( (i.e., around the point \)</span>x<span class="math notranslate nohighlight">\():
+\)</span><span class="math notranslate nohighlight">\( f(x-ht) = f(x) - ht f'(x) + \frac{h^2t^2}{2}f''(x) + o(h^2) \)</span><span class="math notranslate nohighlight">\(
+uniformly for \)</span>t<span class="math notranslate nohighlight">\( in the support where \)</span>K<span class="math notranslate nohighlight">\( has appreciable mass (standard regularity: \)</span>h\to 0<span class="math notranslate nohighlight">\( as \)</span>n\to\infty<span class="math notranslate nohighlight">\(, and \)</span>K<span class="math notranslate nohighlight">\( has compact support or sufficiently thin tails so the remainder integrates to \)</span>o(h^2)$).</p>
+<p>Integrate term by term against <span class="math notranslate nohighlight">\(K(t)\,dt\)</span>:
+$<span class="math notranslate nohighlight">\( E[\hat f_h(x)] = f(x)\int K(t)\,dt - hf'(x)\int tK(t)\,dt + \frac{h^2}{2}f''(x)\int t^2K(t)\,dt + o(h^2). \)</span><span class="math notranslate nohighlight">\(
+The first integral is 1, the second is 0 by symmetry of \)</span>K<span class="math notranslate nohighlight">\(, and the third is \)</span>\mu_2(K)<span class="math notranslate nohighlight">\( by definition. So
+\)</span><span class="math notranslate nohighlight">\( E[\hat f_h(x)] = f(x) + \frac{h^2}{2}f''(x)\mu_2(K) + o(h^2), \)</span><span class="math notranslate nohighlight">\(
+and therefore
+\)</span><span class="math notranslate nohighlight">\( Bias(\hat f_h(x)) = E[\hat f_h(x)] - f(x) \approx \frac{h^2}{2}f''(x)\mu_2(K), \)</span><span class="math notranslate nohighlight">\(
+as claimed. The bias is largest in magnitude where \)</span>|f’’(x)|<span class="math notranslate nohighlight">\( is largest (near peaks and troughs of the density) and vanishes as \)</span>h\to0<span class="math notranslate nohighlight">\(, at rate \)</span>O(h^2)$.</p>
+</details>
+</section>
+<section id="exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#exercise-4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-4'"><span>#</span></a></h3>
+<p>Given data <span class="math notranslate nohighlight">\((X_i,Y_i)\)</span>: <span class="math notranslate nohighlight">\((1,2), (2,3), (3,5), (4,4), (5,6)\)</span>, compute the Nadaraya-Watson estimate <span class="math notranslate nohighlight">\(\hat m(3)\)</span> using a standard Gaussian kernel <span class="math notranslate nohighlight">\(K(u) = \frac{1}{\sqrt{2\pi}}e^{-u^2/2}\)</span> with bandwidth <span class="math notranslate nohighlight">\(h=1\)</span>.</p>
+<details>
+<summary>Solution</summary>
+<p>Compute <span class="math notranslate nohighlight">\(u_i = (x_0-X_i)/h = (3-X_i)/1\)</span> for <span class="math notranslate nohighlight">\(x_0=3\)</span>, and the corresponding kernel weights <span class="math notranslate nohighlight">\(K(u_i) = \frac{1}{\sqrt{2\pi}}e^{-u_i^2/2}\)</span>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(X_i\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(u_i\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(K(u_i)\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(Y_i\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(K(u_i)Y_i\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.05399\)</span></p></td>
+<td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.10798\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.24197\)</span></p></td>
+<td><p>3</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.72591\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.39894\)</span></p></td>
+<td><p>5</p></td>
+<td><p><span class="math notranslate nohighlight">\(1.99470\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>-1</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.24197\)</span></p></td>
+<td><p>4</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.96788\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>-2</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.05399\)</span></p></td>
+<td><p>6</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.32394\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>Sum of weights: <span class="math notranslate nohighlight">\(0.05399+0.24197+0.39894+0.24197+0.05399 = 0.99086\)</span>.</p>
+<p>Sum of weighted <span class="math notranslate nohighlight">\(Y\)</span>: <span class="math notranslate nohighlight">\(0.10798+0.72591+1.99470+0.96788+0.32394 = 4.12041\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[ \hat m(3) = \frac{\sum_i K(u_i)Y_i}{\sum_i K(u_i)} = \frac{4.12041}{0.99086} = 4.158. \]</div>
+<p>The estimate 4.158 is close to but not exactly <span class="math notranslate nohighlight">\(Y_3=5\)</span> or the simple average of neighbors, because the Gaussian kernel gives substantial (though declining) weight to <span class="math notranslate nohighlight">\(X=2\)</span> and <span class="math notranslate nohighlight">\(X=4\)</span> and smaller weight to the more distant points <span class="math notranslate nohighlight">\(X=1,5\)</span>, pulling the local average down from <span class="math notranslate nohighlight">\(Y_3=5\)</span> toward the neighboring values <span class="math notranslate nohighlight">\(3\)</span> and <span class="math notranslate nohighlight">\(4\)</span>.</p>
+</details>
+</section>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L02_item_response_theory.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Item Response Theory (IRT)
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L04_survival_analysis.html">
+        Survival Analysis
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#rank-based-tests'" class="reference internal" href="#rank-based-tests">Rank-Based Tests</a><ul>
+<li><a :data-current="activeSection === '#wilcoxon-signed-rank-test'" class="reference internal" href="#wilcoxon-signed-rank-test">Wilcoxon signed-rank test</a></li>
+<li><a :data-current="activeSection === '#mann-whitney-u-wilcoxon-rank-sum-test'" class="reference internal" href="#mann-whitney-u-wilcoxon-rank-sum-test">Mann-Whitney U / Wilcoxon rank-sum test</a></li>
+<li><a :data-current="activeSection === '#asymptotic-relative-efficiency-vs-the-t-test'" class="reference internal" href="#asymptotic-relative-efficiency-vs-the-t-test">Asymptotic relative efficiency vs. the t-test</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#kernel-density-estimation'" class="reference internal" href="#kernel-density-estimation">Kernel Density Estimation</a><ul>
+<li><a :data-current="activeSection === '#definition-bias-and-variance'" class="reference internal" href="#definition-bias-and-variance">Definition, bias, and variance</a></li>
+<li><a :data-current="activeSection === '#mise-and-the-optimal-bandwidth'" class="reference internal" href="#mise-and-the-optimal-bandwidth">MISE and the optimal bandwidth</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#local-regression-and-smoothing-splines'" class="reference internal" href="#local-regression-and-smoothing-splines">Local Regression and Smoothing Splines</a><ul>
+<li><a :data-current="activeSection === '#nadaraya-watson-estimator'" class="reference internal" href="#nadaraya-watson-estimator">Nadaraya-Watson estimator</a></li>
+<li><a :data-current="activeSection === '#smoothing-splines'" class="reference internal" href="#smoothing-splines">Smoothing splines</a></li>
+<li><a :data-current="activeSection === '#semiparametric-partial-linear-models-brief'" class="reference internal" href="#semiparametric-partial-linear-models-brief">Semiparametric partial linear models (brief)</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#worked-example'" class="reference internal" href="#worked-example">Worked Example</a></li>
+<li><a :data-current="activeSection === '#exercises'" class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a :data-current="activeSection === '#exercise-1'" class="reference internal" href="#exercise-1">Exercise 1</a></li>
+<li><a :data-current="activeSection === '#exercise-2'" class="reference internal" href="#exercise-2">Exercise 2</a></li>
+<li><a :data-current="activeSection === '#exercise-3'" class="reference internal" href="#exercise-3">Exercise 3</a></li>
+<li><a :data-current="activeSection === '#exercise-4'" class="reference internal" href="#exercise-4">Exercise 4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Missing Data &amp; Multiple Imputation | AAI 1.0 documentation</title>
+<meta content="Missing Data &amp; Multiple Imputation | AAI 1.0 documentation" property="og:title"/>
+<meta content="Missing Data &amp; Multiple Imputation | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="L04_model_selection_and_cross_validation.html" rel="next" title="Model Selection &amp; Cross-Validation"/>
+<link href="L02_permutation_and_randomization_tests.html" rel="prev" title="Permutation &amp; Randomization Tests"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Statistics 301<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_01_advanced_inference/main.html">Chapter 01: Advanced Inference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L01_likelihood_theory_and_asymptotics.html">Likelihood Theory &amp; Asymptotics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L02_em_algorithm_and_latent_variables.html">The EM Algorithm &amp; Latent Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L03_bayesian_inference_and_mcmc.html">Bayesian Inference &amp; MCMC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L04_multiple_testing_and_fdr.html">Multiple Testing &amp; FDR</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 02: Resampling &amp; Computation<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="L01_bootstrap_methods.html">Bootstrap Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L02_permutation_and_randomization_tests.html">Permutation &amp; Randomization Tests</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Missing Data &amp; Multiple Imputation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L04_model_selection_and_cross_validation.html">Model Selection &amp; Cross-Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_03_advanced_modeling/main.html">Chapter 03: Advanced Modeling<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_advanced_modeling/lessons/L01_mixed_effects_models.html">Mixed-Effects Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_advanced_modeling/lessons/L02_item_response_theory.html">Item Response Theory (IRT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_advanced_modeling/lessons/L03_nonparametric_and_semiparametric_methods.html">Nonparametric &amp; Semiparametric Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_advanced_modeling/lessons/L04_survival_analysis.html">Survival Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">Statistics 301</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 02: Resampling &amp; Computation</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Missing Data &amp; Multiple Imputation</span>
+</nav>
+<div id="content" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="missing-data-multiple-imputation">
+<h1>Missing Data &amp; Multiple Imputation<a class="headerlink" href="#missing-data-multiple-imputation" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>Nearly every real dataset has missing values, and the default response – drop any row with a
+missing entry (“complete-case analysis”) – is valid only under a strong, rarely-stated
+assumption that is often false. This lesson develops Rubin’s (1976) taxonomy of missing-data
+mechanisms, shows precisely when complete-case analysis is biased, and develops principled
+alternatives: likelihood-based and multiple-imputation approaches, including the pooling rules
+needed for valid inference.</p>
+</section>
+<section id="mcar-mar-and-mnar">
+<h2>MCAR, MAR, and MNAR<a class="headerlink" href="#mcar-mar-and-mnar" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#mcar-mar-and-mnar'"><span>#</span></a></h2>
+<p>Let <span class="math notranslate nohighlight">\(Y=(Y_{obs},Y_{mis})\)</span> and let <span class="math notranslate nohighlight">\(R\)</span> be the response indicator (<span class="math notranslate nohighlight">\(R_j=1\)</span> if <span class="math notranslate nohighlight">\(Y_j\)</span> observed).
+The mechanism is characterized by <span class="math notranslate nohighlight">\(P(R\mid Y_{obs},Y_{mis},\psi)\)</span>.</p>
+<ul class="simple">
+<li><p><strong>MCAR</strong>: <span class="math notranslate nohighlight">\(P(R\mid Y_{obs},Y_{mis},\psi)=P(R\mid\psi)\)</span> for all <span class="math notranslate nohighlight">\(Y_{obs},Y_{mis}\)</span> – missingness
+does not depend on any data value.</p></li>
+<li><p><strong>MAR</strong>: <span class="math notranslate nohighlight">\(P(R\mid Y_{obs},Y_{mis},\psi)=P(R\mid Y_{obs},\psi)\)</span> for all <span class="math notranslate nohighlight">\(Y_{mis}\)</span> – missingness
+may depend on <em>observed</em> data but, conditional on it, not on the unobserved values themselves.</p></li>
+<li><p><strong>MNAR</strong>: neither holds; <span class="math notranslate nohighlight">\(P(R\mid Y)\)</span> depends on <span class="math notranslate nohighlight">\(Y_{mis}\)</span> even given <span class="math notranslate nohighlight">\(Y_{obs}\)</span> (e.g. a
+patient drops out <em>because</em> their unrecorded blood pressure that day was high).</p></li>
+</ul>
+<p>MCAR <span class="math notranslate nohighlight">\(\subset\)</span> MAR <span class="math notranslate nohighlight">\(\subset\)</span> MNAR. Critically, <strong>MAR is untestable from observed data alone</strong>:
+since <span class="math notranslate nohighlight">\(Y_{mis}\)</span> is never observed, no dataset can empirically distinguish MAR from MNAR.</p>
+</section>
+<section id="why-complete-case-analysis-is-biased-under-mar">
+<h2>Why Complete-Case Analysis Is Biased Under MAR<a class="headerlink" href="#why-complete-case-analysis-is-biased-under-mar" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#why-complete-case-analysis-is-biased-under-mar'"><span>#</span></a></h2>
+<p>To estimate <span class="math notranslate nohighlight">\(\mu=E[Y]\)</span>, complete-case (CC) analysis computes <span class="math notranslate nohighlight">\(\hat\mu_{CC}=E[Y\mid R=1]\)</span>. Under
+MCAR, <span class="math notranslate nohighlight">\(R\perp Y\)</span> so <span class="math notranslate nohighlight">\(E[Y\mid R=1]=\mu\)</span>: unbiased (though less precise, since <span class="math notranslate nohighlight">\(n_{obs}&lt;n\)</span>).</p>
+<p>With a single variable, MAR reduces to MCAR (no other observed variable to condition on), so CC
+bias appears whenever missingness depends on <span class="math notranslate nohighlight">\(Y\)</span> itself. The interesting case has an auxiliary
+covariate <span class="math notranslate nohighlight">\(X\)</span>: suppose missingness in <span class="math notranslate nohighlight">\(Y\)</span> depends on <span class="math notranslate nohighlight">\(X\)</span> but, given <span class="math notranslate nohighlight">\(X\)</span>, not further on <span class="math notranslate nohighlight">\(Y\)</span>
+(MAR). Then</p>
+<div class="math notranslate nohighlight">
+\[
+E[Y\mid R=1] = E_X\big[E[Y\mid X,R=1]\mid R=1\big] = E_X\big[E[Y\mid X]\mid R=1\big],
+\]</div>
+<p>using MAR to drop conditioning on <span class="math notranslate nohighlight">\(R\)</span> inside. But <span class="math notranslate nohighlight">\(E_X[\cdot\mid R=1]\)</span> averages over <span class="math notranslate nohighlight">\(X\)</span>’s
+distribution <strong>among complete cases</strong>, which differs from the marginal <span class="math notranslate nohighlight">\(X\)</span>-distribution whenever
+<span class="math notranslate nohighlight">\(R\)</span> depends on <span class="math notranslate nohighlight">\(X\)</span>. If <span class="math notranslate nohighlight">\(E[Y\mid X]\)</span> varies with <span class="math notranslate nohighlight">\(X\)</span>, then generally
+<span class="math notranslate nohighlight">\(E_X[E[Y|X]\mid R=1]\ne E[Y]=\mu\)</span>: <strong>CC is biased under MAR</strong> whenever the variable driving
+missingness is associated with the outcome. Bias vanishes only if <span class="math notranslate nohighlight">\(Y\perp X\)</span> or <span class="math notranslate nohighlight">\(R\perp X\)</span>
+(MCAR). The same logic extends to regression: CC is unbiased if missingness depends only on
+already-included predictors, but generally biased if it depends on <span class="math notranslate nohighlight">\(Y\)</span> itself.</p>
+</section>
+<section id="likelihood-based-and-em-approaches">
+<h2>Likelihood-Based and EM Approaches<a class="headerlink" href="#likelihood-based-and-em-approaches" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#likelihood-based-and-em-approaches'"><span>#</span></a></h2>
+<p>Under MAR plus ignorability, the observed-data likelihood
+<span class="math notranslate nohighlight">\(L(\theta\mid Y_{obs})=\int f(Y_{obs},Y_{mis}\mid\theta)\,dY_{mis}\)</span> can be maximized directly
+without modeling <span class="math notranslate nohighlight">\(R\)</span> at all – <strong>ignorable likelihood inference</strong>. When the integral is
+intractable, the <strong>EM algorithm</strong> (Dempster, Laird, Rubin, 1977) alternates:</p>
+<ul class="simple">
+<li><p><strong>E-step</strong>: <span class="math notranslate nohighlight">\(Q(\theta\mid\theta^{(t)}) = E_{Y_{mis}\mid Y_{obs},\theta^{(t)}}[\log
+f(Y_{obs},Y_{mis}\mid\theta)]\)</span>.</p></li>
+<li><p><strong>M-step</strong>: <span class="math notranslate nohighlight">\(\theta^{(t+1)}=\arg\max_\theta Q(\theta\mid\theta^{(t)})\)</span>.</p></li>
+</ul>
+<p>Each iteration does not decrease the observed-data log-likelihood, and under regularity
+converges to a stationary point. EM gives point estimates directly, but SEs require extra work
+(Louis’s method, bootstrap, Supplemented EM) – a practical reason multiple imputation is often
+preferred: valid SEs fall out of the procedure automatically.</p>
+</section>
+<section id="multiple-imputation">
+<h2>Multiple Imputation<a class="headerlink" href="#multiple-imputation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#multiple-imputation'"><span>#</span></a></h2>
+<p><strong>MI</strong> (Rubin, 1987) replaces missing values with <span class="math notranslate nohighlight">\(M&gt;1\)</span> plausible draws from a model for
+<span class="math notranslate nohighlight">\(Y_{mis}\mid Y_{obs}\)</span>, giving <span class="math notranslate nohighlight">\(M\)</span> completed datasets. Each is analyzed with the standard
+complete-data method, yielding <span class="math notranslate nohighlight">\(M\)</span> estimates <span class="math notranslate nohighlight">\(\hat\theta_m\)</span> and variances <span class="math notranslate nohighlight">\(\hat V_m\)</span>, then
+pooled via Rubin’s rules. Steps: (1) <strong>Imputation</strong> – draw <span class="math notranslate nohighlight">\(Y_{mis}^{(m)}\sim P(Y_{mis}\mid
+Y_{obs})\)</span> independently for <span class="math notranslate nohighlight">\(m=1,\dots,M\)</span>; (2) <strong>Analysis</strong> – fit the model to each <span class="math notranslate nohighlight">\(Y^{(m)}\)</span>;
+(3) <strong>Pooling</strong> – combine via Rubin’s rules. MI beats single imputation because single
+imputation treats guesses as truly observed, understating uncertainty.</p>
+</section>
+<section id="rubin-s-rules">
+<h2>Rubin’s Rules<a class="headerlink" href="#rubin-s-rules" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#rubin-s-rules'"><span>#</span></a></h2>
+<div class="math notranslate nohighlight">
+\[
+\bar\theta=\frac1M\sum_m\hat\theta_m, \qquad
+\bar V_W=\frac1M\sum_m\hat V_m, \qquad
+V_B=\frac1{M-1}\sum_m(\hat\theta_m-\bar\theta)^2,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+V_{total} = \bar V_W + \left(1+\frac1M\right)V_B.
+\]</div>
+<p>The <span class="math notranslate nohighlight">\(V_B/M\)</span> term corrects for finite <span class="math notranslate nohighlight">\(M\)</span> (vanishes as <span class="math notranslate nohighlight">\(M\to\infty\)</span>). Inference uses
+<span class="math notranslate nohighlight">\(t_\nu\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+\nu = (M-1)\left[1+\frac{\bar V_W}{(1+1/M)V_B}\right]^2,
+\]</div>
+<p>so <span class="math notranslate nohighlight">\(\hat\theta\pm t_{\nu,1-\alpha/2}\sqrt{V_{total}}\)</span>. The <strong>fraction of missing information</strong>,
+<span class="math notranslate nohighlight">\(\widehat{FMI}=\frac{(1+1/M)V_B}{V_{total}}\)</span>, diagnoses how much missingness degrades precision.</p>
+</section>
+<section id="mice">
+<h2>MICE<a class="headerlink" href="#mice" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#mice'"><span>#</span></a></h2>
+<p>With multiple variables missing in an arbitrary pattern, a single joint model is often
+infeasible (mixed continuous/binary/categorical types). <strong>MICE</strong> (“chained equations”) iterates
+univariate conditional models: for each variable <span class="math notranslate nohighlight">\(Y_j\)</span> with missingness, fit <span class="math notranslate nohighlight">\(Y_j\)</span> on all other
+variables <span class="math notranslate nohighlight">\(Y_{-j}\)</span> (linear/logistic/multinomial as appropriate) using current values (observed
+or currently imputed) of <span class="math notranslate nohighlight">\(Y_{-j}\)</span>, draw imputed values from this fit, and cycle through all
+variables repeatedly (10-20 iterations) until stable. Repeat the whole chain <span class="math notranslate nohighlight">\(M\)</span> times
+independently. MICE’s conditional models are not guaranteed compatible with any single joint
+density, but it performs well in practice and dominates applied work due to flexibility with
+mixed types.</p>
+</section>
+<section id="sensitivity-analysis-for-mnar">
+<h2>Sensitivity Analysis for MNAR<a class="headerlink" href="#sensitivity-analysis-for-mnar" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#sensitivity-analysis-for-mnar'"><span>#</span></a></h2>
+<p>Since MAR is untestable, suspected-MNAR analyses should include sensitivity analysis rather than
+a single MAR-based imputation:</p>
+<ul class="simple">
+<li><p><strong>Pattern-mixture models</strong>: model <span class="math notranslate nohighlight">\(Y\)</span>’s distribution separately by missingness pattern, with a
+specified (not estimated) sensitivity parameter <span class="math notranslate nohighlight">\(\delta\)</span> shifting the imputed mean for missing
+cases; vary <span class="math notranslate nohighlight">\(\delta\)</span> and report a “tipping point.”</p></li>
+<li><p><strong>Selection models</strong>: jointly model the outcome and <span class="math notranslate nohighlight">\(P(R\mid Y,X)\)</span> explicitly (e.g. Heckman-type),
+with dependence on <span class="math notranslate nohighlight">\(Y_{mis}\)</span> a weakly-identified parameter needing strong assumptions or an
+instrument.</p></li>
+<li><p><strong>Delta-adjustment MI</strong>: shift MAR-based imputed values by a range of <span class="math notranslate nohighlight">\(\delta\)</span>, re-pool, and
+report how conclusions change across the plausible range rather than a single point estimate.</p></li>
+</ul>
+<p>Reporting should always make the untestable assumption explicit and bound results across
+plausible departures from MAR rather than presenting a MAR-based answer as assumption-free.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pool_rubin</span><span class="p">(</span><span class="n">theta_hats</span><span class="p">,</span> <span class="n">var_hats</span><span class="p">):</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta_hats</span><span class="p">)</span>
+    <span class="n">theta_bar</span><span class="p">,</span> <span class="n">V_W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">theta_hats</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">var_hats</span><span class="p">)</span>
+    <span class="n">V_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">theta_hats</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">V_total</span> <span class="o">=</span> <span class="n">V_W</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">V_B</span>
+    <span class="n">nu</span> <span class="o">=</span> <span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">V_W</span> <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">V_B</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">fmi</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">V_B</span> <span class="o">/</span> <span class="n">V_total</span>
+    <span class="k">return</span> <span class="n">theta_bar</span><span class="p">,</span> <span class="n">V_total</span><span class="p">,</span> <span class="n">nu</span><span class="p">,</span> <span class="n">fmi</span>
+</pre></div>
+</div>
+</section>
+<section id="worked-example">
+<h2>Worked Example<a class="headerlink" href="#worked-example" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#worked-example'"><span>#</span></a></h2>
+<p>Income <span class="math notranslate nohighlight">\(Y\)</span> is 30% missing, depending on age <span class="math notranslate nohighlight">\(X\)</span> but, given <span class="math notranslate nohighlight">\(X\)</span>, not further on <span class="math notranslate nohighlight">\(Y\)</span> (MAR). With
+<span class="math notranslate nohighlight">\(M=5\)</span> MICE datasets, a regression of <span class="math notranslate nohighlight">\(Y\)</span> on <span class="math notranslate nohighlight">\(X\)</span> gives slopes <span class="math notranslate nohighlight">\(\hat\beta=(152,148,160,145,155)\)</span>,
+variances <span class="math notranslate nohighlight">\(\hat V=(100,110,95,105,90)\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\bar\beta=760/5=152.0\)</span>. <span class="math notranslate nohighlight">\(\bar V_W=500/5=100.0\)</span>. Deviations <span class="math notranslate nohighlight">\(0,-4,8,-7,3\)</span>; squares
+<span class="math notranslate nohighlight">\(0,16,64,49,9\)</span>, sum <span class="math notranslate nohighlight">\(138\)</span>; <span class="math notranslate nohighlight">\(V_B=138/4=34.5\)</span>. <span class="math notranslate nohighlight">\(V_{total}=100.0+1.2(34.5)=141.4\)</span>, SE
+<span class="math notranslate nohighlight">\(=\sqrt{141.4}\approx11.89\)</span>. <span class="math notranslate nohighlight">\(\nu=4[1+100.0/41.4]^2=4(3.415)^2\approx46.66\)</span>.
+<span class="math notranslate nohighlight">\(\widehat{FMI}=41.4/141.4\approx0.293\)</span> (29% of variance from missingness). Using
+<span class="math notranslate nohighlight">\(t_{46.66,0.975}\approx2.01\)</span>: CI <span class="math notranslate nohighlight">\(=152.0\pm2.01(11.89)\approx(128.1,175.9)\)</span> – notably wider than
+the naive <span class="math notranslate nohighlight">\(152.0\pm1.96(10.0)=(132.4,171.6)\)</span> a single-imputation analysis would give by ignoring
+<span class="math notranslate nohighlight">\(V_B\)</span>.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercises'"><span>#</span></a></h2>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-1'"><span>#</span></a></h3>
+<p>Let <span class="math notranslate nohighlight">\(Y_i\stackrel{iid}\sim N(\mu,\sigma^2)\)</span>, <span class="math notranslate nohighlight">\(\sigma^2\)</span> known, with <span class="math notranslate nohighlight">\(P(R_i=0\mid Y_i) =
+\Phi(\gamma_0+\gamma_1 Y_i)\)</span> (MNAR). To first order in small <span class="math notranslate nohighlight">\(\gamma_1\)</span>, derive the asymptotic
+bias of <span class="math notranslate nohighlight">\(\hat\mu_{CC}=E[Y\mid R=1]\)</span> and give its sign for <span class="math notranslate nohighlight">\(\gamma_1&gt;0\)</span>.</p>
+<details>
+<summary>Solution</summary>
+<p>Let <span class="math notranslate nohighlight">\(g(y)=1-\Phi(\gamma_0+\gamma_1 y) = P(R=1\mid Y=y)\)</span>. We want
+<span class="math notranslate nohighlight">\(E[Y\mid R=1]=E[Yg(Y)]/E[g(Y)]\)</span>. Taylor-expand: <span class="math notranslate nohighlight">\(g(y)\approx g_0-\gamma_1 y\phi(\gamma_0)\)</span>,
+<span class="math notranslate nohighlight">\(g_0=1-\Phi(\gamma_0)\)</span>. Then <span class="math notranslate nohighlight">\(E[Yg(Y)]\approx g_0\mu-\gamma_1\phi(\gamma_0)(\sigma^2+\mu^2)\)</span> and
+<span class="math notranslate nohighlight">\(E[g(Y)]\approx g_0-\gamma_1\phi(\gamma_0)\mu\)</span>. Using <span class="math notranslate nohighlight">\(1/(1-x)\approx1+x\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+E[Y\mid R=1] \approx \mu - \frac{\gamma_1\phi(\gamma_0)\sigma^2}{g_0} + O(\gamma_1^2),
+\]</div>
+<p>after dropping the <span class="math notranslate nohighlight">\(O(\gamma_1^2)\)</span> cross term. So</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Bias}(\hat\mu_{CC}) \approx -\frac{\gamma_1\phi(\gamma_0)\sigma^2}{1-\Phi(\gamma_0)}.
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\phi(\gamma_0)&gt;0\)</span> and <span class="math notranslate nohighlight">\(1-\Phi(\gamma_0)\in(0,1)\)</span>, the bias has the <em>opposite</em> sign of
+<span class="math notranslate nohighlight">\(\gamma_1\)</span>: for <span class="math notranslate nohighlight">\(\gamma_1&gt;0\)</span> (larger <span class="math notranslate nohighlight">\(Y\)</span> more likely missing), <span class="math notranslate nohighlight">\(\hat\mu_{CC}\)</span> is biased
+<strong>downward</strong>, since high values are underrepresented among complete cases. The magnitude scales
+with <span class="math notranslate nohighlight">\(\sigma^2\)</span> and <span class="math notranslate nohighlight">\(\gamma_1\)</span>, vanishing when <span class="math notranslate nohighlight">\(\gamma_1=0\)</span> (MCAR).</p>
+</details>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-2'"><span>#</span></a></h3>
+<p>Give the law-of-total-variance heuristic motivating Rubin’s formula
+<span class="math notranslate nohighlight">\(V_{total}=\bar V_W+(1+1/M)V_B\)</span> as <span class="math notranslate nohighlight">\(M\to\infty\)</span>, identifying which term corresponds to which
+piece of the decomposition.</p>
+<details>
+<summary>Solution</summary>
+<p>View <span class="math notranslate nohighlight">\(\hat\theta_m=\theta^*(Y_{mis}^{(m)})\)</span> as induced by the random draw <span class="math notranslate nohighlight">\(Y_{mis}^{(m)}\sim
+P(Y_{mis}\mid Y_{obs})\)</span>, with <span class="math notranslate nohighlight">\(\hat V_m\)</span> the corresponding complete-data sampling-variance
+estimator. Decompose total uncertainty about <span class="math notranslate nohighlight">\(\theta\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Var}(\hat\theta_{true}) \approx \underbrace{E[\hat V_m]}_{\to\ \bar V_W} + \underbrace{\text{Var}_{Y_{mis}}(\hat\theta_m)}_{\to\ V_B},
+\]</div>
+<p>the first term being the average “within” complete-data sampling variance (had <span class="math notranslate nohighlight">\(Y_{mis}\)</span> been
+known) and the second the “between” variance due to not observing <span class="math notranslate nohighlight">\(Y_{mis}\)</span>. As <span class="math notranslate nohighlight">\(M\to\infty\)</span>,
+by LLN, <span class="math notranslate nohighlight">\(\bar V_W\to E[\hat V_m]\)</span> and <span class="math notranslate nohighlight">\(V_B\to\text{Var}_{Y_{mis}}(\hat\theta_m)\)</span>. The extra
+<span class="math notranslate nohighlight">\(V_B/M\)</span> accounts for <span class="math notranslate nohighlight">\(\bar\theta\)</span> itself being an average of only <span class="math notranslate nohighlight">\(M\)</span> (not infinite) draws, with
+its own Monte Carlo variance <span class="math notranslate nohighlight">\(V_B/M\)</span> around the <span class="math notranslate nohighlight">\(M=\infty\)</span> limit – ensuring <span class="math notranslate nohighlight">\(V_{total}\)</span>
+reflects total uncertainty even for finite <span class="math notranslate nohighlight">\(M\)</span>.</p>
+</details>
+</section>
+<section id="exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-3'"><span>#</span></a></h3>
+<p>MI imputes missing <span class="math notranslate nohighlight">\(Y\)</span> via <span class="math notranslate nohighlight">\(\hat Y=\hat\beta_0+\hat\beta_1X+\hat\epsilon\)</span>,
+<span class="math notranslate nohighlight">\(\hat\epsilon\sim N(0,\hat\sigma^2)\)</span>, but reuses the <em>same</em> fitted <span class="math notranslate nohighlight">\(\hat\beta_0,\hat\beta_1,
+\hat\sigma^2\)</span> across all <span class="math notranslate nohighlight">\(M\)</span> imputations (only re-drawing <span class="math notranslate nohighlight">\(\hat\epsilon\)</span>). Explain why this
+“improper” scheme still understates pooled SEs, and which term is affected.</p>
+<details>
+<summary>Solution</summary>
+<p>Proper MI requires imputations to reflect both residual noise <em>and</em> parameter uncertainty in
+<span class="math notranslate nohighlight">\(\hat\beta_0,\hat\beta_1,\hat\sigma^2\)</span> (estimated from a finite sample, not the truth); a proper
+scheme redraws parameters per imputation (e.g. from their posterior, or via bootstrapping the
+complete cases before fitting). Reusing fixed point estimates across all <span class="math notranslate nohighlight">\(m\)</span> means the <em>only</em>
+source of cross-imputation variability is the residual noise draw, entirely omitting parameter
+uncertainty.</p>
+<p>Consequently <span class="math notranslate nohighlight">\(V_B=\frac1{M-1}\sum(\hat\theta_m-\bar\theta)^2\)</span> understates the true
+between-imputation variance – any variation in <span class="math notranslate nohighlight">\(\hat\theta_m\)</span> comes only from noise averaging,
+not genuine uncertainty about <span class="math notranslate nohighlight">\(\beta\)</span>. Since <span class="math notranslate nohighlight">\(V_{total}=\bar V_W+(1+1/M)V_B\)</span>, an artificially
+small <span class="math notranslate nohighlight">\(V_B\)</span> directly yields artificially narrow pooled SEs and CIs – a subtler version of the
+standard single-imputation failure to propagate uncertainty, despite using the correct
+regression functional form.</p>
+</details>
+</section>
+<section id="exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#exercise-4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-4'"><span>#</span></a></h3>
+<p>With MAR-based MI giving <span class="math notranslate nohighlight">\(\bar\theta_0=50.0\)</span>, and delta-adjustment showing
+<span class="math notranslate nohighlight">\(\bar\theta(\delta)=50.0+0.32\delta\)</span> (offsetting imputed values only), find the tipping point
+<span class="math notranslate nohighlight">\(\delta^*\)</span> at which <span class="math notranslate nohighlight">\(\bar\theta(\delta)\)</span> crosses the clinical threshold of 45, and interpret it.</p>
+<details>
+<summary>Solution</summary>
+<p>Set <span class="math notranslate nohighlight">\(50.0+0.32\delta=45.0 \Rightarrow \delta = -5.0/0.32 \approx -15.6\)</span>.</p>
+<p>So if non-responders’ true values average about 15.6 units below what the MAR model predicts
+for them (given observed covariates), the estimate reaches exactly the threshold; any larger
+downward departure reverses the conclusion. This translates an abstract MNAR worry into a
+concrete, interpretable quantity: domain experts can judge whether a shift of that magnitude is
+plausible given what is known about why high-value subjects might drop out. If plausible dropout
+effects are smaller (e.g. 5-8 units), the conclusion is robust; if comparable or larger,
+it should be reported as sensitive to the untestable MAR assumption. Tipping-point analysis does
+not resolve untestability but reframes it as a calibrated, answerable question.</p>
+</details>
+</section>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L02_permutation_and_randomization_tests.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Permutation &amp; Randomization Tests
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L04_model_selection_and_cross_validation.html">
+        Model Selection &amp; Cross-Validation
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#mcar-mar-and-mnar'" class="reference internal" href="#mcar-mar-and-mnar">MCAR, MAR, and MNAR</a></li>
+<li><a :data-current="activeSection === '#why-complete-case-analysis-is-biased-under-mar'" class="reference internal" href="#why-complete-case-analysis-is-biased-under-mar">Why Complete-Case Analysis Is Biased Under MAR</a></li>
+<li><a :data-current="activeSection === '#likelihood-based-and-em-approaches'" class="reference internal" href="#likelihood-based-and-em-approaches">Likelihood-Based and EM Approaches</a></li>
+<li><a :data-current="activeSection === '#multiple-imputation'" class="reference internal" href="#multiple-imputation">Multiple Imputation</a></li>
+<li><a :data-current="activeSection === '#rubin-s-rules'" class="reference internal" href="#rubin-s-rules">Rubin’s Rules</a></li>
+<li><a :data-current="activeSection === '#mice'" class="reference internal" href="#mice">MICE</a></li>
+<li><a :data-current="activeSection === '#sensitivity-analysis-for-mnar'" class="reference internal" href="#sensitivity-analysis-for-mnar">Sensitivity Analysis for MNAR</a></li>
+<li><a :data-current="activeSection === '#worked-example'" class="reference internal" href="#worked-example">Worked Example</a></li>
+<li><a :data-current="activeSection === '#exercises'" class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a :data-current="activeSection === '#exercise-1'" class="reference internal" href="#exercise-1">Exercise 1</a></li>
+<li><a :data-current="activeSection === '#exercise-2'" class="reference internal" href="#exercise-2">Exercise 2</a></li>
+<li><a :data-current="activeSection === '#exercise-3'" class="reference internal" href="#exercise-3">Exercise 3</a></li>
+<li><a :data-current="activeSection === '#exercise-4'" class="reference internal" href="#exercise-4">Exercise 4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

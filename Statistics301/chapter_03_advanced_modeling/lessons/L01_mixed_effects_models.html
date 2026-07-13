@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Mixed-Effects Models | AAI 1.0 documentation</title>
+<meta content="Mixed-Effects Models | AAI 1.0 documentation" property="og:title"/>
+<meta content="Mixed-Effects Models | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="L02_item_response_theory.html" rel="next" title="Item Response Theory (IRT)"/>
+<link href="../main.html" rel="prev" title="Chapter 03: Advanced Modeling"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Statistics 301<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_01_advanced_inference/main.html">Chapter 01: Advanced Inference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L01_likelihood_theory_and_asymptotics.html">Likelihood Theory &amp; Asymptotics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L02_em_algorithm_and_latent_variables.html">The EM Algorithm &amp; Latent Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L03_bayesian_inference_and_mcmc.html">Bayesian Inference &amp; MCMC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L04_multiple_testing_and_fdr.html">Multiple Testing &amp; FDR</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_02_resampling_and_computation/main.html">Chapter 02: Resampling &amp; Computation<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L01_bootstrap_methods.html">Bootstrap Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L02_permutation_and_randomization_tests.html">Permutation &amp; Randomization Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L03_missing_data_and_multiple_imputation.html">Missing Data &amp; Multiple Imputation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L04_model_selection_and_cross_validation.html">Model Selection &amp; Cross-Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 03: Advanced Modeling<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Mixed-Effects Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L02_item_response_theory.html">Item Response Theory (IRT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L03_nonparametric_and_semiparametric_methods.html">Nonparametric &amp; Semiparametric Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L04_survival_analysis.html">Survival Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">Statistics 301</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 03: Advanced Modeling</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Mixed-Effects Models</span>
+</nav>
+<div id="content" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="mixed-effects-models">
+<h1>Mixed-Effects Models<a class="headerlink" href="#mixed-effects-models" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>Statistics 1 and 2 built regression and ANOVA on the assumption of independent, identically distributed errors. That assumption breaks down constantly in real data: repeated measurements on the same patient, students clustered in classrooms, classrooms clustered in schools, or longitudinal growth curves measured on the same subjects over time. Observations within a cluster tend to be correlated because they share unobserved cluster-level characteristics (a patient’s baseline health, a school’s resources). Ignoring this correlation and running ordinary least squares gives correct point estimates of population-average effects in simple cases but badly wrong standard errors, and it throws away information about how much clusters differ from one another.</p>
+<p>Mixed-effects models (also called hierarchical or multilevel models) solve this by explicitly partitioning variability into a <em>fixed</em> part, shared population-level parameters we want to estimate, and a <em>random</em> part, cluster-specific deviations that are treated as draws from a distribution. This lesson develops the linear mixed model, its estimation theory (ML and REML), best linear unbiased prediction (BLUP) of random effects, and inference on variance components, including the notorious boundary problem in likelihood-ratio testing.</p>
+</section>
+<section id="the-linear-mixed-model">
+<h2>The Linear Mixed Model<a class="headerlink" href="#the-linear-mixed-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#the-linear-mixed-model'"><span>#</span></a></h2>
+<section id="fixed-vs-random-effects">
+<h3>Fixed vs. random effects<a class="headerlink" href="#fixed-vs-random-effects" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#fixed-vs-random-effects'"><span>#</span></a></h3>
+<p>A factor’s levels are treated as <strong>fixed</strong> when they are the specific levels of scientific interest and we want to estimate a separate, interpretable parameter for each (e.g., “treatment vs. placebo”). A factor’s levels are treated as <strong>random</strong> when they are best thought of as a sample from a larger population of levels, and our interest is in the <em>variance</em> they induce and in generalizing beyond the observed levels (e.g., “these 40 schools represent all schools of this type”). A practical rule of thumb: if you would be willing to relabel or resample the levels and still ask the same scientific question, treat them as random.</p>
+</section>
+<section id="random-intercept-slope-model-in-matrix-form">
+<h3>Random intercept/slope model in matrix form<a class="headerlink" href="#random-intercept-slope-model-in-matrix-form" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#random-intercept-slope-model-in-matrix-form'"><span>#</span></a></h3>
+<p>For cluster <span class="math notranslate nohighlight">\(i = 1, \dots, m\)</span> with <span class="math notranslate nohighlight">\(n_i\)</span> observations, the linear mixed model is
+$<span class="math notranslate nohighlight">\( y_i = X_i \beta + Z_i b_i + \epsilon_i, \qquad b_i \sim N(0, D), \qquad \epsilon_i \sim N(0, \sigma^2 I_{n_i}), \)</span><span class="math notranslate nohighlight">\(
+with \)</span>b_1, \dots, b_m<span class="math notranslate nohighlight">\( mutually independent, independent across clusters of \)</span>\epsilon_i<span class="math notranslate nohighlight">\(, and \)</span>b_i \perp \epsilon_i<span class="math notranslate nohighlight">\(. Here \)</span>X_i<span class="math notranslate nohighlight">\( is the \)</span>n_i \times p<span class="math notranslate nohighlight">\( fixed-effects design matrix and \)</span>Z_i<span class="math notranslate nohighlight">\( is the \)</span>n_i \times q$ random-effects design matrix.</p>
+<p>For a <strong>random intercept and slope</strong> model with a single time covariate <span class="math notranslate nohighlight">\(t_{ij}\)</span>, <span class="math notranslate nohighlight">\(Z_i\)</span> has columns <span class="math notranslate nohighlight">\((1, t_{ij})\)</span> and <span class="math notranslate nohighlight">\(b_i = (b_{0i}, b_{1i})^T \sim N(0, D)\)</span> with
+$<span class="math notranslate nohighlight">\( D = \begin{pmatrix} \sigma_0^2 &amp; \sigma_{01} \\ \sigma_{01} &amp; \sigma_1^2 \end{pmatrix}. \)</span><span class="math notranslate nohighlight">\(
+Marginalizing over \)</span>b_i<span class="math notranslate nohighlight">\( gives \)</span>y_i \sim N(X_i\beta, V_i)<span class="math notranslate nohighlight">\( with
+\)</span><span class="math notranslate nohighlight">\( V_i = Z_i D Z_i^T + \sigma^2 I_{n_i}. \)</span><span class="math notranslate nohighlight">\(
+Stacking clusters, \)</span>y = X\beta + Zb + \epsilon<span class="math notranslate nohighlight">\( with \)</span>b \sim N(0, G)<span class="math notranslate nohighlight">\(, \)</span>G = I_m \otimes D<span class="math notranslate nohighlight">\( block-diagonal, and marginal covariance \)</span>V = ZGZ^T + R<span class="math notranslate nohighlight">\(, \)</span>R = \sigma^2 I$.</p>
+</section>
+<section id="nested-vs-crossed-effects">
+<h3>Nested vs. crossed effects<a class="headerlink" href="#nested-vs-crossed-effects" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#nested-vs-crossed-effects'"><span>#</span></a></h3>
+<p>Random effects are <strong>nested</strong> when each level of one factor occurs within exactly one level of another (students within classrooms within schools). Nesting produces a block-diagonal (hierarchical) covariance structure, and <span class="math notranslate nohighlight">\(Z\)</span> can be organized so that clusters at the coarsest level are conditionally independent. Random effects are <strong>crossed</strong> when the factors are not hierarchical, e.g., in a repeated-measures experiment where every subject rates every item, subject and item random effects are crossed: every subject-item combination is observed (or could be), and neither factor is contained within the other. Crossed designs require a <span class="math notranslate nohighlight">\(Z\)</span> matrix that does not reduce to a per-cluster block structure, so the joint covariance mixes subject and item variance components across the whole dataset; software such as <code class="docutils literal notranslate"><span class="pre">lme4</span></code> handles this with sparse matrix methods rather than the closed-form cluster-wise algebra available for nested designs.</p>
+</section>
+</section>
+<section id="estimation-ml-reml-and-blup">
+<h2>Estimation: ML, REML, and BLUP<a class="headerlink" href="#estimation-ml-reml-and-blup" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#estimation-ml-reml-and-blup'"><span>#</span></a></h2>
+<section id="ml-vs-reml">
+<h3>ML vs. REML<a class="headerlink" href="#ml-vs-reml" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#ml-vs-reml'"><span>#</span></a></h3>
+<p>Given variance components <span class="math notranslate nohighlight">\(\theta\)</span> (the free parameters of <span class="math notranslate nohighlight">\(D\)</span> and <span class="math notranslate nohighlight">\(\sigma^2\)</span>), maximum likelihood maximizes
+$<span class="math notranslate nohighlight">\( L(\beta, \theta) = \prod_{i=1}^m \phi\big(y_i; X_i\beta, V_i(\theta)\big) \)</span><span class="math notranslate nohighlight">\(
+jointly over \)</span>\beta<span class="math notranslate nohighlight">\( and \)</span>\theta<span class="math notranslate nohighlight">\(. As in ordinary regression, where the MLE of \)</span>\sigma^2<span class="math notranslate nohighlight">\( divides by \)</span>n<span class="math notranslate nohighlight">\( rather than \)</span>n-p<span class="math notranslate nohighlight">\(, the ML estimator of the variance components is downward biased because it does not account for the degrees of freedom used to estimate \)</span>\beta$.</p>
+<p><strong>REML</strong> (restricted/residual maximum likelihood) corrects this by maximizing the likelihood of error contrasts, linear combinations <span class="math notranslate nohighlight">\(K^Ty\)</span> with <span class="math notranslate nohighlight">\(K^TX = 0\)</span>, that do not depend on <span class="math notranslate nohighlight">\(\beta\)</span> at all:
+$<span class="math notranslate nohighlight">\( L_{REML}(\theta) \propto |V(\theta)|^{-1/2}\, |X^TV(\theta)^{-1}X|^{-1/2} \exp\!\left(-\tfrac12 (y-X\hat\beta(\theta))^T V(\theta)^{-1} (y-X\hat\beta(\theta))\right). \)</span><span class="math notranslate nohighlight">\(
+REML variance-component estimates are unbiased in balanced designs and are the default for reporting variance components. However, because \)</span>L_{REML}<span class="math notranslate nohighlight">\( depends on \)</span>X<span class="math notranslate nohighlight">\( through the projection removing \)</span>\beta$, REML likelihoods are <strong>not comparable across models with different fixed effects</strong>; when comparing nested fixed-effects specifications by likelihood-ratio test, one must refit with ML.</p>
+</section>
+<section id="blup-and-shrinkage">
+<h3>BLUP and shrinkage<a class="headerlink" href="#blup-and-shrinkage" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#blup-and-shrinkage'"><span>#</span></a></h3>
+<p>For known <span class="math notranslate nohighlight">\(\theta\)</span>, the generalized least squares estimator is <span class="math notranslate nohighlight">\(\hat\beta = (X^TV^{-1}X)^{-1}X^TV^{-1}y\)</span>. The best linear unbiased predictor of the random effect is
+$<span class="math notranslate nohighlight">\( \hat b_i = D Z_i^T V_i^{-1}(y_i - X_i\hat\beta). \)</span><span class="math notranslate nohighlight">\(
+This is a **shrinkage** estimator: it pulls the cluster's raw deviation toward zero (the population value), with the amount of shrinkage governed by cluster size and the ratio of between- to within-cluster variance. In the random-intercept-only case,
+\)</span><span class="math notranslate nohighlight">\( \hat b_{0i} = \lambda_i (\bar y_i - x_i^T\hat\beta), \qquad \lambda_i = \frac{n_i \sigma_0^2}{n_i\sigma_0^2 + \sigma^2} \in (0,1). \)</span><span class="math notranslate nohighlight">\(
+Small or noisy clusters (small \)</span>n_i<span class="math notranslate nohighlight">\(, or small \)</span>\sigma_0^2<span class="math notranslate nohighlight">\( relative to \)</span>\sigma^2$) are shrunk more heavily toward the population mean; this is exactly the same shrinkage logic as in empirical Bayes estimation.</p>
+</section>
+</section>
+<section id="inference-on-variance-components">
+<h2>Inference on Variance Components<a class="headerlink" href="#inference-on-variance-components" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#inference-on-variance-components'"><span>#</span></a></h2>
+<section id="likelihood-ratio-testing-for-variance-components-the-boundary-issue">
+<h3>Likelihood-ratio testing for variance components (the boundary issue)<a class="headerlink" href="#likelihood-ratio-testing-for-variance-components-the-boundary-issue" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#likelihood-ratio-testing-for-variance-components-the-boundary-issue'"><span>#</span></a></h3>
+<p>Testing <span class="math notranslate nohighlight">\(H_0: \sigma_0^2 = 0\)</span> (no random intercept needed) is nonstandard: <span class="math notranslate nohighlight">\(0\)</span> is on the <strong>boundary</strong> of the parameter space for a variance, so the usual regularity conditions for <span class="math notranslate nohighlight">\(-2\log\Lambda \to \chi^2_1\)</span> under <span class="math notranslate nohighlight">\(H_0\)</span> fail. Self and Liang (1987) showed that when testing a single variance component at the boundary, the asymptotic null distribution of the LRT statistic is a 50:50 mixture of a point mass at 0 and a <span class="math notranslate nohighlight">\(\chi^2_1\)</span>:
+$<span class="math notranslate nohighlight">\( -2\log\Lambda \;\xrightarrow{d}\; \tfrac12 \chi^2_0 + \tfrac12 \chi^2_1 \quad \text{(written } \bar\chi^2_{01}\text{)}. \)</span><span class="math notranslate nohighlight">\(
+Practically, this means the naive p-value obtained by comparing the LRT statistic to a \)</span>\chi^2_1<span class="math notranslate nohighlight">\( reference is roughly **twice too large** (conservative); the corrected p-value is approximately half the naive one. When testing \)</span>q \geq 2<span class="math notranslate nohighlight">\( variance components jointly (e.g., a random slope's variance together with its covariance with the intercept), the reference distribution is a mixture of \)</span>\chi^2_{q-1}<span class="math notranslate nohighlight">\( and \)</span>\chi^2_q$ with mixing weights that generally must be simulated or looked up.</p>
+</section>
+<section id="icc">
+<h3>ICC<a class="headerlink" href="#icc" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#icc'"><span>#</span></a></h3>
+<p>For the random-intercept model, the <strong>intraclass correlation coefficient</strong> is
+$<span class="math notranslate nohighlight">\( \rho = \frac{\sigma_0^2}{\sigma_0^2 + \sigma^2}. \)</span><span class="math notranslate nohighlight">\(
+It equals both the proportion of total variance attributable to between-cluster differences, and the model-implied correlation between two observations \)</span>y_{ij}, y_{ik}<span class="math notranslate nohighlight">\( (\)</span>j \ne k<span class="math notranslate nohighlight">\() drawn from the same cluster \)</span>i<span class="math notranslate nohighlight">\(, since \)</span>Cov(y_{ij}, y_{ik}) = \sigma_0^2<span class="math notranslate nohighlight">\( and \)</span>Var(y_{ij}) = \sigma_0^2+\sigma^2$ under the compound-symmetric marginal covariance implied by a single random intercept.</p>
+</section>
+</section>
+<section id="worked-example">
+<h2>Worked Example<a class="headerlink" href="#worked-example" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#worked-example'"><span>#</span></a></h2>
+<p>Four schools (clusters), three students each, test scores:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Group</p></th>
+<th class="head"><p>Scores</p></th>
+<th class="head"><p>Mean</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>5, 7, 6</p></td>
+<td><p>6.00</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>9, 10, 8</p></td>
+<td><p>9.00</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>4, 3, 5</p></td>
+<td><p>4.00</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>7, 8, 9</p></td>
+<td><p>8.00</p></td>
+</tr>
+</tbody>
+</table>
+<p>Grand mean <span class="math notranslate nohighlight">\(\bar y = 6.75\)</span>. This is a balanced one-way random-effects design, so the ANOVA-based variance component estimators coincide with REML.</p>
+<div class="math notranslate nohighlight">
+\[ SSB = n\sum_i (\bar y_i - \bar y)^2 = 3\big[0.5625+5.0625+7.5625+1.5625\big] = 44.25, \quad MSB = 44.25/3 = 14.75 \]</div>
+<div class="math notranslate nohighlight">
+\[ SSW = \sum_i\sum_j (y_{ij}-\bar y_i)^2 = 2+2+2+2 = 8, \quad MSW = 8/8 = 1 \]</div>
+<p>So <span class="math notranslate nohighlight">\(\hat\sigma^2 = MSW = 1\)</span> and, using <span class="math notranslate nohighlight">\(n=3\)</span> observations per group,
+$<span class="math notranslate nohighlight">\( \hat\sigma_0^2 = \frac{MSB - MSW}{n} = \frac{14.75-1}{3} = 4.5833. \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( \widehat{ICC} = \frac{4.5833}{4.5833+1} = 0.821. \)</span>$
+Over 82% of the variance in scores is between-school; schools differ substantially.</p>
+<p><strong>BLUP for group 3</strong> (raw mean 4.00, furthest below the grand mean): shrinkage factor
+$<span class="math notranslate nohighlight">\( \lambda_3 = \frac{3(4.5833)}{3(4.5833)+1} = \frac{13.75}{14.75} = 0.932, \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( \hat b_{0,3} = \lambda_3(\bar y_3 - \hat\beta) = 0.932 \times (4.00 - 6.75) = -2.564. \)</span><span class="math notranslate nohighlight">\(
+The predicted school-3 intercept is \)</span>6.75 - 2.564 = 4.186<span class="math notranslate nohighlight">\(, shrunk slightly toward the grand mean rather than sitting at the raw 4.00, because with only \)</span>n_i=3<span class="math notranslate nohighlight">\( and \)</span>\sigma^2<span class="math notranslate nohighlight">\( non-negligible relative to \)</span>\sigma_0^2$, some of the observed deviation is attributed to noise.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>
+<span class="c1"># model = smf.mixedlm("score ~ 1", data, groups=data["school"]).fit(reml=True)</span>
+<span class="c1"># model.params, model.random_effects</span>
+</pre></div>
+</div>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercises'"><span>#</span></a></h2>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-1'"><span>#</span></a></h3>
+<p>Derive the marginal covariance matrix <span class="math notranslate nohighlight">\(V_i = Z_iDZ_i^T + \sigma^2 I_{n_i}\)</span> for a random-intercept-only model (<span class="math notranslate nohighlight">\(Z_i = \mathbf{1}_{n_i}\)</span>, <span class="math notranslate nohighlight">\(D = \sigma_0^2\)</span>), and show explicitly that <span class="math notranslate nohighlight">\(V_i\)</span> has the compound-symmetric form <span class="math notranslate nohighlight">\(\sigma^2 I_{n_i} + \sigma_0^2 J_{n_i}\)</span> (<span class="math notranslate nohighlight">\(J\)</span> the all-ones matrix). From this, derive the correlation between any two observations in the same cluster and confirm it equals the ICC formula given in the notes.</p>
+<details>
+<summary>Solution</summary>
+<p>With <span class="math notranslate nohighlight">\(Z_i = \mathbf{1}_{n_i}\)</span> (an <span class="math notranslate nohighlight">\(n_i \times 1\)</span> column of ones) and <span class="math notranslate nohighlight">\(D = \sigma_0^2\)</span> (a scalar), <span class="math notranslate nohighlight">\(Z_iDZ_i^T = \sigma_0^2 \mathbf{1}_{n_i}\mathbf{1}_{n_i}^T = \sigma_0^2 J_{n_i}\)</span>, where <span class="math notranslate nohighlight">\(J_{n_i}\)</span> is the <span class="math notranslate nohighlight">\(n_i\times n_i\)</span> matrix of all ones. Hence
+$<span class="math notranslate nohighlight">\( V_i = \sigma_0^2 J_{n_i} + \sigma^2 I_{n_i}. \)</span><span class="math notranslate nohighlight">\(
+Element-wise, the diagonal entries are \)</span>\sigma_0^2 + \sigma^2<span class="math notranslate nohighlight">\( (since \)</span>J_{ii}=1<span class="math notranslate nohighlight">\( and \)</span>I_{ii}=1<span class="math notranslate nohighlight">\() and the off-diagonal entries are \)</span>\sigma_0^2<span class="math notranslate nohighlight">\( (since \)</span>J_{ij}=1, I_{ij}=0<span class="math notranslate nohighlight">\( for \)</span>i\ne j$). This is exactly the compound-symmetric structure: constant variance, constant covariance.</p>
+<p>The correlation between <span class="math notranslate nohighlight">\(y_{ij}\)</span> and <span class="math notranslate nohighlight">\(y_{ik}\)</span>, <span class="math notranslate nohighlight">\(j\ne k\)</span>, in the same cluster is
+$<span class="math notranslate nohighlight">\( Corr(y_{ij},y_{ik}) = \frac{Cov(y_{ij},y_{ik})}{\sqrt{Var(y_{ij})Var(y_{ik})}} = \frac{\sigma_0^2}{\sigma_0^2+\sigma^2}, \)</span><span class="math notranslate nohighlight">\(
+since both variances equal \)</span>\sigma_0^2+\sigma^2<span class="math notranslate nohighlight">\(. This matches \)</span>\rho = \sigma_0^2/(\sigma_0^2+\sigma^2)$, confirming the ICC is precisely the within-cluster correlation implied by the random-intercept model, not merely a variance-decomposition heuristic.</p>
+</details>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-2'"><span>#</span></a></h3>
+<p>Derive the BLUP <span class="math notranslate nohighlight">\(\hat b_i = DZ_i^TV_i^{-1}(y_i - X_i\beta)\)</span> from the joint normality of <span class="math notranslate nohighlight">\((y_i, b_i)\)</span>, and show it minimizes mean squared prediction error among linear unbiased predictors (equivalently, that it equals <span class="math notranslate nohighlight">\(E[b_i \mid y_i]\)</span> under the normal model).</p>
+<details>
+<summary>Solution</summary>
+<p>Under the model, <span class="math notranslate nohighlight">\((y_i, b_i)\)</span> is jointly Gaussian with
+$<span class="math notranslate nohighlight">\( \begin{pmatrix} y_i \\ b_i \end{pmatrix} \sim N\left( \begin{pmatrix} X_i\beta \\ 0 \end{pmatrix}, \begin{pmatrix} V_i &amp; Z_iD \\ DZ_i^T &amp; D \end{pmatrix} \right), \)</span><span class="math notranslate nohighlight">\(
+because \)</span>Cov(y_i, b_i) = Cov(X_i\beta + Z_ib_i+\epsilon_i, b_i) = Z_i Cov(b_i,b_i) = Z_iD<span class="math notranslate nohighlight">\(, and \)</span>Var(b_i)=D$.</p>
+<p>For a jointly Gaussian vector <span class="math notranslate nohighlight">\((U,W)\)</span> with <span class="math notranslate nohighlight">\(U\sim N(\mu_U,\Sigma_{UU})\)</span>, <span class="math notranslate nohighlight">\(W \sim N(\mu_W,\Sigma_{WW})\)</span>, and cross-covariance <span class="math notranslate nohighlight">\(\Sigma_{WU}\)</span>, the conditional expectation is
+$<span class="math notranslate nohighlight">\( E[W\mid U] = \mu_W + \Sigma_{WU}\Sigma_{UU}^{-1}(U-\mu_U). \)</span><span class="math notranslate nohighlight">\(
+Applying this with \)</span>W = b_i<span class="math notranslate nohighlight">\( (\)</span>\mu_W=0<span class="math notranslate nohighlight">\(), \)</span>U = y_i<span class="math notranslate nohighlight">\( (\)</span>\mu_U = X_i\beta<span class="math notranslate nohighlight">\(), \)</span>\Sigma_{WU} = DZ_i^T<span class="math notranslate nohighlight">\(, \)</span>\Sigma_{UU}=V_i<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\( E[b_i \mid y_i] = DZ_i^T V_i^{-1}(y_i - X_i\beta) = \hat b_i. \)</span>$</p>
+<p>Optimality among linear unbiased predictors: any linear predictor <span class="math notranslate nohighlight">\(\tilde b_i = A y_i\)</span> is unbiased for <span class="math notranslate nohighlight">\(b_i\)</span> (in the sense <span class="math notranslate nohighlight">\(E[\tilde b_i - b_i]=0\)</span> over the joint distribution) if <span class="math notranslate nohighlight">\(AX_i = 0\)</span>. Its MSE is <span class="math notranslate nohighlight">\(E\|Ay_i - b_i\|^2\)</span>. Writing <span class="math notranslate nohighlight">\(Ay_i - b_i = A(X_i\beta+Z_ib_i+\epsilon_i) - b_i = A\epsilon_i + (AZ_i-I)b_i\)</span> (using <span class="math notranslate nohighlight">\(AX_i\beta=0\)</span>), and using independence of <span class="math notranslate nohighlight">\(\epsilon_i,b_i\)</span>,
+$<span class="math notranslate nohighlight">\( MSE(A) = \sigma^2 AA^T + (AZ_i-I)D(AZ_i-I)^T. \)</span><span class="math notranslate nohighlight">\(
+Minimizing the trace of this quadratic form over \)</span>A<span class="math notranslate nohighlight">\( subject to \)</span>AX_i=0<span class="math notranslate nohighlight">\( is a constrained least-squares problem; setting the (constrained) gradient to zero yields exactly \)</span>A = DZ_i^TV_i^{-1}<span class="math notranslate nohighlight">\( up to the projection removing the \)</span>X_i\beta<span class="math notranslate nohighlight">\( component, reproducing \)</span>\hat b_i<span class="math notranslate nohighlight">\(. Since the conditional-expectation solution already satisfies \)</span>AX_i=0<span class="math notranslate nohighlight">\( (because \)</span>Cov(b_i, X_i\beta)=0$ makes the predictor automatically orthogonal to the fixed part), the two derivations agree: the BLUP is simultaneously the conditional mean under normality and the minimum-MSE linear unbiased predictor, which is why it generalizes (as the “best linear unbiased predictor”) to non-Gaussian settings via the Gauss-Markov-type argument alone.</p>
+</details>
+</section>
+<section id="exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-3'"><span>#</span></a></h3>
+<p>For the balanced one-way random-effects model <span class="math notranslate nohighlight">\(y_{ij} = \mu + b_i + \epsilon_{ij}\)</span>, <span class="math notranslate nohighlight">\(b_i \sim N(0,\sigma_0^2)\)</span>, <span class="math notranslate nohighlight">\(\epsilon_{ij}\sim N(0,\sigma^2)\)</span>, <span class="math notranslate nohighlight">\(i=1,\dots,m\)</span>, <span class="math notranslate nohighlight">\(j=1,\dots,n\)</span>, derive <span class="math notranslate nohighlight">\(E[MSW]\)</span> and <span class="math notranslate nohighlight">\(E[MSB]\)</span> and show that the ANOVA-based moment estimators <span class="math notranslate nohighlight">\(\hat\sigma^2 = MSW\)</span>, <span class="math notranslate nohighlight">\(\hat\sigma_0^2 = (MSB-MSW)/n\)</span> are unbiased for <span class="math notranslate nohighlight">\(\sigma^2,\sigma_0^2\)</span>.</p>
+<details>
+<summary>Solution</summary>
+<p>Write <span class="math notranslate nohighlight">\(y_{ij} = \mu + b_i + \epsilon_{ij}\)</span>. Group mean <span class="math notranslate nohighlight">\(\bar y_i = \mu + b_i + \bar\epsilon_i\)</span>, grand mean <span class="math notranslate nohighlight">\(\bar y = \mu + \bar b + \bar{\bar\epsilon}\)</span> where <span class="math notranslate nohighlight">\(\bar b = m^{-1}\sum_i b_i\)</span>, <span class="math notranslate nohighlight">\(\bar\epsilon_i = n^{-1}\sum_j \epsilon_{ij}\)</span>.</p>
+<p><strong>Within groups:</strong> <span class="math notranslate nohighlight">\(y_{ij}-\bar y_i = \epsilon_{ij}-\bar\epsilon_i\)</span>, which does not involve <span class="math notranslate nohighlight">\(b_i\)</span> at all. So <span class="math notranslate nohighlight">\(SSW = \sum_i\sum_j(\epsilon_{ij}-\bar\epsilon_i)^2\)</span> is exactly the usual within-group sum of squares of iid <span class="math notranslate nohighlight">\(N(0,\sigma^2)\)</span> errors, with <span class="math notranslate nohighlight">\(m(n-1)\)</span> degrees of freedom. Standard result (same as one-way fixed-effects ANOVA from Stats 2): <span class="math notranslate nohighlight">\(E[SSW] = m(n-1)\sigma^2\)</span>, so
+$<span class="math notranslate nohighlight">\( E[MSW] = E[SSW/(m(n-1))] = \sigma^2. \)</span>$</p>
+<p><strong>Between groups:</strong> <span class="math notranslate nohighlight">\(\bar y_i - \bar y = (b_i - \bar b) + (\bar\epsilon_i - \bar{\bar\epsilon})\)</span>. Then
+$<span class="math notranslate nohighlight">\( SSB = n\sum_i(\bar y_i-\bar y)^2 = n\sum_i\big[(b_i-\bar b)+(\bar\epsilon_i-\bar{\bar\epsilon})\big]^2. \)</span><span class="math notranslate nohighlight">\(
+Expand the square; cross terms vanish in expectation since \)</span>b_i \perp \epsilon<span class="math notranslate nohighlight">\(. So
+\)</span><span class="math notranslate nohighlight">\( E[SSB] = n\, E\Big[\sum_i (b_i-\bar b)^2\Big] + n\, E\Big[\sum_i(\bar\epsilon_i - \bar{\bar\epsilon})^2\Big]. \)</span><span class="math notranslate nohighlight">\(
+For the first term, \)</span>b_1,\dots,b_m<span class="math notranslate nohighlight">\( are iid \)</span>N(0,\sigma_0^2)<span class="math notranslate nohighlight">\(, so \)</span>\sum_i(b_i-\bar b)^2<span class="math notranslate nohighlight">\( has expectation \)</span>(m-1)\sigma_0^2<span class="math notranslate nohighlight">\( (standard unbiased-sample-variance identity). For the second term, \)</span>\bar\epsilon_i<span class="math notranslate nohighlight">\( are iid \)</span>N(0,\sigma^2/n)<span class="math notranslate nohighlight">\(, so \)</span>\sum_i(\bar\epsilon_i-\bar{\bar\epsilon})^2<span class="math notranslate nohighlight">\( has expectation \)</span>(m-1)\sigma^2/n<span class="math notranslate nohighlight">\(. Hence
+\)</span><span class="math notranslate nohighlight">\( E[SSB] = n(m-1)\sigma_0^2 + (m-1)\sigma^2, \qquad E[MSB] = E[SSB/(m-1)] = n\sigma_0^2+\sigma^2. \)</span>$</p>
+<p><strong>Unbiasedness of the moment estimators:</strong>
+$<span class="math notranslate nohighlight">\( E[\hat\sigma^2] = E[MSW] = \sigma^2, \qquad E[\hat\sigma_0^2] = \frac{E[MSB]-E[MSW]}{n} = \frac{(n\sigma_0^2+\sigma^2)-\sigma^2}{n} = \sigma_0^2. \)</span><span class="math notranslate nohighlight">\(
+Both are unbiased. This ANOVA-based construction coincides with the REML estimators in the balanced case, which is why REML (not ML) is the natural generalization of the "\)</span>n-p$ correction” intuition from Stats 1/2 to variance components.</p>
+</details>
+</section>
+<section id="exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#exercise-4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-4'"><span>#</span></a></h3>
+<p>In a study, you fit a random-intercept model and a fixed-effects-only model by REML/ML and obtain a likelihood-ratio statistic <span class="math notranslate nohighlight">\(-2\log\Lambda = 3.5\)</span> for <span class="math notranslate nohighlight">\(H_0:\sigma_0^2=0\)</span> against <span class="math notranslate nohighlight">\(H_1:\sigma_0^2&gt;0\)</span> (one variance component, boundary case). (a) Compute the naive p-value using a <span class="math notranslate nohighlight">\(\chi^2_1\)</span> reference distribution. (b) Compute the corrected p-value using the Self-Liang <span class="math notranslate nohighlight">\(\tfrac12\chi^2_0+\tfrac12\chi^2_1\)</span> mixture, and explain the direction of the discrepancy.</p>
+<details>
+<summary>Solution</summary>
+<p>(a) Naive approach: treat <span class="math notranslate nohighlight">\(-2\log\Lambda = 3.5\)</span> as <span class="math notranslate nohighlight">\(\chi^2_1\)</span>. We need <span class="math notranslate nohighlight">\(P(\chi^2_1 &gt; 3.5)\)</span>. Since <span class="math notranslate nohighlight">\(\chi^2_1 = Z^2\)</span> for <span class="math notranslate nohighlight">\(Z\sim N(0,1)\)</span>, <span class="math notranslate nohighlight">\(P(\chi^2_1&gt;3.5) = P(|Z|&gt;\sqrt{3.5}) = P(|Z|&gt;1.8708) = 2(1-\Phi(1.8708))\)</span>. From the standard normal table, <span class="math notranslate nohighlight">\(\Phi(1.8708)\approx 0.9693\)</span>, so
+$<span class="math notranslate nohighlight">\( p_{naive} = 2(1-0.9693) = 2(0.0307) = 0.0614. \)</span>$</p>
+<p>(b) Under the correct mixture <span class="math notranslate nohighlight">\(\tfrac12\chi^2_0 + \tfrac12\chi^2_1\)</span>, the point mass <span class="math notranslate nohighlight">\(\chi^2_0\)</span> contributes zero probability to the event <span class="math notranslate nohighlight">\(\{T&gt;3.5\}\)</span> for any <span class="math notranslate nohighlight">\(3.5&gt;0\)</span>, so
+$<span class="math notranslate nohighlight">\( p_{corrected} = P(\bar\chi^2_{01} &gt; 3.5) = \tfrac12 P(\chi^2_0&gt;3.5) + \tfrac12 P(\chi^2_1&gt;3.5) = 0 + \tfrac12(0.0614) = 0.0307. \)</span>$</p>
+<p>The corrected p-value is exactly half the naive one, as the general theory predicts: comparing the boundary LRT statistic to an ordinary <span class="math notranslate nohighlight">\(\chi^2_1\)</span> reference is conservative (the naive p-value overstates the true p-value by a factor of 2), because half of the null sampling distribution’s mass sits at exactly 0 (whenever the unconstrained REML/ML optimizer would want <span class="math notranslate nohighlight">\(\hat\sigma_0^2&lt;0\)</span>, it is truncated to <span class="math notranslate nohighlight">\(0\)</span>, making <span class="math notranslate nohighlight">\(-2\log\Lambda=0\)</span> on those samples) rather than following <span class="math notranslate nohighlight">\(\chi^2_1\)</span> throughout. Using the naive <span class="math notranslate nohighlight">\(\chi^2_1\)</span> p-value as a decision rule at <span class="math notranslate nohighlight">\(\alpha=0.05\)</span> would fail to reject in this example (<span class="math notranslate nohighlight">\(0.0614&gt;0.05\)</span>), while the corrected mixture test does reject (<span class="math notranslate nohighlight">\(0.0307&lt;0.05\)</span>), so the boundary correction can change the conclusion of the test.</p>
+</details>
+</section>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="../main.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Chapter 03: Advanced Modeling
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L02_item_response_theory.html">
+        Item Response Theory (IRT)
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#the-linear-mixed-model'" class="reference internal" href="#the-linear-mixed-model">The Linear Mixed Model</a><ul>
+<li><a :data-current="activeSection === '#fixed-vs-random-effects'" class="reference internal" href="#fixed-vs-random-effects">Fixed vs. random effects</a></li>
+<li><a :data-current="activeSection === '#random-intercept-slope-model-in-matrix-form'" class="reference internal" href="#random-intercept-slope-model-in-matrix-form">Random intercept/slope model in matrix form</a></li>
+<li><a :data-current="activeSection === '#nested-vs-crossed-effects'" class="reference internal" href="#nested-vs-crossed-effects">Nested vs. crossed effects</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#estimation-ml-reml-and-blup'" class="reference internal" href="#estimation-ml-reml-and-blup">Estimation: ML, REML, and BLUP</a><ul>
+<li><a :data-current="activeSection === '#ml-vs-reml'" class="reference internal" href="#ml-vs-reml">ML vs. REML</a></li>
+<li><a :data-current="activeSection === '#blup-and-shrinkage'" class="reference internal" href="#blup-and-shrinkage">BLUP and shrinkage</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#inference-on-variance-components'" class="reference internal" href="#inference-on-variance-components">Inference on Variance Components</a><ul>
+<li><a :data-current="activeSection === '#likelihood-ratio-testing-for-variance-components-the-boundary-issue'" class="reference internal" href="#likelihood-ratio-testing-for-variance-components-the-boundary-issue">Likelihood-ratio testing for variance components (the boundary issue)</a></li>
+<li><a :data-current="activeSection === '#icc'" class="reference internal" href="#icc">ICC</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#worked-example'" class="reference internal" href="#worked-example">Worked Example</a></li>
+<li><a :data-current="activeSection === '#exercises'" class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a :data-current="activeSection === '#exercise-1'" class="reference internal" href="#exercise-1">Exercise 1</a></li>
+<li><a :data-current="activeSection === '#exercise-2'" class="reference internal" href="#exercise-2">Exercise 2</a></li>
+<li><a :data-current="activeSection === '#exercise-3'" class="reference internal" href="#exercise-3">Exercise 3</a></li>
+<li><a :data-current="activeSection === '#exercise-4'" class="reference internal" href="#exercise-4">Exercise 4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

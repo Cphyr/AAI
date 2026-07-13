@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Survival Analysis | AAI 1.0 documentation</title>
+<meta content="Survival Analysis | AAI 1.0 documentation" property="og:title"/>
+<meta content="Survival Analysis | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../MLCrashCourse/main.html" rel="next" title="ML Crash Course"/>
+<link href="L03_nonparametric_and_semiparametric_methods.html" rel="prev" title="Nonparametric &amp; Semiparametric Methods"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Statistics 301<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_01_advanced_inference/main.html">Chapter 01: Advanced Inference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L01_likelihood_theory_and_asymptotics.html">Likelihood Theory &amp; Asymptotics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L02_em_algorithm_and_latent_variables.html">The EM Algorithm &amp; Latent Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L03_bayesian_inference_and_mcmc.html">Bayesian Inference &amp; MCMC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L04_multiple_testing_and_fdr.html">Multiple Testing &amp; FDR</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_02_resampling_and_computation/main.html">Chapter 02: Resampling &amp; Computation<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L01_bootstrap_methods.html">Bootstrap Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L02_permutation_and_randomization_tests.html">Permutation &amp; Randomization Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L03_missing_data_and_multiple_imputation.html">Missing Data &amp; Multiple Imputation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L04_model_selection_and_cross_validation.html">Model Selection &amp; Cross-Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 03: Advanced Modeling<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="L01_mixed_effects_models.html">Mixed-Effects Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L02_item_response_theory.html">Item Response Theory (IRT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L03_nonparametric_and_semiparametric_methods.html">Nonparametric &amp; Semiparametric Methods</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Survival Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">Statistics 301</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 03: Advanced Modeling</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Survival Analysis</span>
+</nav>
+<div id="content" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="survival-analysis">
+<h1>Survival Analysis<a class="headerlink" href="#survival-analysis" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>Time-to-event data, time until death, machine failure, customer churn, disease recurrence, has a feature that ordinary regression cannot handle: <strong>censoring</strong>. Many subjects have not yet experienced the event by the end of the study, so their exact event time is unknown, only a bound on it. Discarding censored subjects wastes information and biases estimates toward shorter observed times; treating censoring times as if they were event times is simply wrong. Survival analysis provides a coherent likelihood framework, and a set of nonparametric and semiparametric estimators, the Kaplan-Meier curve, the log-rank test, the Cox model, that correctly incorporate partial (censored) information.</p>
+</section>
+<section id="survival-hazard-and-cumulative-hazard-functions">
+<h2>Survival, Hazard, and Cumulative Hazard Functions<a class="headerlink" href="#survival-hazard-and-cumulative-hazard-functions" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#survival-hazard-and-cumulative-hazard-functions'"><span>#</span></a></h2>
+<section id="censoring-types">
+<h3>Censoring types<a class="headerlink" href="#censoring-types" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#censoring-types'"><span>#</span></a></h3>
+<p><strong>Right censoring</strong> is by far the most common: we know the event time exceeds the observed time (e.g., the subject is alive and event-free when the study ends, or is lost to follow-up). <strong>Left censoring</strong> occurs when we know the event happened <em>before</em> observation began but not exactly when (e.g., a screening test detects a condition already present, with unknown onset). <strong>Interval censoring</strong> occurs when we only know the event occurred within some interval <span class="math notranslate nohighlight">\((L,R]\)</span>, common when subjects are examined only at periodic visits. Within right censoring, <strong>Type I</strong> censoring has a fixed censoring time (e.g., a study with a fixed end date), <strong>Type II</strong> censoring stops the study once a pre-specified number of events has occurred (common in reliability testing), and <strong>random/independent censoring</strong> allows censoring times to vary across subjects and be stochastic, provided they are independent of the (potential) event time given covariates, the key assumption that makes standard survival methods valid.</p>
+</section>
+<section id="definitions-and-relations">
+<h3>Definitions and relations<a class="headerlink" href="#definitions-and-relations" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#definitions-and-relations'"><span>#</span></a></h3>
+<p>Let <span class="math notranslate nohighlight">\(T\geq0\)</span> be the (possibly unobserved) event time with density <span class="math notranslate nohighlight">\(f(t)\)</span> and CDF <span class="math notranslate nohighlight">\(F(t)\)</span>. The <strong>survival function</strong> is
+$<span class="math notranslate nohighlight">\( S(t) = P(T&gt;t) = 1-F(t). \)</span><span class="math notranslate nohighlight">\(
+The **hazard function** is the instantaneous event rate given survival to \)</span>t<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\( h(t) = \lim_{\Delta t\to 0} \frac{P(t\leq T&lt;t+\Delta t \mid T\geq t)}{\Delta t} = \frac{f(t)}{S(t)}. \)</span><span class="math notranslate nohighlight">\(
+Since \)</span>f(t) = -S’(t)<span class="math notranslate nohighlight">\(, we have \)</span>h(t) = -S’(t)/S(t) = -\frac{d}{dt}\log S(t)<span class="math notranslate nohighlight">\(. Integrating,
+\)</span><span class="math notranslate nohighlight">\( H(t) = \int_0^t h(u)\,du = -\log S(t) \quad\Longleftrightarrow\quad S(t) = \exp\big(-H(t)\big), \)</span><span class="math notranslate nohighlight">\(
+where \)</span>H(t)<span class="math notranslate nohighlight">\( is the **cumulative hazard function**. These identities let us move freely between \)</span>f<span class="math notranslate nohighlight">\(, \)</span>S<span class="math notranslate nohighlight">\(, \)</span>h<span class="math notranslate nohighlight">\(, and \)</span>H<span class="math notranslate nohighlight">\(: e.g. \)</span>f(t) = h(t)S(t) = h(t)\exp(-H(t))$.</p>
+</section>
+</section>
+<section id="kaplan-meier-estimator-and-greenwood-s-formula">
+<h2>Kaplan-Meier Estimator and Greenwood’s Formula<a class="headerlink" href="#kaplan-meier-estimator-and-greenwood-s-formula" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#kaplan-meier-estimator-and-greenwood-s-formula'"><span>#</span></a></h2>
+<section id="derivation-of-the-km-estimator">
+<h3>Derivation of the KM estimator<a class="headerlink" href="#derivation-of-the-km-estimator" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#derivation-of-the-km-estimator'"><span>#</span></a></h3>
+<p>Let <span class="math notranslate nohighlight">\(t_{(1)}&lt;t_{(2)}&lt;\dots&lt;t_{(k)}\)</span> be the distinct observed <strong>event</strong> times. At <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, let <span class="math notranslate nohighlight">\(n_j\)</span> be the number of subjects still at risk (neither having had the event nor been censored before <span class="math notranslate nohighlight">\(t_{(j)}\)</span>) and <span class="math notranslate nohighlight">\(d_j\)</span> the number of events occurring exactly at <span class="math notranslate nohighlight">\(t_{(j)}\)</span>. Model the survival process via discrete hazards <span class="math notranslate nohighlight">\(\lambda_j = P(\text{event at } t_{(j)} \mid \text{at risk at } t_{(j)})\)</span>, one per distinct event time, and zero hazard elsewhere. Conditional on the risk sets, the number of events at <span class="math notranslate nohighlight">\(t_{(j)}\)</span> given <span class="math notranslate nohighlight">\(n_j\)</span> at risk is (treating individuals as exchangeable within the risk set) Binomial<span class="math notranslate nohighlight">\((n_j,\lambda_j)\)</span>, so the nonparametric likelihood factors as
+$<span class="math notranslate nohighlight">\( L(\lambda_1,\dots,\lambda_k) = \prod_{j=1}^k \binom{n_j}{d_j}\lambda_j^{d_j}(1-\lambda_j)^{n_j-d_j}. \)</span><span class="math notranslate nohighlight">\(
+This factors into separate terms for each \)</span>j<span class="math notranslate nohighlight">\(, so maximizing over each \)</span>\lambda_j<span class="math notranslate nohighlight">\( independently gives the ordinary binomial MLE \)</span>\hat\lambda_j = d_j/n_j<span class="math notranslate nohighlight">\(. Since \)</span>S(t) = \prod_{j: t_{(j)}\leq t}(1-\lambda_j)<span class="math notranslate nohighlight">\( under this discrete-hazard construction (the probability of surviving past \)</span>t<span class="math notranslate nohighlight">\( is the probability of surviving each intervening discrete hazard), plugging in the MLEs gives the **Kaplan-Meier estimator**:
+\)</span><span class="math notranslate nohighlight">\( \hat S(t) = \prod_{j:\, t_{(j)}\leq t} \left(1-\frac{d_j}{n_j}\right). \)</span><span class="math notranslate nohighlight">\(
+Censored observations enter only through the risk sets \)</span>n_j<span class="math notranslate nohighlight">\( (they reduce \)</span>n_j<span class="math notranslate nohighlight">\( for all later event times) and contribute no \)</span>d_j$, which is exactly the correct partial-information treatment.</p>
+</section>
+<section id="greenwood-s-formula">
+<h3>Greenwood’s formula<a class="headerlink" href="#greenwood-s-formula" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#greenwood-s-formula'"><span>#</span></a></h3>
+<p>The variance of <span class="math notranslate nohighlight">\(\hat S(t)\)</span> is obtained via the delta method applied to <span class="math notranslate nohighlight">\(\log\hat S(t) = \sum_{j:t_{(j)}\leq t}\log(1-d_j/n_j)\)</span> (full derivation in Exercise 2):
+$<span class="math notranslate nohighlight">\( \widehat{Var}\big(\hat S(t)\big) = \hat S(t)^2 \sum_{j:\, t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)}. \)</span><span class="math notranslate nohighlight">\(
+This is used to build confidence intervals for \)</span>S(t)<span class="math notranslate nohighlight">\(; because the normal-approximation interval \)</span>\hat S(t)\pm z_{\alpha/2}SE<span class="math notranslate nohighlight">\( can extend outside \)</span>[0,1]<span class="math notranslate nohighlight">\( (especially near the tails of follow-up where few subjects remain at risk), it is common practice to construct the interval on a transformed scale (e.g. \)</span>\log(-\log S(t))$) and back-transform.</p>
+</section>
+</section>
+<section id="log-rank-test-and-cox-proportional-hazards-model">
+<h2>Log-Rank Test and Cox Proportional Hazards Model<a class="headerlink" href="#log-rank-test-and-cox-proportional-hazards-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#log-rank-test-and-cox-proportional-hazards-model'"><span>#</span></a></h2>
+<section id="log-rank-test">
+<h3>Log-rank test<a class="headerlink" href="#log-rank-test" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#log-rank-test'"><span>#</span></a></h3>
+<p>To compare survival between two groups, at each distinct event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span> (pooling both groups) form a 2x2 table of group membership by event/no-event among those at risk, and compare observed events in group 1, <span class="math notranslate nohighlight">\(O_{1j}\)</span>, to their expectation under the null hypergeometric distribution (fixing the margins, <span class="math notranslate nohighlight">\(d_j\)</span> total events and <span class="math notranslate nohighlight">\(n_{1j}, n_{2j}\)</span> at risk in each group):
+$<span class="math notranslate nohighlight">\( E_{1j} = \frac{n_{1j}\,d_j}{n_j}, \qquad V_j = \frac{n_{1j}n_{2j}\,d_j\,(n_j-d_j)}{n_j^2(n_j-1)}. \)</span><span class="math notranslate nohighlight">\(
+Summing over all event times and standardizing,
+\)</span><span class="math notranslate nohighlight">\( Z = \frac{\sum_j (O_{1j}-E_{1j})}{\sqrt{\sum_j V_j}} \;\xrightarrow{d}\; N(0,1) \quad \text{under } H_0: S_1=S_2, \)</span><span class="math notranslate nohighlight">\(
+equivalently \)</span>Z^2 \to \chi^2_1$. This is exactly a Mantel-Haenszel test stratified over the distinct event times.</p>
+</section>
+<section id="cox-proportional-hazards-model">
+<h3>Cox proportional hazards model<a class="headerlink" href="#cox-proportional-hazards-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#cox-proportional-hazards-model'"><span>#</span></a></h3>
+<p>The Cox model specifies the hazard for an individual with covariates <span class="math notranslate nohighlight">\(x\)</span> as
+$<span class="math notranslate nohighlight">\( h(t\mid x) = h_0(t)\, \exp(x^T\beta), \)</span><span class="math notranslate nohighlight">\(
+where \)</span>h_0(t)<span class="math notranslate nohighlight">\( is an unspecified (nonparametric) baseline hazard, and the **proportional hazards (PH) assumption** is that the hazard ratio between any two covariate profiles, \)</span>\exp((x_1-x_2)^T\beta)$, is constant over time.</p>
+</section>
+<section id="partial-likelihood">
+<h3>Partial likelihood<a class="headerlink" href="#partial-likelihood" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#partial-likelihood'"><span>#</span></a></h3>
+<p>Cox’s key idea eliminates the infinite-dimensional nuisance <span class="math notranslate nohighlight">\(h_0(t)\)</span> by conditioning, at each observed event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, on the identity of the risk set <span class="math notranslate nohighlight">\(R(t_{(j)})\)</span> and on the fact that exactly one event occurred, asking only <em>which</em> member of the risk set it was:
+$<span class="math notranslate nohighlight">\( P\big(\text{subject } (j) \text{ fails} \mid \text{one failure at } t_{(j)}, R(t_{(j)})\big) = \frac{h_0(t_{(j)})\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})} h_0(t_{(j)})\exp(x_l^T\beta)} = \frac{\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\beta)}, \)</span><span class="math notranslate nohighlight">\(
+the baseline hazard cancels. Multiplying these conditional probabilities over all \)</span>k<span class="math notranslate nohighlight">\( event times gives the **partial likelihood**
+\)</span><span class="math notranslate nohighlight">\( L_p(\beta) = \prod_{j=1}^k \frac{\exp(x_{(j)}^T\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\beta)}. \)</span><span class="math notranslate nohighlight">\(
+Maximizing \)</span>\log L_p(\beta)<span class="math notranslate nohighlight">\( by Newton-Raphson gives \)</span>\hat\beta<span class="math notranslate nohighlight">\(, and standard likelihood asymptotics (score, Wald, and likelihood-ratio tests, using the observed information from \)</span>\log L_p<span class="math notranslate nohighlight">\() apply even though \)</span>L_p$ is not a full likelihood, a foundational (and nontrivial) result due to Cox (1972, 1975).</p>
+</section>
+<section id="checking-the-ph-assumption-schoenfeld-residuals">
+<h3>Checking the PH assumption: Schoenfeld residuals<a class="headerlink" href="#checking-the-ph-assumption-schoenfeld-residuals" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#checking-the-ph-assumption-schoenfeld-residuals'"><span>#</span></a></h3>
+<p>For covariate <span class="math notranslate nohighlight">\(k\)</span> and event time <span class="math notranslate nohighlight">\(t_{(j)}\)</span>, the <strong>Schoenfeld residual</strong> compares the failing subject’s observed covariate value to the risk-set-weighted expectation under the fitted model:
+$<span class="math notranslate nohighlight">\( r_{jk} = x_{(j)k} - \frac{\sum_{l\in R(t_{(j)})} x_{lk}\exp(x_l^T\hat\beta)}{\sum_{l\in R(t_{(j)})}\exp(x_l^T\hat\beta)}. \)</span><span class="math notranslate nohighlight">\(
+Under a correctly specified PH model, these residuals should fluctuate randomly around zero with no systematic trend in time. A significant correlation between (scaled) Schoenfeld residuals and time, or a function of time, formally tested via the Grambsch-Therneau test, indicates that the effect of covariate \)</span>k$ is not actually constant over time (the PH assumption is violated), suggesting remedies such as stratification, time-varying coefficients, or splitting follow-up time.</p>
+</section>
+</section>
+<section id="worked-example">
+<h2>Worked Example<a class="headerlink" href="#worked-example" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#worked-example'"><span>#</span></a></h2>
+<p>Two groups, <span class="math notranslate nohighlight">\(n=4\)</span> each, times with event indicator (1=event, 0=censored):</p>
+<p>Group A: 4(event), 6(event), 8(censored), 10(event). Group B: 3(event), 5(event), 7(event), 9(censored).</p>
+<p><strong>Kaplan-Meier for the pooled sample</strong> (8 subjects total):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(t_{(j)}\)</span></p></th>
+<th class="head"><p>at risk <span class="math notranslate nohighlight">\(n_j\)</span></p></th>
+<th class="head"><p>events <span class="math notranslate nohighlight">\(d_j\)</span></p></th>
+<th class="head"><p>factor <span class="math notranslate nohighlight">\(1-d_j/n_j\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\hat S(t_{(j)})\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>8</p></td>
+<td><p>1</p></td>
+<td><p>7/8</p></td>
+<td><p>0.8750</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>7</p></td>
+<td><p>1</p></td>
+<td><p>6/7</p></td>
+<td><p>0.7500</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>1</p></td>
+<td><p>5/6</p></td>
+<td><p>0.6250</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>1</p></td>
+<td><p>4/5</p></td>
+<td><p>0.5000</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>4</p></td>
+<td><p>1</p></td>
+<td><p>3/4</p></td>
+<td><p>0.3750</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>3</p></td>
+<td><p>0 (censored)</p></td>
+<td><p>–</p></td>
+<td><p>0.3750</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>2</p></td>
+<td><p>0 (censored)</p></td>
+<td><p>–</p></td>
+<td><p>0.3750</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0/1</p></td>
+<td><p>0.0000</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Greenwood variance at <span class="math notranslate nohighlight">\(t=7\)</span></strong> (<span class="math notranslate nohighlight">\(\hat S(7)=0.375\)</span>):
+$<span class="math notranslate nohighlight">\( \sum \frac{d_j}{n_j(n_j-d_j)} = \frac{1}{8\cdot7}+\frac{1}{7\cdot6}+\frac{1}{6\cdot5}+\frac{1}{5\cdot4}+\frac{1}{4\cdot3} = 0.01786+0.02381+0.03333+0.05+0.08333 = 0.20833 \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( \widehat{Var}(\hat S(7)) = 0.375^2 \times 0.20833 = 0.14063\times0.20833 = 0.02930, \qquad SE = 0.1712. \)</span>$</p>
+<p><strong>Log-rank test</strong> (Group A vs. Group B): tracking <span class="math notranslate nohighlight">\(n_{Aj}, n_{Bj}\)</span> at each event time (A starts with 4 at risk, B starts with 4):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(t_{(j)}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(n_{Aj}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(n_{Bj}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(n_j\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(d_j\)</span></p></th>
+<th class="head"><p>event in</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(E_{Aj}=n_{Aj}d_j/n_j\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(O_{Aj}-E_{Aj}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(V_j\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>8</p></td>
+<td><p>1</p></td>
+<td><p>B</p></td>
+<td><p>0.500</p></td>
+<td><p>-0.500</p></td>
+<td><p>0.2500</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>7</p></td>
+<td><p>1</p></td>
+<td><p>A</p></td>
+<td><p>0.571</p></td>
+<td><p>0.429</p></td>
+<td><p>0.2449</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>6</p></td>
+<td><p>1</p></td>
+<td><p>B</p></td>
+<td><p>0.500</p></td>
+<td><p>-0.500</p></td>
+<td><p>0.2500</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>5</p></td>
+<td><p>1</p></td>
+<td><p>A</p></td>
+<td><p>0.600</p></td>
+<td><p>0.400</p></td>
+<td><p>0.2400</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>4</p></td>
+<td><p>1</p></td>
+<td><p>B</p></td>
+<td><p>0.500</p></td>
+<td><p>-0.500</p></td>
+<td><p>0.2500</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>A</p></td>
+<td><p>1.000</p></td>
+<td><p>0.000</p></td>
+<td><p>0.0000</p></td>
+</tr>
+</tbody>
+</table>
+<p>(Censoring at <span class="math notranslate nohighlight">\(t=8,9\)</span> reduces risk sets but contributes no row since <span class="math notranslate nohighlight">\(d_j=0\)</span> there.)</p>
+<div class="math notranslate nohighlight">
+\[ \sum (O_{Aj}-E_{Aj}) = -0.500+0.429-0.500+0.400-0.500+0 = -0.671, \qquad \sum V_j = 1.2349 \]</div>
+<div class="math notranslate nohighlight">
+\[ Z = \frac{-0.671}{\sqrt{1.2349}} = \frac{-0.671}{1.1113} = -0.604, \qquad Z^2 = 0.365. \]</div>
+<p>With <span class="math notranslate nohighlight">\(\chi^2_1\)</span> reference, <span class="math notranslate nohighlight">\(p\approx0.55\)</span>: no evidence of a survival difference between groups, unsurprising given the tiny sample.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercises'"><span>#</span></a></h2>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-1'"><span>#</span></a></h3>
+<p>For <span class="math notranslate nohighlight">\(T\sim Exponential(\lambda)\)</span> (constant hazard <span class="math notranslate nohighlight">\(h(t)=\lambda\)</span>), derive the hazard, survival, and cumulative hazard functions, and use them to prove the memoryless property <span class="math notranslate nohighlight">\(P(T&gt;s+t\mid T&gt;s) = P(T&gt;t)\)</span> directly from the constant-hazard assumption (i.e., show that constant hazard <em>implies</em> memorylessness, not just that the exponential distribution happens to have both properties).</p>
+<details>
+<summary>Solution</summary>
+<p>If <span class="math notranslate nohighlight">\(h(t)=\lambda\)</span> (constant) for all <span class="math notranslate nohighlight">\(t\geq0\)</span>, then <span class="math notranslate nohighlight">\(H(t) = \int_0^t \lambda\,du = \lambda t\)</span>, and therefore <span class="math notranslate nohighlight">\(S(t) = \exp(-H(t)) = e^{-\lambda t}\)</span> (recovering the exponential survival function; density <span class="math notranslate nohighlight">\(f(t)=h(t)S(t)=\lambda e^{-\lambda t}\)</span>).</p>
+<p>To show memorylessness follows from constant hazard, use the conditional survival identity: for <span class="math notranslate nohighlight">\(s,t\geq0\)</span>,
+$<span class="math notranslate nohighlight">\( P(T&gt;s+t\mid T&gt;s) = \frac{P(T&gt;s+t, T&gt;s)}{P(T&gt;s)} = \frac{P(T&gt;s+t)}{P(T&gt;s)} = \frac{S(s+t)}{S(s)}, \)</span><span class="math notranslate nohighlight">\(
+since \)</span>{T&gt;s+t}\subseteq{T&gt;s}<span class="math notranslate nohighlight">\(. Substituting the constant-hazard survival function,
+\)</span><span class="math notranslate nohighlight">\( \frac{S(s+t)}{S(s)} = \frac{e^{-\lambda(s+t)}}{e^{-\lambda s}} = e^{-\lambda t} = S(t) = P(T&gt;t). \)</span><span class="math notranslate nohighlight">\(
+So \)</span>P(T&gt;s+t\mid T&gt;s) = P(T&gt;t)<span class="math notranslate nohighlight">\( for all \)</span>s,t\geq 0<span class="math notranslate nohighlight">\(: having survived to time \)</span>s<span class="math notranslate nohighlight">\( gives no information about additional survival time beyond \)</span>t<span class="math notranslate nohighlight">\(, the memoryless property, and it follows purely from \)</span>h(t)<span class="math notranslate nohighlight">\( being constant (the hazard, "instantaneous risk given survival so far", literally does not depend on how long one has already survived, which is the mechanistic reason memorylessness holds). Conversely, one can show any absolutely continuous memoryless distribution must have \)</span>S(s+t)=S(s)S(t)<span class="math notranslate nohighlight">\(, whose only continuous solution is \)</span>S(t)=e^{-\lambda t}<span class="math notranslate nohighlight">\( for some \)</span>\lambda\geq0$, so constant hazard and memorylessness are in fact equivalent characterizations of the exponential family among continuous distributions.</p>
+</details>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-2'"><span>#</span></a></h3>
+<p>Derive Greenwood’s formula via the delta method, starting from <span class="math notranslate nohighlight">\(\log\hat S(t) = \sum_{j:t_{(j)}\leq t}\log(1-d_j/n_j)\)</span> and treating <span class="math notranslate nohighlight">\(d_j\mid n_j\)</span> as approximately <span class="math notranslate nohighlight">\(Binomial(n_j,\lambda_j)\)</span> with the <span class="math notranslate nohighlight">\(d_j\)</span>’s (conditionally on their risk sets) approximately independent across <span class="math notranslate nohighlight">\(j\)</span>.</p>
+<details>
+<summary>Solution</summary>
+<p>Write <span class="math notranslate nohighlight">\(\hat\lambda_j = d_j/n_j\)</span> and <span class="math notranslate nohighlight">\(\log\hat S(t) = \sum_{j} \log(1-\hat\lambda_j)\)</span>, sum over <span class="math notranslate nohighlight">\(j\)</span> with <span class="math notranslate nohighlight">\(t_{(j)}\leq t\)</span>. Treating <span class="math notranslate nohighlight">\(d_j \mid n_j \sim Binomial(n_j,\lambda_j)\)</span> (approximately, conditional on the risk-set structure) and the terms across different <span class="math notranslate nohighlight">\(j\)</span> as approximately independent (a standard martingale-based argument makes this rigorous, but the binomial-approximation route gives the same classical formula), we have
+$<span class="math notranslate nohighlight">\( Var(\hat\lambda_j) \approx \frac{\lambda_j(1-\lambda_j)}{n_j}, \)</span><span class="math notranslate nohighlight">\(
+the usual binomial-proportion variance. Apply the delta method to \)</span>g(\hat\lambda_j) = \log(1-\hat\lambda_j)<span class="math notranslate nohighlight">\(, with \)</span>g’(\lambda_j) = -1/(1-\lambda_j)<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\( Var\big(\log(1-\hat\lambda_j)\big) \approx \big[g'(\lambda_j)\big]^2 Var(\hat\lambda_j) = \frac{1}{(1-\lambda_j)^2}\cdot\frac{\lambda_j(1-\lambda_j)}{n_j} = \frac{\lambda_j}{n_j(1-\lambda_j)}. \)</span><span class="math notranslate nohighlight">\(
+Substituting the plug-in estimate \)</span>\hat\lambda_j = d_j/n_j<span class="math notranslate nohighlight">\( (so \)</span>1-\hat\lambda_j = (n_j-d_j)/n_j<span class="math notranslate nohighlight">\():
+\)</span><span class="math notranslate nohighlight">\( \widehat{Var}\big(\log(1-\hat\lambda_j)\big) = \frac{d_j/n_j}{n_j\cdot (n_j-d_j)/n_j} = \frac{d_j}{n_j(n_j-d_j)}. \)</span><span class="math notranslate nohighlight">\(
+By the assumed independence across event times, variances of the log-terms add:
+\)</span><span class="math notranslate nohighlight">\( \widehat{Var}\big(\log\hat S(t)\big) = \sum_{j:t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)}. \)</span><span class="math notranslate nohighlight">\(
+Finally, apply the delta method once more to transform back from \)</span>\log S<span class="math notranslate nohighlight">\( to \)</span>S<span class="math notranslate nohighlight">\(: with \)</span>S = \exp(\log S)<span class="math notranslate nohighlight">\(, \)</span>\frac{dS}{d(\log S)} = S<span class="math notranslate nohighlight">\(, so
+\)</span><span class="math notranslate nohighlight">\( \widehat{Var}\big(\hat S(t)\big) \approx \hat S(t)^2 \cdot \widehat{Var}\big(\log\hat S(t)\big) = \hat S(t)^2 \sum_{j:t_{(j)}\leq t} \frac{d_j}{n_j(n_j-d_j)}, \)</span>$
+which is exactly Greenwood’s formula.</p>
+</details>
+</section>
+<section id="exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-3'"><span>#</span></a></h3>
+<p>Show that the log-rank test statistic is the score test for <span class="math notranslate nohighlight">\(H_0:\beta=0\)</span> in a Cox proportional hazards model with a single binary covariate <span class="math notranslate nohighlight">\(x\in\{0,1\}\)</span> indicating group membership. That is, derive the score <span class="math notranslate nohighlight">\(U(\beta)\)</span> and expected information <span class="math notranslate nohighlight">\(I(\beta)\)</span> of the Cox partial likelihood at <span class="math notranslate nohighlight">\(\beta=0\)</span>, and show <span class="math notranslate nohighlight">\(U(0)^2/I(0)\)</span> matches the log-rank <span class="math notranslate nohighlight">\(Z^2\)</span> statistic.</p>
+<details>
+<summary>Solution</summary>
+<p>The Cox partial log-likelihood is <span class="math notranslate nohighlight">\(\ell(\beta) = \sum_{j=1}^k \left[x_{(j)}\beta - \log\sum_{l\in R(t_{(j)})} e^{x_l\beta}\right]\)</span> for a single covariate. The score is
+$<span class="math notranslate nohighlight">\( U(\beta) = \frac{d\ell}{d\beta} = \sum_{j=1}^k \left[x_{(j)} - \frac{\sum_{l\in R(t_{(j)})} x_l e^{x_l\beta}}{\sum_{l\in R(t_{(j)})}e^{x_l\beta}}\right]. \)</span><span class="math notranslate nohighlight">\(
+At \)</span>\beta=0<span class="math notranslate nohighlight">\(, \)</span>e^{x_l\beta}=1<span class="math notranslate nohighlight">\( for all \)</span>l<span class="math notranslate nohighlight">\(, so the weighted average collapses to a simple average over the risk set:
+\)</span><span class="math notranslate nohighlight">\( \frac{\sum_{l\in R(t_{(j)})}x_l}{|R(t_{(j)})|} = \frac{n_{1j}}{n_j}, \)</span><span class="math notranslate nohighlight">\(
+since \)</span>x_l\in{0,1}<span class="math notranslate nohighlight">\( and \)</span>\sum_l x_l = n_{1j}<span class="math notranslate nohighlight">\( (number of group-1 subjects at risk), \)</span>|R(t_{(j)})|=n_j<span class="math notranslate nohighlight">\(. Also \)</span>x_{(j)}=1<span class="math notranslate nohighlight">\( if the subject who failed at \)</span>t_{(j)}<span class="math notranslate nohighlight">\( is in group 1, else \)</span>0<span class="math notranslate nohighlight">\(; that is, \)</span>x_{(j)}<span class="math notranslate nohighlight">\( is the observed count \)</span>O_{1j}\in{0,1}<span class="math notranslate nohighlight">\( (since exactly one event per distinct time in the no-ties case) and \)</span>n_{1j}/n_j = E_{1j}/d_j<span class="math notranslate nohighlight">\( with \)</span>d_j=1<span class="math notranslate nohighlight">\(. Hence
+\)</span><span class="math notranslate nohighlight">\( U(0) = \sum_{j=1}^k \big(O_{1j}-E_{1j}\big), \)</span>$
+exactly the log-rank numerator.</p>
+<p>The observed/expected information at <span class="math notranslate nohighlight">\(\beta=0\)</span> is <span class="math notranslate nohighlight">\(-\ell''(\beta)\)</span> evaluated at <span class="math notranslate nohighlight">\(\beta=0\)</span>; a standard calculation for the Cox partial likelihood gives, at each risk set, a “weighted variance” term
+$<span class="math notranslate nohighlight">\( -\frac{d^2\ell_j}{d\beta^2}\bigg|_{\beta=0} = \frac{\sum_l x_l^2}{n_j} - \left(\frac{\sum_l x_l}{n_j}\right)^2 = \frac{n_{1j}}{n_j}-\left(\frac{n_{1j}}{n_j}\right)^2 = \frac{n_{1j}}{n_j}\cdot\frac{n_{2j}}{n_j} = \frac{n_{1j}n_{2j}}{n_j^2} \)</span><span class="math notranslate nohighlight">\(
+(using \)</span>x_l^2=x_l<span class="math notranslate nohighlight">\( for binary \)</span>x_l<span class="math notranslate nohighlight">\(). Summing over event times gives \)</span>I(0) = \sum_j n_{1j}n_{2j}/n_j^2<span class="math notranslate nohighlight">\(. This differs from the log-rank \)</span>V_j = n_{1j}n_{2j}d_j(n_j-d_j)/[n_j^2(n_j-1)]<span class="math notranslate nohighlight">\( only by the finite-population correction factor \)</span>d_j(n_j-d_j)/(n_j-1)<span class="math notranslate nohighlight">\(, which equals \)</span>1<span class="math notranslate nohighlight">\( when \)</span>d_j=1<span class="math notranslate nohighlight">\( (the no-ties case used throughout this lesson's examples), since then \)</span>d_j(n_j-d_j)/(n_j-1) = 1\cdot(n_j-1)/(n_j-1)=1<span class="math notranslate nohighlight">\(. So under no ties, \)</span>I(0) = \sum_j V_j<span class="math notranslate nohighlight">\( exactly, and
+\)</span><span class="math notranslate nohighlight">\( \frac{U(0)^2}{I(0)} = \frac{\left(\sum_j(O_{1j}-E_{1j})\right)^2}{\sum_j V_j} = Z^2_{\text{log-rank}}, \)</span><span class="math notranslate nohighlight">\(
+confirming that the log-rank test is precisely the Cox partial-likelihood score test for \)</span>\beta=0$ with a single binary covariate (with ties, the two differ by the finite-population correction, which is why software sometimes reports “Score test” and “Log-rank test” as extremely close but not bit-identical numbers when there are tied event times).</p>
+</details>
+</section>
+<section id="exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#exercise-4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-4'"><span>#</span></a></h3>
+<p>For a new sample of <span class="math notranslate nohighlight">\(n=6\)</span> subjects with times/status (1=event, 0=censored): <span class="math notranslate nohighlight">\(2(1), 3(1), 3(0), 5(1), 7(0), 8(1)\)</span>, compute the Kaplan-Meier estimate <span class="math notranslate nohighlight">\(\hat S(5)\)</span>, its Greenwood variance, and an approximate 95% confidence interval using the normal approximation.</p>
+<details>
+<summary>Solution</summary>
+<p>Order the data: <span class="math notranslate nohighlight">\(t=2\)</span> (event), <span class="math notranslate nohighlight">\(t=3\)</span> (1 event + 1 censored, tie), <span class="math notranslate nohighlight">\(t=5\)</span> (event), <span class="math notranslate nohighlight">\(t=7\)</span> (censored), <span class="math notranslate nohighlight">\(t=8\)</span> (event).</p>
+<p><strong>Risk sets and KM factors</strong> (convention: at a tied time, events are counted against the risk set before removing same-time censored observations):</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(t=2\)</span>: <span class="math notranslate nohighlight">\(n_1=6\)</span>, <span class="math notranslate nohighlight">\(d_1=1\)</span> (event) <span class="math notranslate nohighlight">\(\Rightarrow\)</span> factor <span class="math notranslate nohighlight">\(= 5/6\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(t=3\)</span>: <span class="math notranslate nohighlight">\(n_2=5\)</span> (one subject removed after <span class="math notranslate nohighlight">\(t=2\)</span>), <span class="math notranslate nohighlight">\(d_2=1\)</span> (one event; the co-occurring censored observation does not reduce the risk set for computing this factor, but both the event and the censoring reduce the risk set for later times) <span class="math notranslate nohighlight">\(\Rightarrow\)</span> factor <span class="math notranslate nohighlight">\(=4/5\)</span>; risk set drops by <span class="math notranslate nohighlight">\(d_2 + (\text{censored at }t=3) = 1+1=2\)</span>, so <span class="math notranslate nohighlight">\(n_3 = 5-2=3\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(t=5\)</span>: <span class="math notranslate nohighlight">\(n_3=3\)</span>, <span class="math notranslate nohighlight">\(d_3=1\)</span> <span class="math notranslate nohighlight">\(\Rightarrow\)</span> factor <span class="math notranslate nohighlight">\(=2/3\)</span>.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ \hat S(2) = 5/6 = 0.8333, \qquad \hat S(3) = 0.8333\times4/5 = 0.6667, \qquad \hat S(5) = 0.6667\times2/3 = 0.4444. \]</div>
+<p><strong>Greenwood variance at <span class="math notranslate nohighlight">\(t=5\)</span>:</strong>
+$<span class="math notranslate nohighlight">\( \sum_{j:t_{(j)}\leq5} \frac{d_j}{n_j(n_j-d_j)} = \frac{1}{6\times5}+\frac{1}{5\times4}+\frac{1}{3\times2} = 0.03333+0.05+0.16667 = 0.25000. \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( \widehat{Var}(\hat S(5)) = 0.4444^2 \times 0.25 = 0.19753\times0.25 = 0.049383, \qquad SE = \sqrt{0.049383} = 0.2222. \)</span>$</p>
+<p><strong>95% CI (normal approximation):</strong>
+$<span class="math notranslate nohighlight">\( \hat S(5) \pm 1.96\times SE = 0.4444 \pm 1.96(0.2222) = 0.4444 \pm 0.4355 = (0.0089,\ 0.8799). \)</span>$</p>
+<p>This interval is very wide, reflecting the small risk sets late in follow-up (only 3 subjects at risk by <span class="math notranslate nohighlight">\(t=5\)</span>), and it comes close to the boundary at 0, a sign that with even slightly different data the naive normal-approximation interval could exceed <span class="math notranslate nohighlight">\([0,1]\)</span>. In practice one would instead compute the interval on the <span class="math notranslate nohighlight">\(\log(-\log \hat S)\)</span> scale and back-transform to guarantee the endpoints stay within <span class="math notranslate nohighlight">\([0,1]\)</span>; the simple normal-approximation interval computed here is adequate pedagogically but would not be the production-quality choice for such a small risk set.</p>
+</details>
+</section>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L03_nonparametric_and_semiparametric_methods.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Nonparametric &amp; Semiparametric Methods
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="../../../MLCrashCourse/main.html">
+        ML Crash Course
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#survival-hazard-and-cumulative-hazard-functions'" class="reference internal" href="#survival-hazard-and-cumulative-hazard-functions">Survival, Hazard, and Cumulative Hazard Functions</a><ul>
+<li><a :data-current="activeSection === '#censoring-types'" class="reference internal" href="#censoring-types">Censoring types</a></li>
+<li><a :data-current="activeSection === '#definitions-and-relations'" class="reference internal" href="#definitions-and-relations">Definitions and relations</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#kaplan-meier-estimator-and-greenwood-s-formula'" class="reference internal" href="#kaplan-meier-estimator-and-greenwood-s-formula">Kaplan-Meier Estimator and Greenwood’s Formula</a><ul>
+<li><a :data-current="activeSection === '#derivation-of-the-km-estimator'" class="reference internal" href="#derivation-of-the-km-estimator">Derivation of the KM estimator</a></li>
+<li><a :data-current="activeSection === '#greenwood-s-formula'" class="reference internal" href="#greenwood-s-formula">Greenwood’s formula</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#log-rank-test-and-cox-proportional-hazards-model'" class="reference internal" href="#log-rank-test-and-cox-proportional-hazards-model">Log-Rank Test and Cox Proportional Hazards Model</a><ul>
+<li><a :data-current="activeSection === '#log-rank-test'" class="reference internal" href="#log-rank-test">Log-rank test</a></li>
+<li><a :data-current="activeSection === '#cox-proportional-hazards-model'" class="reference internal" href="#cox-proportional-hazards-model">Cox proportional hazards model</a></li>
+<li><a :data-current="activeSection === '#partial-likelihood'" class="reference internal" href="#partial-likelihood">Partial likelihood</a></li>
+<li><a :data-current="activeSection === '#checking-the-ph-assumption-schoenfeld-residuals'" class="reference internal" href="#checking-the-ph-assumption-schoenfeld-residuals">Checking the PH assumption: Schoenfeld residuals</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#worked-example'" class="reference internal" href="#worked-example">Worked Example</a></li>
+<li><a :data-current="activeSection === '#exercises'" class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a :data-current="activeSection === '#exercise-1'" class="reference internal" href="#exercise-1">Exercise 1</a></li>
+<li><a :data-current="activeSection === '#exercise-2'" class="reference internal" href="#exercise-2">Exercise 2</a></li>
+<li><a :data-current="activeSection === '#exercise-3'" class="reference internal" href="#exercise-3">Exercise 3</a></li>
+<li><a :data-current="activeSection === '#exercise-4'" class="reference internal" href="#exercise-4">Exercise 4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

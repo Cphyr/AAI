@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Item Response Theory (IRT) | AAI 1.0 documentation</title>
+<meta content="Item Response Theory (IRT) | AAI 1.0 documentation" property="og:title"/>
+<meta content="Item Response Theory (IRT) | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="L03_nonparametric_and_semiparametric_methods.html" rel="next" title="Nonparametric &amp; Semiparametric Methods"/>
+<link href="L01_mixed_effects_models.html" rel="prev" title="Mixed-Effects Models"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Statistics 301<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_01_advanced_inference/main.html">Chapter 01: Advanced Inference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L01_likelihood_theory_and_asymptotics.html">Likelihood Theory &amp; Asymptotics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L02_em_algorithm_and_latent_variables.html">The EM Algorithm &amp; Latent Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L03_bayesian_inference_and_mcmc.html">Bayesian Inference &amp; MCMC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_advanced_inference/lessons/L04_multiple_testing_and_fdr.html">Multiple Testing &amp; FDR</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_02_resampling_and_computation/main.html">Chapter 02: Resampling &amp; Computation<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L01_bootstrap_methods.html">Bootstrap Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L02_permutation_and_randomization_tests.html">Permutation &amp; Randomization Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L03_missing_data_and_multiple_imputation.html">Missing Data &amp; Multiple Imputation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_resampling_and_computation/lessons/L04_model_selection_and_cross_validation.html">Model Selection &amp; Cross-Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 03: Advanced Modeling<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="L01_mixed_effects_models.html">Mixed-Effects Models</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Item Response Theory (IRT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L03_nonparametric_and_semiparametric_methods.html">Nonparametric &amp; Semiparametric Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L04_survival_analysis.html">Survival Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">Statistics 301</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 03: Advanced Modeling</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Item Response Theory (IRT)</span>
+</nav>
+<div id="content" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="item-response-theory-irt">
+<h1>Item Response Theory (IRT)<a class="headerlink" href="#item-response-theory-irt" title="Link to this heading"><span>#</span></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>Classical test theory summarizes a test-taker’s performance by a raw or percent-correct score, treating all items as interchangeable and ignoring that items differ in difficulty and discriminating power. Item response theory instead posits a <strong>latent trait</strong> (ability) underlying observed item responses and models each item’s response probability as a function of that trait. This yields item-invariant person measurement (in principle, ability estimates do not depend on which particular items were administered), person-invariant item calibration, and a rigorous machinery for adaptive testing, differential item functioning detection, and test information. IRT models are also, as we will see, close relatives of the logistic mixed models from Lesson 1, which gives us an estimation toolkit we already partially understand.</p>
+</section>
+<section id="latent-trait-models-rasch-2pl-and-3pl">
+<h2>Latent Trait Models: Rasch, 2PL, and 3PL<a class="headerlink" href="#latent-trait-models-rasch-2pl-and-3pl" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#latent-trait-models-rasch-2pl-and-3pl'"><span>#</span></a></h2>
+<section id="the-latent-trait-framework">
+<h3>The latent trait framework<a class="headerlink" href="#the-latent-trait-framework" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#the-latent-trait-framework'"><span>#</span></a></h3>
+<p>Let <span class="math notranslate nohighlight">\(\theta_j\)</span> denote the latent ability of person <span class="math notranslate nohighlight">\(j\)</span>, and let <span class="math notranslate nohighlight">\(X_{ij} \in \{0,1\}\)</span> be the response of person <span class="math notranslate nohighlight">\(j\)</span> to item <span class="math notranslate nohighlight">\(i\)</span> (correct/incorrect). The central modeling assumption is <strong>local independence</strong>: conditional on <span class="math notranslate nohighlight">\(\theta_j\)</span>, the responses to different items are independent,
+$<span class="math notranslate nohighlight">\( P(X_{1j}=x_1,\dots,X_{Kj}=x_K \mid \theta_j) = \prod_{i=1}^K P(X_{ij}=x_i\mid\theta_j). \)</span><span class="math notranslate nohighlight">\(
+The function \)</span>P_i(\theta) = P(X_i=1\mid\theta)$ is the <strong>item characteristic curve</strong> (ICC): a monotonically increasing, S-shaped function of ability.</p>
+</section>
+<section id="rasch-1pl-model">
+<h3>Rasch (1PL) model<a class="headerlink" href="#rasch-1pl-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#rasch-1pl-model'"><span>#</span></a></h3>
+<div class="math notranslate nohighlight">
+\[ P_i(\theta) = P(X_{ij}=1\mid\theta_j,b_i) = \frac{\exp(\theta_j-b_i)}{1+\exp(\theta_j-b_i)}, \]</div>
+<p>where <span class="math notranslate nohighlight">\(b_i\)</span> is the item’s <strong>difficulty</strong> (the ability level at which <span class="math notranslate nohighlight">\(P_i=0.5\)</span>). The Rasch model has a distinguishing mathematical property: the total raw score <span class="math notranslate nohighlight">\(\sum_i X_{ij}\)</span> is a <strong>sufficient statistic</strong> for <span class="math notranslate nohighlight">\(\theta_j\)</span> (proved in Exercise 2), and person and item parameters are “separable” in the sense that conditional maximum likelihood can estimate item parameters without knowing any <span class="math notranslate nohighlight">\(\theta_j\)</span>.</p>
+</section>
+<section id="pl-model">
+<h3>2PL model<a class="headerlink" href="#pl-model" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#pl-model'"><span>#</span></a></h3>
+<div class="math notranslate nohighlight">
+\[ P_i(\theta) = \frac{\exp\big(a_i(\theta-b_i)\big)}{1+\exp\big(a_i(\theta-b_i)\big)}, \]</div>
+<p>adding a <strong>discrimination</strong> parameter <span class="math notranslate nohighlight">\(a_i&gt;0\)</span> controlling the steepness of the ICC at <span class="math notranslate nohighlight">\(\theta=b_i\)</span>. Larger <span class="math notranslate nohighlight">\(a_i\)</span> means the item more sharply distinguishes examinees just below vs. just above <span class="math notranslate nohighlight">\(b_i\)</span>; raw score is no longer sufficient for <span class="math notranslate nohighlight">\(\theta\)</span> once items differ in <span class="math notranslate nohighlight">\(a_i\)</span>.</p>
+</section>
+<section id="id1">
+<h3>3PL model<a class="headerlink" href="#id1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id1'"><span>#</span></a></h3>
+<div class="math notranslate nohighlight">
+\[ P_i(\theta) = c_i + (1-c_i)\,\frac{\exp\big(a_i(\theta-b_i)\big)}{1+\exp\big(a_i(\theta-b_i)\big)}, \]</div>
+<p>adding a <strong>guessing</strong> (pseudo-guessing) parameter <span class="math notranslate nohighlight">\(c_i\in[0,1)\)</span>, a lower asymptote representing the chance of a correct response from an examinee with vanishingly low ability (relevant for multiple-choice items). The ICC now ranges from <span class="math notranslate nohighlight">\(c_i\)</span> to <span class="math notranslate nohighlight">\(1\)</span> rather than from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(1\)</span>.</p>
+</section>
+</section>
+<section id="item-and-test-information">
+<h2>Item and Test Information<a class="headerlink" href="#item-and-test-information" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#item-and-test-information'"><span>#</span></a></h2>
+<p>Fisher information quantifies how precisely an item (or test) can pin down <span class="math notranslate nohighlight">\(\theta\)</span>. For the 2PL model,
+$<span class="math notranslate nohighlight">\( I_i(\theta) = a_i^2\, P_i(\theta)\big(1-P_i(\theta)\big), \)</span><span class="math notranslate nohighlight">\(
+maximized at \)</span>\theta = b_i<span class="math notranslate nohighlight">\( where \)</span>P_i=0.5<span class="math notranslate nohighlight">\(, and increasing in \)</span>a_i^2<span class="math notranslate nohighlight">\(: highly discriminating items concentrated near a test-taker's ability level are maximally informative. For the 3PL model, the lower asymptote attenuates information:
+\)</span><span class="math notranslate nohighlight">\( I_i(\theta) = a_i^2\,\frac{\big(P_i(\theta)-c_i\big)^2}{(1-c_i)^2}\cdot\frac{1-P_i(\theta)}{P_i(\theta)}. \)</span><span class="math notranslate nohighlight">\(
+Because local independence makes the log-likelihood additive across items, Fisher information is additive too:
+\)</span><span class="math notranslate nohighlight">\( I(\theta) = \sum_{i=1}^K I_i(\theta), \qquad SE(\hat\theta) \approx \frac{1}{\sqrt{I(\theta)}}. \)</span>$
+This is the basis of computerized adaptive testing: at each step, administer the item that maximizes information at the current ability estimate.</p>
+</section>
+<section id="estimation-marginal-ml-and-ability-estimation">
+<h2>Estimation: Marginal ML and Ability Estimation<a class="headerlink" href="#estimation-marginal-ml-and-ability-estimation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#estimation-marginal-ml-and-ability-estimation'"><span>#</span></a></h2>
+<section id="marginal-maximum-likelihood-integrating-out-ability">
+<h3>Marginal maximum likelihood (integrating out ability)<a class="headerlink" href="#marginal-maximum-likelihood-integrating-out-ability" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#marginal-maximum-likelihood-integrating-out-ability'"><span>#</span></a></h3>
+<p>When calibrating item parameters <span class="math notranslate nohighlight">\(\xi = \{a_i,b_i,c_i\}\)</span> from a sample of <span class="math notranslate nohighlight">\(N\)</span> examinees, treating each <span class="math notranslate nohighlight">\(\theta_j\)</span> as a fixed unknown (“joint MLE”) produces inconsistent item-parameter estimates as <span class="math notranslate nohighlight">\(N\to\infty\)</span> with a fixed test length (the incidental-parameters problem: the number of <span class="math notranslate nohighlight">\(\theta_j\)</span>’s grows with <span class="math notranslate nohighlight">\(N\)</span>). The standard remedy is <strong>marginal maximum likelihood</strong> (MMLE): treat <span class="math notranslate nohighlight">\(\theta_j\)</span> as random with a population distribution <span class="math notranslate nohighlight">\(g(\theta)\)</span> (typically <span class="math notranslate nohighlight">\(N(0,1)\)</span>) and integrate it out,
+$<span class="math notranslate nohighlight">\( L(\xi) = \prod_{j=1}^N \int \prod_{i=1}^K P_i(\theta)^{x_{ij}}\big(1-P_i(\theta)\big)^{1-x_{ij}}\, g(\theta)\,d\theta. \)</span><span class="math notranslate nohighlight">\(
+This marginal likelihood is maximized via the EM algorithm (Bock and Aitkin, 1981): the E-step approximates the integral by Gauss-Hermite quadrature and computes, for each quadrature node, the posterior-weighted expected number of examinees and correct responses; the M-step then updates \)</span>{a_i,b_i,c_i}$ item-by-item via weighted logistic regression on the pseudo-data from the E-step. This mirrors exactly the structure of estimating a generalized linear mixed model by integrating out a random intercept, which is the conceptual link developed below.</p>
+</section>
+<section id="ability-estimation-mle-and-eap">
+<h3>Ability estimation: MLE and EAP<a class="headerlink" href="#ability-estimation-mle-and-eap" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#ability-estimation-mle-and-eap'"><span>#</span></a></h3>
+<p>Once item parameters are calibrated (treated as known), a person’s ability is estimated from their response pattern.</p>
+<p><strong>MLE</strong>: maximize <span class="math notranslate nohighlight">\(\ell(\theta) = \sum_i \big[x_i\log P_i(\theta) + (1-x_i)\log(1-P_i(\theta))\big]\)</span> via Newton-Raphson,
+$<span class="math notranslate nohighlight">\( \theta^{(t+1)} = \theta^{(t)} + \frac{\sum_i (x_i - P_i(\theta^{(t)}))}{\sum_i P_i(\theta^{(t)})(1-P_i(\theta^{(t)}))} \quad \text{(Rasch case, } a_i=1\text{)}. \)</span><span class="math notranslate nohighlight">\(
+MLE is undefined (diverges to \)</span>\pm\infty<span class="math notranslate nohighlight">\() for all-correct or all-incorrect response patterns, since the likelihood is then monotonic in \)</span>\theta$ with no interior maximum.</p>
+<p><strong>EAP</strong> (expected a posteriori, Bayesian) avoids this by using a prior <span class="math notranslate nohighlight">\(g(\theta)\)</span>:
+$<span class="math notranslate nohighlight">\( \hat\theta_{EAP} = E[\theta\mid x] = \frac{\int \theta\, L(x\mid\theta)\, g(\theta)\, d\theta}{\int L(x\mid\theta)\, g(\theta)\, d\theta}, \)</span>$
+computed by quadrature. Like the BLUP of Lesson 1, EAP shrinks extreme response patterns toward the prior mean and is always finite, at the cost of some bias toward the prior for examinees with genuinely extreme ability.</p>
+</section>
+</section>
+<section id="dif-and-the-link-to-logistic-mixed-models">
+<h2>DIF and the Link to Logistic Mixed Models<a class="headerlink" href="#dif-and-the-link-to-logistic-mixed-models" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#dif-and-the-link-to-logistic-mixed-models'"><span>#</span></a></h2>
+<section id="differential-item-functioning">
+<h3>Differential item functioning<a class="headerlink" href="#differential-item-functioning" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#differential-item-functioning'"><span>#</span></a></h3>
+<p>An item shows <strong>DIF</strong> if examinees from different groups (e.g., defined by language or gender) with the <em>same underlying ability</em> have different probabilities of a correct response. <strong>Uniform DIF</strong> is a constant shift in difficulty <span class="math notranslate nohighlight">\(b_i\)</span> across groups (ICCs are shifted but non-crossing); <strong>non-uniform DIF</strong> involves a group-by-ability interaction (e.g., differing <span class="math notranslate nohighlight">\(a_i\)</span>), so the ICCs cross. Detection methods include:</p>
+<ul class="simple">
+<li><p><strong>Mantel-Haenszel</strong>: stratify examinees by observed total score (a proxy for <span class="math notranslate nohighlight">\(\theta\)</span>), form a 2x2 table of group x correct/incorrect within each stratum, and test whether the common odds ratio across strata equals 1.</p></li>
+<li><p><strong>IRT likelihood-ratio test</strong>: fit the item’s parameters constrained equal across groups vs. freely estimated per group, and compare by LRT.</p></li>
+<li><p><strong>Logistic regression</strong>: <span class="math notranslate nohighlight">\(\text{logit}(P) = \beta_0 + \beta_1\theta + \beta_2 G + \beta_3(\theta\times G)\)</span>, where <span class="math notranslate nohighlight">\(G\)</span> is group membership; <span class="math notranslate nohighlight">\(\beta_2\ne0\)</span> signals uniform DIF, <span class="math notranslate nohighlight">\(\beta_3\ne0\)</span> signals non-uniform DIF.</p></li>
+</ul>
+</section>
+<section id="link-to-logistic-mixed-models">
+<h3>Link to logistic mixed models<a class="headerlink" href="#link-to-logistic-mixed-models" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#link-to-logistic-mixed-models'"><span>#</span></a></h3>
+<p>Rewrite the Rasch model with person ability treated as random rather than fixed:
+$<span class="math notranslate nohighlight">\( \text{logit}\, P(X_{ij}=1) = \theta_j - b_i, \qquad \theta_j \sim N(0,\sigma^2), \)</span><span class="math notranslate nohighlight">\(
+with items as fixed effects (a factor with \)</span>K-1<span class="math notranslate nohighlight">\( contrasts) and persons as a random intercept. This is *exactly* a logistic mixed model (a generalized linear mixed model with binomial response and random intercept per person), fittable with standard mixed-model software using a person random effect and an item fixed effect, e.g. `glmer(correct ~ item + (1|person), family=binomial)`. Marginal ML for the Rasch model, integrating over the person random effect, coincides with GLMM estimation via Gauss-Hermite quadrature. The 2PL model, by contrast, has \)</span>a_i\theta_j$, a <em>product</em> of an item parameter and the random effect, which behaves like a person-specific “random slope on a latent factor” and is not a standard GLMM; it requires either specialized IRT software or a nonlinear mixed-model formulation. This connection is why many applied papers describe the Rasch model as “a logistic mixed model with items as fixed effects and persons as random effects.”</p>
+</section>
+</section>
+<section id="worked-example">
+<h2>Worked Example<a class="headerlink" href="#worked-example" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#worked-example'"><span>#</span></a></h2>
+<p>Three items with Rasch difficulties <span class="math notranslate nohighlight">\(b = (-1, 0, 1)\)</span>; examinee with <span class="math notranslate nohighlight">\(\theta = 0.5\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[ P_1 = \frac{e^{0.5-(-1)}}{1+e^{1.5}} = \frac{e^{1.5}}{1+e^{1.5}} = \frac{4.4817}{5.4817} = 0.8176 \]</div>
+<div class="math notranslate nohighlight">
+\[ P_2 = \frac{e^{0.5}}{1+e^{0.5}} = \frac{1.6487}{2.6487} = 0.6225, \qquad P_3 = \frac{e^{-0.5}}{1+e^{-0.5}} = \frac{0.6065}{1.6065} = 0.3775 \]</div>
+<p>Item informations (<span class="math notranslate nohighlight">\(I_i = P_i(1-P_i)\)</span> since <span class="math notranslate nohighlight">\(a_i=1\)</span>): <span class="math notranslate nohighlight">\(I_1 = 0.8176\times0.1824 = 0.1491\)</span>, <span class="math notranslate nohighlight">\(I_2 = 0.6225\times0.3775 = 0.2350\)</span>, <span class="math notranslate nohighlight">\(I_3 = 0.3775\times0.6225=0.2350\)</span>. Test information <span class="math notranslate nohighlight">\(I(0.5) = 0.6191\)</span>, so <span class="math notranslate nohighlight">\(SE(\hat\theta) = 1/\sqrt{0.6191} = 1.2708\)</span>.</p>
+<p>Suppose the examinee’s observed pattern is <span class="math notranslate nohighlight">\(x=(1,1,0)\)</span> (correct on items 1-2, incorrect on 3). One Newton-Raphson step from <span class="math notranslate nohighlight">\(\theta^{(0)}=0.5\)</span>:
+$<span class="math notranslate nohighlight">\( \text{score} = (1-0.8176)+(1-0.6225)+(0-0.3775) = 0.1824+0.3775-0.3775 = 0.1824 \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( \text{information} = I_1+I_2+I_3 = 0.6191 \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( \theta^{(1)} = 0.5 + \frac{0.1824}{0.6191} = 0.5+0.2947 = 0.7947. \)</span><span class="math notranslate nohighlight">\(
+This is identical in form to a Fisher-scoring step for logistic regression MLE, since the Rasch score/information equations are exactly the logistic-regression score/information equations with the \)</span>b_i$ acting as known offsets.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercises'"><span>#</span></a></h2>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-1'"><span>#</span></a></h3>
+<p>Derive the score function and Fisher information for MLE ability estimation in the Rasch model with <span class="math notranslate nohighlight">\(K\)</span> items of known difficulties <span class="math notranslate nohighlight">\(b_1,\dots,b_K\)</span>, and show the resulting Newton-Raphson update is algebraically identical to a Fisher-scoring step for a logistic regression of <span class="math notranslate nohighlight">\(x_i\)</span> on a constant, with <span class="math notranslate nohighlight">\(-b_i\)</span> entered as a known offset.</p>
+<details>
+<summary>Solution</summary>
+<p>The log-likelihood for a single examinee’s pattern <span class="math notranslate nohighlight">\(x=(x_1,\dots,x_K)\)</span> given ability <span class="math notranslate nohighlight">\(\theta\)</span> is
+$<span class="math notranslate nohighlight">\( \ell(\theta) = \sum_{i=1}^K \Big[x_i\log P_i(\theta) + (1-x_i)\log(1-P_i(\theta))\Big], \qquad P_i(\theta) = \frac{e^{\theta-b_i}}{1+e^{\theta-b_i}}. \)</span><span class="math notranslate nohighlight">\(
+Since \)</span>\frac{d}{d\theta}P_i(\theta) = P_i(\theta)(1-P_i(\theta))<span class="math notranslate nohighlight">\( (standard logistic derivative), the score is
+\)</span><span class="math notranslate nohighlight">\( U(\theta) = \frac{d\ell}{d\theta} = \sum_i \left[\frac{x_i}{P_i}-\frac{1-x_i}{1-P_i}\right]P_i(1-P_i) = \sum_i\big(x_i - P_i(\theta)\big). \)</span><span class="math notranslate nohighlight">\(
+The observed information is \)</span>-\frac{d^2\ell}{d\theta^2} = \sum_i P_i(\theta)(1-P_i(\theta))<span class="math notranslate nohighlight">\(, which does not depend on \)</span>x_i<span class="math notranslate nohighlight">\(, so observed and expected (Fisher) information coincide: \)</span>I(\theta) = \sum_i P_i(1-P_i)$.</p>
+<p>Newton-Raphson/Fisher scoring: <span class="math notranslate nohighlight">\(\theta^{(t+1)} = \theta^{(t)} + U(\theta^{(t)})/I(\theta^{(t)})\)</span>.</p>
+<p>Now consider ordinary logistic regression of binary outcomes <span class="math notranslate nohighlight">\(x_i\)</span> on an intercept-only model with a known offset <span class="math notranslate nohighlight">\(-b_i\)</span>: <span class="math notranslate nohighlight">\(\text{logit}(P_i) = \theta - b_i\)</span> (i.e., <span class="math notranslate nohighlight">\(\theta\)</span> is the only free parameter, <span class="math notranslate nohighlight">\(-b_i\)</span> is a fixed offset per observation). The GLM score and Fisher information for the single parameter <span class="math notranslate nohighlight">\(\theta\)</span> are, by the standard logistic regression formulas <span class="math notranslate nohighlight">\(U(\theta)=\sum_i (x_i-P_i)\cdot \partial \eta_i/\partial\theta\)</span> and <span class="math notranslate nohighlight">\(I(\theta) = \sum_i P_i(1-P_i)(\partial\eta_i/\partial\theta)^2\)</span> with <span class="math notranslate nohighlight">\(\partial\eta_i/\partial\theta=1\)</span>, exactly
+$<span class="math notranslate nohighlight">\( U(\theta) = \sum_i(x_i-P_i), \qquad I(\theta)=\sum_i P_i(1-P_i), \)</span>$
+identical to the Rasch ability score and information. Hence estimating a single examinee’s Rasch ability by Newton-Raphson is literally fitting an intercept-only logistic regression with known item-difficulty offsets, and the update formulas coincide term for term.</p>
+</details>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-2'"><span>#</span></a></h3>
+<p>Prove that in the Rasch model, the raw score <span class="math notranslate nohighlight">\(S = \sum_{i=1}^K X_i\)</span> is a sufficient statistic for <span class="math notranslate nohighlight">\(\theta\)</span> (fix item difficulties <span class="math notranslate nohighlight">\(b_1,\dots,b_K\)</span> as known).</p>
+<details>
+<summary>Solution</summary>
+<p>The joint probability of a response pattern <span class="math notranslate nohighlight">\(x=(x_1,\dots,x_K)\)</span> under local independence is
+$<span class="math notranslate nohighlight">\( P(X=x\mid\theta) = \prod_{i=1}^K \left(\frac{e^{\theta-b_i}}{1+e^{\theta-b_i}}\right)^{x_i}\left(\frac{1}{1+e^{\theta-b_i}}\right)^{1-x_i} = \frac{\prod_i e^{x_i(\theta-b_i)}}{\prod_i(1+e^{\theta-b_i})}. \)</span><span class="math notranslate nohighlight">\(
+Expand the numerator:
+\)</span><span class="math notranslate nohighlight">\( \prod_i e^{x_i(\theta-b_i)} = \exp\left(\theta\sum_i x_i - \sum_i x_i b_i\right) = e^{\theta S}\, e^{-\sum_i x_ib_i}. \)</span><span class="math notranslate nohighlight">\(
+So
+\)</span><span class="math notranslate nohighlight">\( P(X=x\mid\theta) = \underbrace{e^{\theta S}}_{\text{depends on }x\text{ only through }S}\cdot \underbrace{e^{-\sum_i x_ib_i}}_{h(x),\ \text{free of }\theta}\cdot\underbrace{\Big[\prod_i(1+e^{\theta-b_i})\Big]^{-1}}_{c(\theta),\ \text{free of }x}. \)</span><span class="math notranslate nohighlight">\(
+This is exactly the exponential-family factorization \)</span>P(X=x\mid\theta) = g(S,\theta),h(x)<span class="math notranslate nohighlight">\( with \)</span>g(S,\theta) = e^{\theta S}c(\theta)<span class="math notranslate nohighlight">\(. By the Fisher-Neyman factorization theorem, \)</span>S=\sum_i X_i<span class="math notranslate nohighlight">\( is a sufficient statistic for \)</span>\theta<span class="math notranslate nohighlight">\(. (Note this relies critically on the Rasch model's additive \)</span>\theta - b_i<span class="math notranslate nohighlight">\( form with a common coefficient of \)</span>1<span class="math notranslate nohighlight">\( on \)</span>\theta<span class="math notranslate nohighlight">\( for every item; in the 2PL model the coefficient is \)</span>a_i<span class="math notranslate nohighlight">\(, so the exponent becomes \)</span>\theta\sum_i a_ix_i<span class="math notranslate nohighlight">\(, meaning the *weighted* score \)</span>\sum_i a_i x_i<span class="math notranslate nohighlight">\(, not the raw score, would be sufficient, and since the \)</span>a_i$ are generally unknown/estimated this sufficiency is not usable in practice, which is why raw-score sufficiency is considered a special, prized property of the Rasch model.)</p>
+</details>
+</section>
+<section id="exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-3'"><span>#</span></a></h3>
+<p>Sketch the derivation of the EM algorithm’s E-step for marginal maximum likelihood item calibration: derive the posterior density of <span class="math notranslate nohighlight">\(\theta_j\)</span> given examinee <span class="math notranslate nohighlight">\(j\)</span>’s response pattern and current parameter estimates <span class="math notranslate nohighlight">\(\xi^{(t)}\)</span>, and explain how Gauss-Hermite quadrature turns this into a computationally tractable weighted-likelihood update.</p>
+<details>
+<summary>Solution</summary>
+<p>By Bayes’ theorem, the posterior density of <span class="math notranslate nohighlight">\(\theta_j\)</span> given the response pattern <span class="math notranslate nohighlight">\(x_j\)</span> and current item-parameter estimates <span class="math notranslate nohighlight">\(\xi^{(t)}\)</span> is
+$<span class="math notranslate nohighlight">\( h(\theta \mid x_j, \xi^{(t)}) = \frac{\prod_{i=1}^K P_i(\theta;\xi_i^{(t)})^{x_{ij}}\big(1-P_i(\theta;\xi_i^{(t)})\big)^{1-x_{ij}}\; g(\theta)}{\int \prod_{i=1}^K P_i(\theta';\xi_i^{(t)})^{x_{ij}}\big(1-P_i(\theta';\xi_i^{(t)})\big)^{1-x_{ij}}\; g(\theta')\, d\theta'}, \)</span><span class="math notranslate nohighlight">\(
+i.e. the likelihood of the observed pattern at ability \)</span>\theta<span class="math notranslate nohighlight">\(, times the population prior \)</span>g(\theta)<span class="math notranslate nohighlight">\(, normalized. This follows directly from Bayes' rule applied to the joint density of \)</span>(\theta_j, x_j)<span class="math notranslate nohighlight">\( implied by the MMLE model (person ability random with density \)</span>g<span class="math notranslate nohighlight">\(, response pattern conditionally generated by the IRT model given \)</span>\theta_j$).</p>
+<p>The complete-data log-likelihood (if <span class="math notranslate nohighlight">\(\theta_j\)</span> were observed) would be <span class="math notranslate nohighlight">\(\sum_j \sum_i \big[x_{ij}\log P_i(\theta_j)+(1-x_{ij})\log(1-P_i(\theta_j))\big]\)</span>, linear in indicator-type sufficient statistics for each item. The E-step replaces this by its expectation under <span class="math notranslate nohighlight">\(h(\theta\mid x_j,\xi^{(t)})\)</span> for each examinee, i.e., needs <span class="math notranslate nohighlight">\(E_{h}[\log P_i(\theta)]\)</span>-type terms, which requires evaluating <span class="math notranslate nohighlight">\(\int \log P_i(\theta) \, h(\theta\mid x_j,\xi^{(t)})\, d\theta\)</span>. Since this integral has no closed form for logistic ICCs, <strong>Gauss-Hermite quadrature</strong> approximates it (and the normalizing integral) by a finite weighted sum over fixed nodes <span class="math notranslate nohighlight">\(\theta_1^*,\dots,\theta_Q^*\)</span> with quadrature weights <span class="math notranslate nohighlight">\(w_1,\dots,w_Q\)</span> chosen to integrate polynomials (times a Gaussian kernel) exactly:
+$<span class="math notranslate nohighlight">\( \int f(\theta)g(\theta)\,d\theta \approx \sum_{q=1}^Q w_q\, f(\theta_q^*). \)</span><span class="math notranslate nohighlight">\(
+Concretely, for each examinee \)</span>j<span class="math notranslate nohighlight">\( and each node \)</span>q<span class="math notranslate nohighlight">\(, compute the likelihood \)</span>L(x_j\mid\theta_q^<em>,\xi^{(t)})<span class="math notranslate nohighlight">\(, form the discretized posterior weight \)</span>\pi_{jq} \propto w_q L(x_j\mid\theta_q^</em>,\xi^{(t)}),g(\theta_q^*)<span class="math notranslate nohighlight">\( (normalized over \)</span>q<span class="math notranslate nohighlight">\(), and accumulate, for each item \)</span>i<span class="math notranslate nohighlight">\(, the "expected number of examinees at node \)</span>q<span class="math notranslate nohighlight">\(" and "expected number correct at node \)</span>q<span class="math notranslate nohighlight">\(" by summing \)</span>\pi_{jq}<span class="math notranslate nohighlight">\( and \)</span>\pi_{jq}x_{ij}<span class="math notranslate nohighlight">\( over \)</span>j<span class="math notranslate nohighlight">\(. The M-step then treats these accumulated pseudo-counts at each of the \)</span>Q<span class="math notranslate nohighlight">\( ability nodes as binomial data and updates each item's parameters \)</span>\xi_i$ by (weighted) logistic regression of expected-correct-count on the quadrature-node abilities. Iterating E and M steps converges to the MMLE item parameter estimates, exactly analogous to the EM algorithm used for GLMMs with a random intercept integrated out via quadrature.</p>
+</details>
+</section>
+<section id="exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#exercise-4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercise-4'"><span>#</span></a></h3>
+<p>An item is examined for uniform DIF between a Reference group and a Focal group using the Mantel-Haenszel procedure with two score strata. The 2x2 counts (correct/incorrect) are:</p>
+<p>Stratum 1 (n=55): Reference correct = 20, Reference incorrect = 10; Focal correct = 10, Focal incorrect = 15.
+Stratum 2 (n=58): Reference correct = 25, Reference incorrect = 5; Focal correct = 20, Focal incorrect = 8.</p>
+<p>Compute the Mantel-Haenszel common odds ratio
+$<span class="math notranslate nohighlight">\( OR_{MH} = \frac{\sum_k n_{R1k}n_{F0k}/n_{Tk}}{\sum_k n_{F1k}n_{R0k}/n_{Tk}} \)</span>$
+and interpret the result for DIF.</p>
+<details>
+<summary>Solution</summary>
+<p>Label within stratum <span class="math notranslate nohighlight">\(k\)</span>: <span class="math notranslate nohighlight">\(n_{R1k}\)</span> = reference correct, <span class="math notranslate nohighlight">\(n_{R0k}\)</span> = reference incorrect, <span class="math notranslate nohighlight">\(n_{F1k}\)</span> = focal correct, <span class="math notranslate nohighlight">\(n_{F0k}\)</span> = focal incorrect, <span class="math notranslate nohighlight">\(n_{Tk}\)</span> = stratum total.</p>
+<p><strong>Stratum 1</strong> (<span class="math notranslate nohighlight">\(n_{T1}=30+25=55\)</span>): <span class="math notranslate nohighlight">\(n_{R1,1}=20\)</span>, <span class="math notranslate nohighlight">\(n_{F0,1}=15\)</span>, <span class="math notranslate nohighlight">\(n_{F1,1}=10\)</span>, <span class="math notranslate nohighlight">\(n_{R0,1}=10\)</span>.</p>
+<ul class="simple">
+<li><p>Numerator term: <span class="math notranslate nohighlight">\(20\times15/55 = 300/55 = 5.4545\)</span></p></li>
+<li><p>Denominator term: <span class="math notranslate nohighlight">\(10\times10/55 = 100/55 = 1.8182\)</span></p></li>
+</ul>
+<p><strong>Stratum 2</strong> (<span class="math notranslate nohighlight">\(n_{T2}=30+28=58\)</span>): <span class="math notranslate nohighlight">\(n_{R1,2}=25\)</span>, <span class="math notranslate nohighlight">\(n_{F0,2}=8\)</span>, <span class="math notranslate nohighlight">\(n_{F1,2}=20\)</span>, <span class="math notranslate nohighlight">\(n_{R0,2}=5\)</span>.</p>
+<ul class="simple">
+<li><p>Numerator term: <span class="math notranslate nohighlight">\(25\times8/58 = 200/58 = 3.4483\)</span></p></li>
+<li><p>Denominator term: <span class="math notranslate nohighlight">\(20\times5/58 = 100/58 = 1.7241\)</span></p></li>
+</ul>
+<p>Summing:
+$<span class="math notranslate nohighlight">\( \sum_k n_{R1k}n_{F0k}/n_{Tk} = 5.4545+3.4483 = 8.9028 \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( \sum_k n_{F1k}n_{R0k}/n_{Tk} = 1.8182+1.7241 = 3.5423 \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( OR_{MH} = \frac{8.9028}{3.5423} = 2.513. \)</span>$</p>
+<p>Interpretation: after stratifying on ability (approximated by score group), reference-group examinees have about <span class="math notranslate nohighlight">\(2.5\times\)</span> the odds of answering the item correctly compared to focal-group examinees at the same ability level. Since <span class="math notranslate nohighlight">\(OR_{MH}\)</span> is far from 1 (a common rule of thumb, the ETS classification, flags <span class="math notranslate nohighlight">\(|\Delta MH| \)</span> corresponding to <span class="math notranslate nohighlight">\(OR_{MH}\)</span> outside roughly <span class="math notranslate nohighlight">\((0.53, 1.9)\)</span> or wider bounds as at least moderate DIF), this item shows evidence of uniform DIF favoring the reference group and would be a candidate for review or removal from the operational item bank.</p>
+</details>
+</section>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L01_mixed_effects_models.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Mixed-Effects Models
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L03_nonparametric_and_semiparametric_methods.html">
+        Nonparametric &amp; Semiparametric Methods
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#latent-trait-models-rasch-2pl-and-3pl'" class="reference internal" href="#latent-trait-models-rasch-2pl-and-3pl">Latent Trait Models: Rasch, 2PL, and 3PL</a><ul>
+<li><a :data-current="activeSection === '#the-latent-trait-framework'" class="reference internal" href="#the-latent-trait-framework">The latent trait framework</a></li>
+<li><a :data-current="activeSection === '#rasch-1pl-model'" class="reference internal" href="#rasch-1pl-model">Rasch (1PL) model</a></li>
+<li><a :data-current="activeSection === '#pl-model'" class="reference internal" href="#pl-model">2PL model</a></li>
+<li><a :data-current="activeSection === '#id1'" class="reference internal" href="#id1">3PL model</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#item-and-test-information'" class="reference internal" href="#item-and-test-information">Item and Test Information</a></li>
+<li><a :data-current="activeSection === '#estimation-marginal-ml-and-ability-estimation'" class="reference internal" href="#estimation-marginal-ml-and-ability-estimation">Estimation: Marginal ML and Ability Estimation</a><ul>
+<li><a :data-current="activeSection === '#marginal-maximum-likelihood-integrating-out-ability'" class="reference internal" href="#marginal-maximum-likelihood-integrating-out-ability">Marginal maximum likelihood (integrating out ability)</a></li>
+<li><a :data-current="activeSection === '#ability-estimation-mle-and-eap'" class="reference internal" href="#ability-estimation-mle-and-eap">Ability estimation: MLE and EAP</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#dif-and-the-link-to-logistic-mixed-models'" class="reference internal" href="#dif-and-the-link-to-logistic-mixed-models">DIF and the Link to Logistic Mixed Models</a><ul>
+<li><a :data-current="activeSection === '#differential-item-functioning'" class="reference internal" href="#differential-item-functioning">Differential item functioning</a></li>
+<li><a :data-current="activeSection === '#link-to-logistic-mixed-models'" class="reference internal" href="#link-to-logistic-mixed-models">Link to logistic mixed models</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#worked-example'" class="reference internal" href="#worked-example">Worked Example</a></li>
+<li><a :data-current="activeSection === '#exercises'" class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a :data-current="activeSection === '#exercise-1'" class="reference internal" href="#exercise-1">Exercise 1</a></li>
+<li><a :data-current="activeSection === '#exercise-2'" class="reference internal" href="#exercise-2">Exercise 2</a></li>
+<li><a :data-current="activeSection === '#exercise-3'" class="reference internal" href="#exercise-3">Exercise 3</a></li>
+<li><a :data-current="activeSection === '#exercise-4'" class="reference internal" href="#exercise-4">Exercise 4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
