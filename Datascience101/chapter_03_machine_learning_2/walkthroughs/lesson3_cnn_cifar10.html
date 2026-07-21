@@ -81,6 +81,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/TSCourse.html">Time Series &amp; State-Space Crash Course</a></li>
 </ul>
 </li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
@@ -154,6 +155,73 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/main.html">Time Series &amp; State-Space Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_00_problem_formulation/main.html">Chapter 00 - Problem Formulation &amp; Baselines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_00_problem_formulation/lessons/L01_problem_types.html">Lesson 01 - Problem Types &amp; Objectives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_00_problem_formulation/lessons/L02_baselines.html">Lesson 02 - Baselines &amp; Sanity Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_01_ts_foundations/main.html">Chapter 01 - TS Foundations, Pragmatic<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_01_ts_foundations/lessons/L01_stationarity.html">Lesson 01 - Stationarity as a Modeling Convenience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_01_ts_foundations/lessons/L02_acf_and_spectrum.html">Lesson 02 - ACF/PACF &amp; the Spectral View as Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_01_ts_foundations/lessons/L03_temporal_evaluation.html">Lesson 03 - Evaluation for Temporal Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_01_ts_foundations/challenges/challenge1_trick_series.html">Challenge 01 - Trick-Series Diagnosis</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_02_state_space_filtering/main.html">Chapter 02 - State-Space &amp; Filtering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_02_state_space_filtering/lessons/L01_kalman_filter.html">Lesson 01 - Linear-Gaussian SSMs &amp; the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_02_state_space_filtering/lessons/L02_nonlinear_filters.html">Lesson 02 - Beyond Linear-Gaussian: EKF, UKF, Particle Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_02_state_space_filtering/lessons/L03_motion_models_imm.html">Lesson 03 - Motion Models &amp; Maneuvering Targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_02_state_space_filtering/lessons/L04_multi_target.html">Lesson 04 - Multi-Target Essentials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_02_state_space_filtering/walkthroughs/lesson_maneuvering_target.html">Walkthrough - Maneuvering Target with Clutter: EKF vs. UKF vs. PF vs. IMM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_02_state_space_filtering/challenges/challenge1_nongaussian_fusion.html">Challenge 01 - Sensor Fusion with Non-Gaussian Noise</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_03_trajectory_data/main.html">Chapter 03 - Trajectory Data in Practice<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_03_trajectory_data/lessons/L01_irregular_sampling.html">Lesson 01 - Irregular Sampling, Dropouts, Resampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_03_trajectory_data/lessons/L02_frames_and_features.html">Lesson 02 - Coordinate Frames &amp; Kinematic Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_03_trajectory_data/lessons/L03_segmentation.html">Lesson 03 - Segmentation of Long Recordings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_03_trajectory_data/walkthroughs/lesson_trajectory_pipeline.html">Walkthrough - Raw Messy Trajectory to a Clean, Feature-Rich Representation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_04_ts_classification/main.html">Chapter 04 - Time-Series &amp; Trajectory Classification<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_04_ts_classification/lessons/L01_distance_and_features.html">Lesson 01 - Distance-Based &amp; Feature-Based Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_04_ts_classification/lessons/L02_rocket_and_deep.html">Lesson 02 - Random-Feature &amp; Deep Classifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_04_ts_classification/challenges/challenge1_classify_trajectories.html">Challenge 01 - Classify Trajectory Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_05_anomaly_detection/main.html">Chapter 05 - Anomaly Detection on Trajectories<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_05_anomaly_detection/lessons/L01_anomaly_framings.html">Lesson 01 - Framings &amp; Evaluation Under Label Scarcity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_05_anomaly_detection/challenges/challenge1_unlabeled_anomalies.html">Challenge 01 - Flag Anomalous Tracks in Unlabeled Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_06_probabilistic_prediction/main.html">Chapter 06 - Probabilistic Prediction &amp; Uncertainty<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_06_probabilistic_prediction/lessons/L01_quantiles_and_pinball.html">Lesson 01 - From Point Forecasts to Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_06_probabilistic_prediction/lessons/L02_conformal.html">Lesson 02 - Conformal Prediction for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_06_probabilistic_prediction/lessons/L03_bsts_crps_calibration.html">Lesson 03 - Bayesian Structural TS, CRPS &amp; Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_06_probabilistic_prediction/walkthroughs/lesson_three_intervals.html">Walkthrough - Three Ways to Build Intervals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_06_probabilistic_prediction/challenges/challenge1_regime_coverage.html">Challenge 01 - Regime-Change Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_07_deep_learning_sequences/main.html">Chapter 07 - Deep Learning for Sequences &amp; Trajectories<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_07_deep_learning_sequences/lessons/L01_sequence_models.html">Lesson 01 - Compressed Sequence-Model Refresher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_07_deep_learning_sequences/lessons/L02_transformers_and_dlinear.html">Lesson 02 - Transformer Forecasters &amp; the DLinear Lens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_07_deep_learning_sequences/lessons/L03_trajectory_prediction.html">Lesson 03 - Trajectory Prediction Proper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_07_deep_learning_sequences/walkthroughs/lesson_dlinear_vs_patch.html">Walkthrough - DLinear vs. a Patch Model vs. Classical Baselines, with a Forced Ablation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_08_frontier_foundation_models/main.html">Chapter 08 - Frontier: Foundation Models &amp; Modern SSMs<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_08_frontier_foundation_models/lessons/L01_foundation_models.html">Lesson 01 - Foundation Models for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_08_frontier_foundation_models/lessons/L02_deep_ssms.html">Lesson 02 - State-Space Models as Deep Architectures</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../TSCourse/chapter_09_capstone/main.html">Chapter 09 - Capstone: Critical Reading &amp; Reproduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_09_capstone/lessons/L01_critical_reading.html">Lesson 01 - Reading TS/Trajectory Papers Critically</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../TSCourse/chapter_09_capstone/challenges/capstone_reproduction.html">Capstone - Reproduce a Central Claim</a></li>
 </ul>
 </li>
 </ul>
@@ -290,124 +358,106 @@
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/170498071 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 32768/170498071 [00:00&lt;59:40, 47606.99it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 32768/170498071 [00:00&lt;1:15:49, 37471.93it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 65536/170498071 [00:01&lt;59:26, 47788.21it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 65536/170498071 [00:01&lt;59:40, 47599.13it/s]  
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 98304/170498071 [00:02&lt;59:33, 47686.77it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 98304/170498071 [00:02&lt;1:02:44, 45264.29it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 131072/170498071 [00:02&lt;59:29, 47729.07it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 131072/170498071 [00:03&lt;1:07:59, 41761.87it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 163840/170498071 [00:03&lt;59:39, 47582.53it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 163840/170498071 [00:03&lt;1:09:53, 40617.71it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 196608/170498071 [00:04&lt;59:45, 47497.78it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 196608/170498071 [00:05&lt;1:18:46, 36034.74it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 229376/170498071 [00:04&lt;59:35, 47627.59it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 229376/170498071 [00:05&lt;1:07:38, 41955.02it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 262144/170498071 [00:05&lt;59:14, 47888.25it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 262144/170498071 [00:06&lt;1:18:01, 36361.01it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 294912/170498071 [00:06&lt;58:58, 48094.27it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 294912/170498071 [00:07&lt;1:06:59, 42347.24it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 327680/170498071 [00:06&lt;59:03, 48022.50it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 327680/170498071 [00:08&lt;1:18:22, 36188.87it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 360448/170498071 [00:07&lt;1:03:40, 44532.66it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 360448/170498071 [00:09&lt;1:23:46, 33848.96it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 393216/170498071 [00:08&lt;1:02:26, 45407.44it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 393216/170498071 [00:09&lt;1:07:50, 41787.33it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 425984/170498071 [00:09&lt;1:01:29, 46094.22it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 425984/170498071 [00:10&lt;1:12:54, 38875.38it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 458752/170498071 [00:09&lt;1:00:51, 46563.50it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 458752/170498071 [00:11&lt;1:19:16, 35751.14it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 491520/170498071 [00:10&lt;1:00:13, 47053.74it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 491520/170498071 [00:12&lt;1:12:17, 39192.71it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 524288/170498071 [00:11&lt;59:53, 47303.98it/s]  
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 524288/170498071 [00:13&lt;1:05:06, 43511.18it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 557056/170498071 [00:11&lt;59:22, 47707.27it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 557056/170498071 [00:13&lt;1:06:48, 42396.39it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 589824/170498071 [00:12&lt;59:09, 47872.12it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 589824/170498071 [00:14&lt;1:07:59, 41645.04it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 622592/170498071 [00:13&lt;59:02, 47955.43it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 622592/170498071 [00:15&lt;1:12:02, 39299.39it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 655360/170498071 [00:13&lt;58:49, 48127.62it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 655360/170498071 [00:16&lt;1:10:00, 40429.74it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 688128/170498071 [00:14&lt;1:03:19, 44697.23it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 688128/170498071 [00:17&lt;1:15:01, 37726.95it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 720896/170498071 [00:15&lt;1:02:00, 45632.13it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 720896/170498071 [00:18&lt;1:13:08, 38686.70it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 753664/170498071 [00:16&lt;1:01:04, 46315.72it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 753664/170498071 [00:19&lt;1:21:23, 34760.24it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 786432/170498071 [00:16&lt;1:00:22, 46852.35it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 786432/170498071 [00:19&lt;1:08:01, 41576.93it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 819200/170498071 [00:17&lt;59:56, 47175.59it/s]  
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 819200/170498071 [00:20&lt;1:10:17, 40228.28it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 851968/170498071 [00:18&lt;59:35, 47445.97it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 851968/170498071 [00:21&lt;1:19:10, 35712.65it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 884736/170498071 [00:18&lt;59:15, 47706.92it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 884736/170498071 [00:22&lt;1:15:23, 37500.05it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 917504/170498071 [00:19&lt;59:05, 47827.12it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 917504/170498071 [00:23&lt;1:12:08, 39179.46it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 950272/170498071 [00:20&lt;59:02, 47860.31it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 950272/170498071 [00:24&lt;1:09:17, 40781.45it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 983040/170498071 [00:20&lt;59:03, 47842.68it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 983040/170498071 [00:24&lt;1:02:22, 45295.39it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1015808/170498071 [00:21&lt;58:54, 47950.35it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1015808/170498071 [00:25&lt;1:05:34, 43080.43it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1048576/170498071 [00:22&lt;1:03:15, 44645.94it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1048576/170498071 [00:26&lt;1:23:05, 33988.36it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1081344/170498071 [00:23&lt;1:01:53, 45621.86it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1081344/170498071 [00:27&lt;1:06:48, 42265.39it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1114112/170498071 [00:23&lt;1:00:59, 46286.22it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1146880/170498071 [00:24&lt;1:00:21, 46764.72it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1179648/170498071 [00:25&lt;59:56, 47081.29it/s]  
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1212416/170498071 [00:25&lt;59:43, 47237.43it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1245184/170498071 [00:26&lt;59:32, 47377.47it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1277952/170498071 [00:27&lt;59:17, 47573.62it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1277952/170498071 [00:27&lt;1:00:18, 46759.47it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|          | 1081344/170498071 [00:27&lt;1:12:10, 39120.81it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>

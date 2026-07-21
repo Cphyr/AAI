@@ -17,6 +17,7 @@ Overviews/overviews
 Datascience101/main
 Statistics301/main
 MLCrashCourse/main
+TSCourse/main
 ```
 
 <!-- ## Indices and tables

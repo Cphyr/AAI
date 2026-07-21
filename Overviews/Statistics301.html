@@ -83,6 +83,7 @@
 <li class="toctree-l2"><a class="reference internal" href="Datascience101.html">Datascience 101</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Statistics 301</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MLCrashCourse.html">ML Crash Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TSCourse.html">Time Series &amp; State-Space Crash Course</a></li>
 </ul>
 </li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
@@ -156,6 +157,73 @@
 <li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/main.html">Time Series &amp; State-Space Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_00_problem_formulation/main.html">Chapter 00 - Problem Formulation &amp; Baselines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_00_problem_formulation/lessons/L01_problem_types.html">Lesson 01 - Problem Types &amp; Objectives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_00_problem_formulation/lessons/L02_baselines.html">Lesson 02 - Baselines &amp; Sanity Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_01_ts_foundations/main.html">Chapter 01 - TS Foundations, Pragmatic<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_01_ts_foundations/lessons/L01_stationarity.html">Lesson 01 - Stationarity as a Modeling Convenience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_01_ts_foundations/lessons/L02_acf_and_spectrum.html">Lesson 02 - ACF/PACF &amp; the Spectral View as Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_01_ts_foundations/lessons/L03_temporal_evaluation.html">Lesson 03 - Evaluation for Temporal Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_01_ts_foundations/challenges/challenge1_trick_series.html">Challenge 01 - Trick-Series Diagnosis</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_02_state_space_filtering/main.html">Chapter 02 - State-Space &amp; Filtering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_02_state_space_filtering/lessons/L01_kalman_filter.html">Lesson 01 - Linear-Gaussian SSMs &amp; the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_02_state_space_filtering/lessons/L02_nonlinear_filters.html">Lesson 02 - Beyond Linear-Gaussian: EKF, UKF, Particle Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_02_state_space_filtering/lessons/L03_motion_models_imm.html">Lesson 03 - Motion Models &amp; Maneuvering Targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_02_state_space_filtering/lessons/L04_multi_target.html">Lesson 04 - Multi-Target Essentials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_02_state_space_filtering/walkthroughs/lesson_maneuvering_target.html">Walkthrough - Maneuvering Target with Clutter: EKF vs. UKF vs. PF vs. IMM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_02_state_space_filtering/challenges/challenge1_nongaussian_fusion.html">Challenge 01 - Sensor Fusion with Non-Gaussian Noise</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_03_trajectory_data/main.html">Chapter 03 - Trajectory Data in Practice<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_03_trajectory_data/lessons/L01_irregular_sampling.html">Lesson 01 - Irregular Sampling, Dropouts, Resampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_03_trajectory_data/lessons/L02_frames_and_features.html">Lesson 02 - Coordinate Frames &amp; Kinematic Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_03_trajectory_data/lessons/L03_segmentation.html">Lesson 03 - Segmentation of Long Recordings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_03_trajectory_data/walkthroughs/lesson_trajectory_pipeline.html">Walkthrough - Raw Messy Trajectory to a Clean, Feature-Rich Representation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_04_ts_classification/main.html">Chapter 04 - Time-Series &amp; Trajectory Classification<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_04_ts_classification/lessons/L01_distance_and_features.html">Lesson 01 - Distance-Based &amp; Feature-Based Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_04_ts_classification/lessons/L02_rocket_and_deep.html">Lesson 02 - Random-Feature &amp; Deep Classifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_04_ts_classification/challenges/challenge1_classify_trajectories.html">Challenge 01 - Classify Trajectory Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_05_anomaly_detection/main.html">Chapter 05 - Anomaly Detection on Trajectories<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_05_anomaly_detection/lessons/L01_anomaly_framings.html">Lesson 01 - Framings &amp; Evaluation Under Label Scarcity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_05_anomaly_detection/challenges/challenge1_unlabeled_anomalies.html">Challenge 01 - Flag Anomalous Tracks in Unlabeled Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_06_probabilistic_prediction/main.html">Chapter 06 - Probabilistic Prediction &amp; Uncertainty<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_06_probabilistic_prediction/lessons/L01_quantiles_and_pinball.html">Lesson 01 - From Point Forecasts to Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_06_probabilistic_prediction/lessons/L02_conformal.html">Lesson 02 - Conformal Prediction for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_06_probabilistic_prediction/lessons/L03_bsts_crps_calibration.html">Lesson 03 - Bayesian Structural TS, CRPS &amp; Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_06_probabilistic_prediction/walkthroughs/lesson_three_intervals.html">Walkthrough - Three Ways to Build Intervals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_06_probabilistic_prediction/challenges/challenge1_regime_coverage.html">Challenge 01 - Regime-Change Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_07_deep_learning_sequences/main.html">Chapter 07 - Deep Learning for Sequences &amp; Trajectories<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_07_deep_learning_sequences/lessons/L01_sequence_models.html">Lesson 01 - Compressed Sequence-Model Refresher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_07_deep_learning_sequences/lessons/L02_transformers_and_dlinear.html">Lesson 02 - Transformer Forecasters &amp; the DLinear Lens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_07_deep_learning_sequences/lessons/L03_trajectory_prediction.html">Lesson 03 - Trajectory Prediction Proper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_07_deep_learning_sequences/walkthroughs/lesson_dlinear_vs_patch.html">Walkthrough - DLinear vs. a Patch Model vs. Classical Baselines, with a Forced Ablation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_08_frontier_foundation_models/main.html">Chapter 08 - Frontier: Foundation Models &amp; Modern SSMs<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_08_frontier_foundation_models/lessons/L01_foundation_models.html">Lesson 01 - Foundation Models for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_08_frontier_foundation_models/lessons/L02_deep_ssms.html">Lesson 02 - State-Space Models as Deep Architectures</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../TSCourse/chapter_09_capstone/main.html">Chapter 09 - Capstone: Critical Reading &amp; Reproduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_09_capstone/lessons/L01_critical_reading.html">Lesson 01 - Reading TS/Trajectory Papers Critically</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../TSCourse/chapter_09_capstone/challenges/capstone_reproduction.html">Capstone - Reproduce a Central Claim</a></li>
 </ul>
 </li>
 </ul>

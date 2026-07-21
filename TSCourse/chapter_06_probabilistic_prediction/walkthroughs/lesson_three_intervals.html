@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Walkthrough - Three Ways to Build Intervals | AAI 1.0 documentation</title>
+<meta content="Walkthrough - Three Ways to Build Intervals | AAI 1.0 documentation" property="og:title"/>
+<meta content="Walkthrough - Three Ways to Build Intervals | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../challenges/challenge1_regime_coverage.html" rel="next" title="Challenge 01 - Regime-Change Coverage"/>
+<link href="../lessons/L03_bsts_crps_calibration.html" rel="prev" title="Lesson 03 - Bayesian Structural TS, CRPS &amp; Calibration"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/TSCourse.html">Time Series &amp; State-Space Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics301/main.html">Statistics 301<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics301/chapter_01_advanced_inference/main.html">Chapter 01: Advanced Inference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_01_advanced_inference/lessons/L01_likelihood_theory_and_asymptotics.html">Likelihood Theory &amp; Asymptotics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_01_advanced_inference/lessons/L02_em_algorithm_and_latent_variables.html">The EM Algorithm &amp; Latent Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_01_advanced_inference/lessons/L03_bayesian_inference_and_mcmc.html">Bayesian Inference &amp; MCMC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_01_advanced_inference/lessons/L04_multiple_testing_and_fdr.html">Multiple Testing &amp; FDR</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics301/chapter_02_resampling_and_computation/main.html">Chapter 02: Resampling &amp; Computation<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_02_resampling_and_computation/lessons/L01_bootstrap_methods.html">Bootstrap Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_02_resampling_and_computation/lessons/L02_permutation_and_randomization_tests.html">Permutation &amp; Randomization Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_02_resampling_and_computation/lessons/L03_missing_data_and_multiple_imputation.html">Missing Data &amp; Multiple Imputation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_02_resampling_and_computation/lessons/L04_model_selection_and_cross_validation.html">Model Selection &amp; Cross-Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics301/chapter_03_advanced_modeling/main.html">Chapter 03: Advanced Modeling<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_03_advanced_modeling/lessons/L01_mixed_effects_models.html">Mixed-Effects Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_03_advanced_modeling/lessons/L02_item_response_theory.html">Item Response Theory (IRT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_03_advanced_modeling/lessons/L03_nonparametric_and_semiparametric_methods.html">Nonparametric &amp; Semiparametric Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_03_advanced_modeling/lessons/L04_survival_analysis.html">Survival Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Time Series &amp; State-Space Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_00_problem_formulation/main.html">Chapter 00 - Problem Formulation &amp; Baselines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_00_problem_formulation/lessons/L01_problem_types.html">Lesson 01 - Problem Types &amp; Objectives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_00_problem_formulation/lessons/L02_baselines.html">Lesson 02 - Baselines &amp; Sanity Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_01_ts_foundations/main.html">Chapter 01 - TS Foundations, Pragmatic<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_ts_foundations/lessons/L01_stationarity.html">Lesson 01 - Stationarity as a Modeling Convenience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_ts_foundations/lessons/L02_acf_and_spectrum.html">Lesson 02 - ACF/PACF &amp; the Spectral View as Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_ts_foundations/lessons/L03_temporal_evaluation.html">Lesson 03 - Evaluation for Temporal Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_01_ts_foundations/challenges/challenge1_trick_series.html">Challenge 01 - Trick-Series Diagnosis</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_02_state_space_filtering/main.html">Chapter 02 - State-Space &amp; Filtering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/lessons/L01_kalman_filter.html">Lesson 01 - Linear-Gaussian SSMs &amp; the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/lessons/L02_nonlinear_filters.html">Lesson 02 - Beyond Linear-Gaussian: EKF, UKF, Particle Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/lessons/L03_motion_models_imm.html">Lesson 03 - Motion Models &amp; Maneuvering Targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/lessons/L04_multi_target.html">Lesson 04 - Multi-Target Essentials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/walkthroughs/lesson_maneuvering_target.html">Walkthrough - Maneuvering Target with Clutter: EKF vs. UKF vs. PF vs. IMM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/challenges/challenge1_nongaussian_fusion.html">Challenge 01 - Sensor Fusion with Non-Gaussian Noise</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_03_trajectory_data/main.html">Chapter 03 - Trajectory Data in Practice<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_trajectory_data/lessons/L01_irregular_sampling.html">Lesson 01 - Irregular Sampling, Dropouts, Resampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_trajectory_data/lessons/L02_frames_and_features.html">Lesson 02 - Coordinate Frames &amp; Kinematic Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_trajectory_data/lessons/L03_segmentation.html">Lesson 03 - Segmentation of Long Recordings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_trajectory_data/walkthroughs/lesson_trajectory_pipeline.html">Walkthrough - Raw Messy Trajectory to a Clean, Feature-Rich Representation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_04_ts_classification/main.html">Chapter 04 - Time-Series &amp; Trajectory Classification<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_04_ts_classification/lessons/L01_distance_and_features.html">Lesson 01 - Distance-Based &amp; Feature-Based Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_04_ts_classification/lessons/L02_rocket_and_deep.html">Lesson 02 - Random-Feature &amp; Deep Classifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_04_ts_classification/challenges/challenge1_classify_trajectories.html">Challenge 01 - Classify Trajectory Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_05_anomaly_detection/main.html">Chapter 05 - Anomaly Detection on Trajectories<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_05_anomaly_detection/lessons/L01_anomaly_framings.html">Lesson 01 - Framings &amp; Evaluation Under Label Scarcity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_05_anomaly_detection/challenges/challenge1_unlabeled_anomalies.html">Challenge 01 - Flag Anomalous Tracks in Unlabeled Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 06 - Probabilistic Prediction &amp; Uncertainty<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../lessons/L01_quantiles_and_pinball.html">Lesson 01 - From Point Forecasts to Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lessons/L02_conformal.html">Lesson 02 - Conformal Prediction for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lessons/L03_bsts_crps_calibration.html">Lesson 03 - Bayesian Structural TS, CRPS &amp; Calibration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Walkthrough - Three Ways to Build Intervals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../challenges/challenge1_regime_coverage.html">Challenge 01 - Regime-Change Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_07_deep_learning_sequences/main.html">Chapter 07 - Deep Learning for Sequences &amp; Trajectories<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_07_deep_learning_sequences/lessons/L01_sequence_models.html">Lesson 01 - Compressed Sequence-Model Refresher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_07_deep_learning_sequences/lessons/L02_transformers_and_dlinear.html">Lesson 02 - Transformer Forecasters &amp; the DLinear Lens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_07_deep_learning_sequences/lessons/L03_trajectory_prediction.html">Lesson 03 - Trajectory Prediction Proper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_07_deep_learning_sequences/walkthroughs/lesson_dlinear_vs_patch.html">Walkthrough - DLinear vs. a Patch Model vs. Classical Baselines, with a Forced Ablation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_08_frontier_foundation_models/main.html">Chapter 08 - Frontier: Foundation Models &amp; Modern SSMs<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_08_frontier_foundation_models/lessons/L01_foundation_models.html">Lesson 01 - Foundation Models for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_08_frontier_foundation_models/lessons/L02_deep_ssms.html">Lesson 02 - State-Space Models as Deep Architectures</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_09_capstone/main.html">Chapter 09 - Capstone: Critical Reading &amp; Reproduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_09_capstone/lessons/L01_critical_reading.html">Lesson 01 - Reading TS/Trajectory Papers Critically</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_09_capstone/challenges/capstone_reproduction.html">Capstone - Reproduce a Central Claim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">Time Series &amp; State-Space Crash Course</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 06 - Probabilistic Prediction &amp; Uncertainty</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Walkthrough - Three Ways to Build Intervals</span>
+</nav>
+<div id="content" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="walkthrough-three-ways-to-build-intervals">
+<h1>Walkthrough - Three Ways to Build Intervals<a class="headerlink" href="#walkthrough-three-ways-to-build-intervals" title="Link to this heading"><span>#</span></a></h1>
+<p>One series, one point predictor, three ways to attach uncertainty to it:</p>
+<ol class="arabic simple">
+<li><p><strong>Quantile regression</strong> — train directly on the pinball loss.</p></li>
+<li><p><strong>Conformal prediction</strong> — split conformal and CQR, on top of the same models.</p></li>
+<li><p><strong>Bayesian structural</strong> — a local-level state-space model whose filter <em>derives</em> the predictive
+variance.</p></li>
+</ol>
+<p>Then we score them properly (pinball, CRPS, Winkler), plot calibration, and break them with a
+regime change.</p>
+<p>Companion lessons: <a class="reference internal" href="../lessons/L01_quantiles_and_pinball.html"><span class="std std-doc">L01</span></a>,
+<a class="reference internal" href="../lessons/L02_conformal.html"><span class="std std-doc">L02</span></a>, <a class="reference internal" href="../lessons/L03_bsts_crps_calibration.html"><span class="std std-doc">L03</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientBoostingRegressor</span>
+
+<span class="n">RNG</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"figure.figsize"</span><span class="p">:</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">),</span> <span class="s2">"axes.grid"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"grid.alpha"</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">})</span>
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="mf">0.1</span>                      <span class="c1"># target 90% intervals</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="part-1-a-series-with-heteroskedastic-noise">
+<h2>Part 1 - A series with heteroskedastic noise<a class="headerlink" href="#part-1-a-series-with-heteroskedastic-noise" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#part-1-a-series-with-heteroskedastic-noise'"><span>#</span></a></h2>
+<p>Daily seasonality, a slow level drift, and — the part that matters — noise whose scale depends on
+the state (loud during the “busy” part of the cycle). A single global <span class="math notranslate nohighlight">\(\sigma\)</span> cannot be right
+everywhere.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">season</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="mi">168</span><span class="p">)</span>
+<span class="n">level</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">RNG</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="mi">24</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span>      <span class="c1"># state-dependent noise</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">season</span> <span class="o">+</span> <span class="n">level</span> <span class="o">+</span> <span class="n">RNG</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span>
+
+<span class="c1"># supervised framing: predict y[t] from the previous 24 lags + calendar features</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">L</span><span class="p">:</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span><span class="p">[</span><span class="n">L</span><span class="p">:]</span> <span class="o">/</span> <span class="mi">24</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">t</span><span class="p">[</span><span class="n">L</span><span class="p">:]</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">L</span><span class="p">:]</span>
+
+<span class="c1"># strictly chronological split - train / calibration / test (Ch.1 L03)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="n">i_tr</span><span class="p">,</span> <span class="n">i_ca</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">n</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.75</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">Xtr</span><span class="p">,</span> <span class="n">Ytr</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="n">i_tr</span><span class="p">],</span> <span class="n">Y</span><span class="p">[:</span><span class="n">i_tr</span><span class="p">]</span>
+<span class="n">Xca</span><span class="p">,</span> <span class="n">Yca</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i_tr</span><span class="p">:</span><span class="n">i_ca</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">i_tr</span><span class="p">:</span><span class="n">i_ca</span><span class="p">]</span>
+<span class="n">Xte</span><span class="p">,</span> <span class="n">Yte</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i_ca</span><span class="p">:],</span> <span class="n">Y</span><span class="p">[</span><span class="n">i_ca</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"train </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">Ytr</span><span class="p">)</span><span class="si">}</span><span class="s2">   calibration </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">Yca</span><span class="p">)</span><span class="si">}</span><span class="s2">   test </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">Yte</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">L</span> <span class="o">+</span> <span class="n">i_tr</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">L</span> <span class="o">+</span> <span class="n">i_ca</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Series (dotted = end of train, dashed = end of calibration)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train 1488   calibration 744   test 744
+</pre></div>
+</div>
+<img alt="../../../_images/fee2434b744e5d2e2f9a6b108923e7f25b1cd440c2510a0f688b2bd49070bb72.png" src="../../../_images/fee2434b744e5d2e2f9a6b108923e7f25b1cd440c2510a0f688b2bd49070bb72.png"/>
+</div>
+</div>
+</section>
+<section id="part-2-method-1-quantile-regression">
+<h2>Part 2 - Method 1: quantile regression<a class="headerlink" href="#part-2-method-1-quantile-regression" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#part-2-method-1-quantile-regression'"><span>#</span></a></h2>
+<p>Fit the pinball loss at <span class="math notranslate nohighlight">\(\tau\in\{0.05, 0.5, 0.95\}\)</span>. Each quantile is its own function of the
+features, so heteroskedasticity is handled for free — no guarantee of coverage, though.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fit_gbr</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">kw</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tau</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">"squared_error"</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">Ytr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">"quantile"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">Ytr</span><span class="p">)</span>
+
+
+<span class="n">mean_model</span> <span class="o">=</span> <span class="n">fit_gbr</span><span class="p">()</span>
+<span class="n">qlo_model</span><span class="p">,</span> <span class="n">qhi_model</span> <span class="o">=</span> <span class="n">fit_gbr</span><span class="p">(</span><span class="n">ALPHA</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">fit_gbr</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ALPHA</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">qr_lo</span><span class="p">,</span> <span class="n">qr_hi</span> <span class="o">=</span> <span class="n">qlo_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">),</span> <span class="n">qhi_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">)</span>
+<span class="n">qr_lo</span><span class="p">,</span> <span class="n">qr_hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">qr_lo</span><span class="p">,</span> <span class="n">qr_hi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">qr_lo</span><span class="p">,</span> <span class="n">qr_hi</span><span class="p">)</span>     <span class="c1"># fix any crossing</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-3-method-2-conformal">
+<h2>Part 3 - Method 2: conformal<a class="headerlink" href="#part-3-method-2-conformal" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#part-3-method-2-conformal'"><span>#</span></a></h2>
+<p><strong>Split conformal</strong> on absolute residuals gives one constant width. <strong>CQR</strong> conformalises the
+quantile model above, keeping its shape <em>and</em> gaining the coverage guarantee.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># split conformal around the mean model</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Yca</span> <span class="o">-</span> <span class="n">mean_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xca</span><span class="p">))</span>
+<span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ALPHA</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">qhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">res</span><span class="p">)[</span><span class="n">k</span><span class="p">]</span>
+<span class="n">mu_te</span> <span class="o">=</span> <span class="n">mean_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">)</span>
+<span class="n">sc_lo</span><span class="p">,</span> <span class="n">sc_hi</span> <span class="o">=</span> <span class="n">mu_te</span> <span class="o">-</span> <span class="n">qhat</span><span class="p">,</span> <span class="n">mu_te</span> <span class="o">+</span> <span class="n">qhat</span>
+
+<span class="c1"># CQR: nonconformity = how far outside the predicted quantile band the truth fell</span>
+<span class="n">ca_lo</span><span class="p">,</span> <span class="n">ca_hi</span> <span class="o">=</span> <span class="n">qlo_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xca</span><span class="p">),</span> <span class="n">qhi_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xca</span><span class="p">)</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">ca_lo</span> <span class="o">-</span> <span class="n">Yca</span><span class="p">,</span> <span class="n">Yca</span> <span class="o">-</span> <span class="n">ca_hi</span><span class="p">)</span>
+<span class="n">qcqr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">E</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ALPHA</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">cqr_lo</span><span class="p">,</span> <span class="n">cqr_hi</span> <span class="o">=</span> <span class="n">qr_lo</span> <span class="o">-</span> <span class="n">qcqr</span><span class="p">,</span> <span class="n">qr_hi</span> <span class="o">+</span> <span class="n">qcqr</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"split-conformal half-width: </span><span class="si">{</span><span class="n">qhat</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (constant)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"CQR correction: </span><span class="si">{</span><span class="n">qcqr</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2"> added to each side of the quantile band"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>split-conformal half-width: 1.48 (constant)
+CQR correction: +0.25 added to each side of the quantile band
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-4-method-3-bayesian-structural-local-level-seasonal">
+<h2>Part 4 - Method 3: Bayesian structural (local level + seasonal)<a class="headerlink" href="#part-4-method-3-bayesian-structural-local-level-seasonal" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#part-4-method-3-bayesian-structural-local-level-seasonal'"><span>#</span></a></h2>
+<p>A linear-Gaussian state-space model (Chapter 2 Lesson 01) with a level and a 24-step seasonal
+component. The one-step predictive variance <span class="math notranslate nohighlight">\(S_t = HP_{t|t-1}H^\top + R\)</span> <em>is</em> the interval — no
+residual calibration involved, which is exactly why it is only as honest as <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(R\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">bsts_predict</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">q_level</span><span class="o">=</span><span class="mf">0.02</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">q_seas</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Local level + dummy seasonal SSM; returns one-step predictive mean and std."""</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>                                <span class="c1"># level + m-1 seasonal states</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>                                <span class="c1"># seasonal recursion: sum over a cycle = 0</span>
+    <span class="n">F</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">q_level</span><span class="p">,</span> <span class="n">q_seas</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="mf">10.0</span>
+    <span class="n">mus</span><span class="p">,</span> <span class="n">sds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">obs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">F</span> <span class="o">@</span> <span class="n">x</span><span class="p">,</span> <span class="n">F</span> <span class="o">@</span> <span class="n">P</span> <span class="o">@</span> <span class="n">F</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">Q</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">P</span> <span class="o">@</span> <span class="n">H</span> <span class="o">+</span> <span class="n">r</span>
+        <span class="n">mus</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">P</span> <span class="o">@</span> <span class="n">H</span> <span class="o">/</span> <span class="n">S</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">K</span> <span class="o">*</span> <span class="p">(</span><span class="n">obs</span> <span class="o">-</span> <span class="n">H</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">P</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">H</span> <span class="o">@</span> <span class="n">P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mus</span><span class="p">,</span> <span class="n">sds</span>
+
+
+<span class="c1"># fit r (observation noise) on the training portion by matching residual variance - a crude MLE</span>
+<span class="n">bs_mu</span><span class="p">,</span> <span class="n">bs_sd</span> <span class="o">=</span> <span class="n">bsts_predict</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">L</span><span class="p">:],</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">r_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">Y</span><span class="p">[:</span><span class="n">i_tr</span><span class="p">]</span> <span class="o">-</span> <span class="n">bs_mu</span><span class="p">[:</span><span class="n">i_tr</span><span class="p">])</span>
+<span class="n">bs_mu</span><span class="p">,</span> <span class="n">bs_sd</span> <span class="o">=</span> <span class="n">bsts_predict</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">L</span><span class="p">:],</span> <span class="n">r</span><span class="o">=</span><span class="n">r_hat</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="mf">1.645</span>                                          <span class="c1"># 90%</span>
+<span class="n">bs_lo</span><span class="p">,</span> <span class="n">bs_hi</span> <span class="o">=</span> <span class="p">(</span><span class="n">bs_mu</span> <span class="o">-</span> <span class="n">z</span> <span class="o">*</span> <span class="n">bs_sd</span><span class="p">)[</span><span class="n">i_ca</span><span class="p">:],</span> <span class="p">(</span><span class="n">bs_mu</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">bs_sd</span><span class="p">)[</span><span class="n">i_ca</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"estimated observation variance: </span><span class="si">{</span><span class="n">r_hat</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>estimated observation variance: 1.27
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-5-score-them">
+<h2>Part 5 - Score them<a class="headerlink" href="#part-5-score-them" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#part-5-score-them'"><span>#</span></a></h2>
+<p>Coverage alone is meaningless (predict <span class="math notranslate nohighlight">\(\pm\infty\)</span> and win). Report <strong>coverage, width, pinball and
+the Winkler interval score</strong> together.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pinball</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">tau</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">q</span><span class="p">),</span> <span class="p">(</span><span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">q</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">winkler</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">ALPHA</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span>
+    <span class="n">pen</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">lo</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">lo</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">hi</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">hi</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">w</span> <span class="o">+</span> <span class="n">pen</span><span class="p">)</span>
+
+
+<span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"quantile regression"</span><span class="p">:</span> <span class="p">(</span><span class="n">qr_lo</span><span class="p">,</span> <span class="n">qr_hi</span><span class="p">),</span>
+           <span class="s2">"split conformal"</span><span class="p">:</span> <span class="p">(</span><span class="n">sc_lo</span><span class="p">,</span> <span class="n">sc_hi</span><span class="p">),</span>
+           <span class="s2">"CQR"</span><span class="p">:</span> <span class="p">(</span><span class="n">cqr_lo</span><span class="p">,</span> <span class="n">cqr_hi</span><span class="p">),</span>
+           <span class="s2">"Bayesian structural"</span><span class="p">:</span> <span class="p">(</span><span class="n">bs_lo</span><span class="p">,</span> <span class="n">bs_hi</span><span class="p">)}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'method'</span><span class="si">:</span><span class="s2">&lt;22</span><span class="si">}{</span><span class="s1">'coverage'</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}{</span><span class="s1">'width'</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}{</span><span class="s1">'pinball'</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}{</span><span class="s1">'Winkler'</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span> <span class="ow">in</span> <span class="n">methods</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Yte</span> <span class="o">&gt;=</span> <span class="n">lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">Yte</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">))</span>
+    <span class="n">pb</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">pinball</span><span class="p">(</span><span class="n">Yte</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">ALPHA</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">pinball</span><span class="p">(</span><span class="n">Yte</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ALPHA</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;22</span><span class="si">}{</span><span class="n">cov</span><span class="si">:</span><span class="s2">&gt;10.3f</span><span class="si">}{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lo</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;9.2f</span><span class="si">}{</span><span class="n">pb</span><span class="si">:</span><span class="s2">&gt;10.4f</span><span class="si">}{</span><span class="n">winkler</span><span class="p">(</span><span class="n">Yte</span><span class="p">,</span><span class="w"> </span><span class="n">lo</span><span class="p">,</span><span class="w"> </span><span class="n">hi</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;10.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">target coverage: </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ALPHA</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>method                  coverage    width   pinball   Winkler
+quantile regression        0.817     2.63    0.1070     4.278
+split conformal            0.888     2.97    0.1073     4.292
+CQR                        0.890     3.12    0.1020     4.079
+Bayesian structural        0.905     3.76    0.1186     4.746
+
+target coverage: 0.90
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">220</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">methods</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Yte</span><span class="p">[</span><span class="n">sl</span><span class="p">],</span> <span class="s2">"k."</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Yte</span><span class="p">))[</span><span class="n">sl</span><span class="p">],</span> <span class="n">lo</span><span class="p">[</span><span class="n">sl</span><span class="p">],</span> <span class="n">hi</span><span class="p">[</span><span class="n">sl</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">)</span>
+    <span class="n">miss</span> <span class="o">=</span> <span class="p">(</span><span class="n">Yte</span> <span class="o">&lt;</span> <span class="n">lo</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">Yte</span> <span class="o">&gt;</span> <span class="n">hi</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Yte</span><span class="p">))[</span><span class="n">sl</span><span class="p">][</span><span class="n">miss</span><span class="p">[</span><span class="n">sl</span><span class="p">]],</span> <span class="n">Yte</span><span class="p">[</span><span class="n">sl</span><span class="p">][</span><span class="n">miss</span><span class="p">[</span><span class="n">sl</span><span class="p">]],</span> <span class="s2">"rx"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> — coverage </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Yte</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">lo</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">Yte</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">hi</span><span class="p">))</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/9a2cd80e21bcacc0676be90f35ecb46c4b1a7bbca6dda88e8ec0bf577deaa2a6.png" src="../../../_images/9a2cd80e21bcacc0676be90f35ecb46c4b1a7bbca6dda88e8ec0bf577deaa2a6.png"/>
+</div>
+</div>
+<p>The constant-width band is the tell: split conformal is too wide in the quiet phase and too narrow
+in the loud one, and its <em>marginal</em> coverage hides both. Look at where the red misses cluster.</p>
+</section>
+<section id="part-6-conditional-coverage">
+<h2>Part 6 - Conditional coverage<a class="headerlink" href="#part-6-conditional-coverage" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#part-6-conditional-coverage'"><span>#</span></a></h2>
+<p>Marginal coverage is the easy test. Break it down by the noise regime — the quiet third of the
+cycle vs. the loud third — and the constant-width methods fall apart.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_te</span> <span class="o">=</span> <span class="n">scale</span><span class="p">[</span><span class="n">L</span><span class="p">:][</span><span class="n">i_ca</span><span class="p">:]</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">sc_te</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'method'</span><span class="si">:</span><span class="s2">&lt;22</span><span class="si">}{</span><span class="s1">'quiet'</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}{</span><span class="s1">'medium'</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}{</span><span class="s1">'loud'</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span> <span class="ow">in</span> <span class="n">methods</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">sc_te</span> <span class="o">&gt;=</span> <span class="n">a</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">sc_te</span> <span class="o">&lt;=</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">Yte</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">lo</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">Yte</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">[</span><span class="n">m</span><span class="p">])))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;22</span><span class="si">}</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">&gt;9.3f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>method                    quiet   medium     loud
+quantile regression       0.810    0.819    0.823
+split conformal           0.984    0.927    0.754
+CQR                       0.903    0.879    0.887
+Bayesian structural       0.988    0.911    0.815
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-7-calibration-the-pit-histogram">
+<h2>Part 7 - Calibration: the PIT histogram<a class="headerlink" href="#part-7-calibration-the-pit-histogram" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#part-7-calibration-the-pit-histogram'"><span>#</span></a></h2>
+<p>For the two methods that give a full predictive distribution, transform each observation by its
+own predictive CDF. Calibrated ⟹ uniform. A U-shape means over-confidence; a hump means
+over-dispersion.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+<span class="n">pit_bs</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">Yte</span><span class="p">,</span> <span class="n">bs_mu</span><span class="p">[</span><span class="n">i_ca</span><span class="p">:],</span> <span class="n">bs_sd</span><span class="p">[</span><span class="n">i_ca</span><span class="p">:])</span>
+<span class="c1"># an empirical PIT for the quantile model: interpolate through the fitted quantiles</span>
+<span class="n">taus</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">]</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">fit_gbr</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">)</span> <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">taus</span><span class="p">])</span>
+<span class="n">pit_qr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">yv</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">taus</span><span class="p">)</span> <span class="k">for</span> <span class="n">yv</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Yte</span><span class="p">,</span> <span class="n">qs</span><span class="p">)])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">[(</span><span class="n">pit_qr</span><span class="p">,</span> <span class="s2">"quantile regression"</span><span class="p">),</span> <span class="p">(</span><span class="n">pit_bs</span><span class="p">,</span> <span class="s2">"Bayesian structural"</span><span class="p">)]):</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PIT — </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">);</span> <span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"$F_t(y_t)$"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/e17f429b603e6193e5394ec2c15ced198ba798ba4f2c3c1f3d25f99009fae29e.png" src="../../../_images/e17f429b603e6193e5394ec2c15ced198ba798ba4f2c3c1f3d25f99009fae29e.png"/>
+</div>
+</div>
+</section>
+<section id="part-8-break-it-a-regime-change-in-the-test-period">
+<h2>Part 8 - Break it: a regime change in the test period<a class="headerlink" href="#part-8-break-it-a-regime-change-in-the-test-period" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#part-8-break-it-a-regime-change-in-the-test-period'"><span>#</span></a></h2>
+<p>Triple the noise scale halfway through the test set — a sensor degradation, a change of platform,
+a new operating condition. Nothing in the calibration data warned about it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Yte2</span> <span class="o">=</span> <span class="n">Yte</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Yte2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="n">Yte2</span><span class="p">[</span><span class="n">half</span><span class="p">:]</span> <span class="o">=</span> <span class="n">mean_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">)[</span><span class="n">half</span><span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="n">Yte2</span> <span class="o">-</span> <span class="n">mean_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">))[</span><span class="n">half</span><span class="p">:]</span> <span class="o">*</span> <span class="mf">3.0</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'method'</span><span class="si">:</span><span class="s2">&lt;22</span><span class="si">}{</span><span class="s1">'before'</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}{</span><span class="s1">'after'</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}{</span><span class="s1">'overall'</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span> <span class="ow">in</span> <span class="n">methods</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">Yte2</span> <span class="o">&gt;=</span> <span class="n">lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">Yte2</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;22</span><span class="si">}{</span><span class="n">inside</span><span class="p">[:</span><span class="n">half</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;9.3f</span><span class="si">}{</span><span class="n">inside</span><span class="p">[</span><span class="n">half</span><span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;9.3f</span><span class="si">}{</span><span class="n">inside</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;9.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>method                   before    after  overall
+quantile regression       0.812    0.368    0.590
+split conformal           0.882    0.487    0.684
+CQR                       0.874    0.465    0.669
+Bayesian structural       0.906    0.546    0.726
+</pre></div>
+</div>
+</div>
+</div>
+<section id="adaptive-conformal-aci-recovers-the-long-run-guarantee">
+<h3>Adaptive conformal (ACI) recovers the long-run guarantee<a class="headerlink" href="#adaptive-conformal-aci-recovers-the-long-run-guarantee" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#adaptive-conformal-aci-recovers-the-long-run-guarantee'"><span>#</span></a></h3>
+<p><span class="math notranslate nohighlight">\(\alpha_{t+1}=\alpha_t+\eta(\alpha-\text{err}_t)\)</span>: miss too often and the interval widens; over-cover
+and it tightens. The promise changes from per-prediction coverage to <strong>long-run average</strong>
+coverage — which is what survives a regime change.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">aci</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">residuals</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">ALPHA</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">0.02</span><span class="p">):</span>
+    <span class="n">a_t</span><span class="p">,</span> <span class="n">los</span><span class="p">,</span> <span class="n">his</span><span class="p">,</span> <span class="n">errs</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">residuals</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
+        <span class="n">a_c</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a_t</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">),</span> <span class="mf">0.999</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">pool</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">:],</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">a_c</span><span class="p">)</span>
+        <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">q</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="n">lo</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">))</span>
+        <span class="n">a_t</span> <span class="o">=</span> <span class="n">a_t</span> <span class="o">+</span> <span class="n">eta</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">err</span><span class="p">)</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>              <span class="c1"># online: yesterday's residual joins the pool</span>
+        <span class="n">los</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lo</span><span class="p">);</span> <span class="n">his</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hi</span><span class="p">);</span> <span class="n">errs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">los</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">his</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">errs</span><span class="p">)</span>
+
+
+<span class="n">aci_lo</span><span class="p">,</span> <span class="n">aci_hi</span><span class="p">,</span> <span class="n">aci_err</span> <span class="o">=</span> <span class="n">aci</span><span class="p">(</span><span class="n">Yte2</span><span class="p">,</span> <span class="n">mu_te</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+<span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">Yte2</span> <span class="o">&gt;=</span> <span class="n">aci_lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">Yte2</span> <span class="o">&lt;=</span> <span class="n">aci_hi</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'ACI (eta=0.02)'</span><span class="si">:</span><span class="s2">&lt;22</span><span class="si">}{</span><span class="n">inside</span><span class="p">[:</span><span class="n">half</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;9.3f</span><span class="si">}{</span><span class="n">inside</span><span class="p">[</span><span class="n">half</span><span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;9.3f</span><span class="si">}{</span><span class="n">inside</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">&gt;9.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">roll</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ins</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">ins</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span><span class="p">,</span> <span class="s2">"valid"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">roll</span><span class="p">((</span><span class="n">Yte2</span> <span class="o">&gt;=</span> <span class="n">sc_lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">Yte2</span> <span class="o">&lt;=</span> <span class="n">sc_hi</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"split conformal (fixed)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">roll</span><span class="p">((</span><span class="n">Yte2</span> <span class="o">&gt;=</span> <span class="n">cqr_lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">Yte2</span> <span class="o">&lt;=</span> <span class="n">cqr_hi</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"CQR (fixed)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">roll</span><span class="p">(</span><span class="n">inside</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"ACI (adaptive)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ALPHA</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">half</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Rolling </span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">-step coverage; red line = the regime change"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ACI (eta=0.02)            0.901    0.892    0.897
+</pre></div>
+</div>
+<img alt="../../../_images/62f3941838b63c08ee24825a188bb466e8fe4e50ac1b29a928b98024bb95a863.png" src="../../../_images/62f3941838b63c08ee24825a188bb466e8fe4e50ac1b29a928b98024bb95a863.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">aci_hi</span> <span class="o">-</span> <span class="n">aci_lo</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"ACI interval width"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sc_hi</span> <span class="o">-</span> <span class="n">sc_lo</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">"0.5"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"fixed conformal width"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">half</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"What adaptation costs: the width has to move"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../_images/5b7339c86d3f0cad2235a84bbfc4c3e293294b9313a8607eae2cc22bd800d282.png" src="../../../_images/5b7339c86d3f0cad2235a84bbfc4c3e293294b9313a8607eae2cc22bd800d282.png"/>
+</div>
+</div>
+</section>
+</section>
+<section id="what-to-take-away">
+<h2>What to take away<a class="headerlink" href="#what-to-take-away" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#what-to-take-away'"><span>#</span></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Observation</p></th>
+<th class="head"><p>Lesson</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Split conformal hits marginal coverage with a constant width</p></td>
+<td><p>the guarantee is real — and marginal</p></td>
+</tr>
+<tr class="row-odd"><td><p>Its conditional coverage is badly wrong in both tails of the noise regime</p></td>
+<td><p>always break coverage down by regime (Ch.6 L02)</p></td>
+</tr>
+<tr class="row-even"><td><p>CQR keeps the quantile model’s shape <em>and</em> gets the guarantee</p></td>
+<td><p>usually the right default</p></td>
+</tr>
+<tr class="row-odd"><td><p>The BSTS interval needs no calibration set, but is only as good as <span class="math notranslate nohighlight">\(Q,R\)</span></p></td>
+<td><p>model-based uncertainty inherits model error</p></td>
+</tr>
+<tr class="row-even"><td><p>Every fixed method under-covers after the regime change</p></td>
+<td><p>exchangeability is the assumption that fails</p></td>
+</tr>
+<tr class="row-odd"><td><p>ACI restores long-run coverage, at the cost of a moving width</p></td>
+<td><p>long-run ≠ per-period: check the rolling plot, not the average</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#exercises'"><span>#</span></a></h2>
+<ol class="arabic simple">
+<li><p>Sweep ACI’s <span class="math notranslate nohighlight">\(\eta\)</span> over <span class="math notranslate nohighlight">\(\{0.005, 0.02, 0.1\}\)</span> and plot rolling coverage. Where is the
+adaptation-speed / stability trade-off?</p></li>
+<li><p>Replace the constant-width conformal score with a <strong>normalised</strong> one,
+<span class="math notranslate nohighlight">\(s_i=|y_i-\hat\mu_i|/\hat\sigma_i\)</span>, using a model for <span class="math notranslate nohighlight">\(\hat\sigma\)</span>. Does conditional coverage
+improve to CQR levels?</p></li>
+<li><p>Compute CRPS by sampling from the BSTS predictive Gaussian and compare method ranking against
+the Winkler score. Do they agree?</p></li>
+</ol>
+<p>Then attempt <a class="reference internal" href="../challenges/challenge1_regime_coverage.html"><span class="std std-doc">Challenge 01 - Regime-Change Coverage</span></a>.</p>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="../lessons/L03_bsts_crps_calibration.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Lesson 03 - Bayesian Structural TS, CRPS &amp; Calibration
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="../challenges/challenge1_regime_coverage.html">
+        Challenge 01 - Regime-Change Coverage
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#part-1-a-series-with-heteroskedastic-noise'" class="reference internal" href="#part-1-a-series-with-heteroskedastic-noise">Part 1 - A series with heteroskedastic noise</a></li>
+<li><a :data-current="activeSection === '#part-2-method-1-quantile-regression'" class="reference internal" href="#part-2-method-1-quantile-regression">Part 2 - Method 1: quantile regression</a></li>
+<li><a :data-current="activeSection === '#part-3-method-2-conformal'" class="reference internal" href="#part-3-method-2-conformal">Part 3 - Method 2: conformal</a></li>
+<li><a :data-current="activeSection === '#part-4-method-3-bayesian-structural-local-level-seasonal'" class="reference internal" href="#part-4-method-3-bayesian-structural-local-level-seasonal">Part 4 - Method 3: Bayesian structural (local level + seasonal)</a></li>
+<li><a :data-current="activeSection === '#part-5-score-them'" class="reference internal" href="#part-5-score-them">Part 5 - Score them</a></li>
+<li><a :data-current="activeSection === '#part-6-conditional-coverage'" class="reference internal" href="#part-6-conditional-coverage">Part 6 - Conditional coverage</a></li>
+<li><a :data-current="activeSection === '#part-7-calibration-the-pit-histogram'" class="reference internal" href="#part-7-calibration-the-pit-histogram">Part 7 - Calibration: the PIT histogram</a></li>
+<li><a :data-current="activeSection === '#part-8-break-it-a-regime-change-in-the-test-period'" class="reference internal" href="#part-8-break-it-a-regime-change-in-the-test-period">Part 8 - Break it: a regime change in the test period</a><ul>
+<li><a :data-current="activeSection === '#adaptive-conformal-aci-recovers-the-long-run-guarantee'" class="reference internal" href="#adaptive-conformal-aci-recovers-the-long-run-guarantee">Adaptive conformal (ACI) recovers the long-run guarantee</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#what-to-take-away'" class="reference internal" href="#what-to-take-away">What to take away</a></li>
+<li><a :data-current="activeSection === '#exercises'" class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

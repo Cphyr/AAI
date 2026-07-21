@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../../../" lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" metia="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Lesson 03 - Evaluation for Temporal Data | AAI 1.0 documentation</title>
+<meta content="Lesson 03 - Evaluation for Temporal Data | AAI 1.0 documentation" property="og:title"/>
+<meta content="Lesson 03 - Evaluation for Temporal Data | AAI 1.0 documentation" name="twitter:title"/>
+<link href="../../../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css?v=5b4133db" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/custom.css?v=08036831" rel="stylesheet" type="text/css"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../challenges/challenge1_trick_series.html" rel="next" title="Challenge 01 - Trick-Series Diagnosis"/>
+<link href="L02_acf_and_spectrum.html" rel="prev" title="Lesson 02 - ACF/PACF &amp; the Spectral View as Diagnostics"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="24" src="../../../_static/aai_logo.png" width="24"/><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../../../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<a href="https://github.com/Cphyr/AAI" rel="noopener nofollow" title="Visit repository on GitHub">
+<div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground h-9 w-9">
+<svg fill="currentColor" height="26px" style="margin-top:-2px;display:inline" viewbox="0 0 45 44" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M22.477.927C10.485.927.76 10.65.76 22.647c0 9.596 6.223 17.736 14.853 20.608 1.087.2 1.483-.47 1.483-1.047 0-.516-.019-1.881-.03-3.693-6.04 1.312-7.315-2.912-7.315-2.912-.988-2.51-2.412-3.178-2.412-3.178-1.972-1.346.149-1.32.149-1.32 2.18.154 3.327 2.24 3.327 2.24 1.937 3.318 5.084 2.36 6.321 1.803.197-1.403.759-2.36 1.379-2.903-4.823-.548-9.894-2.412-9.894-10.734 0-2.37.847-4.31 2.236-5.828-.224-.55-.969-2.759.214-5.748 0 0 1.822-.584 5.972 2.226 1.732-.482 3.59-.722 5.437-.732 1.845.01 3.703.25 5.437.732 4.147-2.81 5.967-2.226 5.967-2.226 1.185 2.99.44 5.198.217 5.748 1.392 1.517 2.232 3.457 2.232 5.828 0 8.344-5.078 10.18-9.916 10.717.779.67 1.474 1.996 1.474 4.021 0 2.904-.027 5.247-.027 5.96 0 .58.392 1.256 1.493 1.044C37.981 40.375 44.2 32.24 44.2 22.647c0-11.996-9.726-21.72-21.722-21.72" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+</a>
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../../../index.html">
+<img alt="Logo" class="mr-2 dark:invert" height="16" src="../../../_static/aai_logo.png" width="16"/><span class="font-bold text-clip whitespace-nowrap">AAI 1.0 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Overviews/overviews.html">Overviews<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Datascience101.html">Datascience 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/Statistics301.html">Statistics 301</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/MLCrashCourse.html">ML Crash Course</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Overviews/TSCourse.html">Time Series &amp; State-Space Crash Course</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Datascience101/main.html">Datascience 101<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../../../Datascience101/chapter_03_machine_learning_2/main.html">Chapter 03 ML2</a></li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics301/main.html">Statistics 301<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics301/chapter_01_advanced_inference/main.html">Chapter 01: Advanced Inference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_01_advanced_inference/lessons/L01_likelihood_theory_and_asymptotics.html">Likelihood Theory &amp; Asymptotics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_01_advanced_inference/lessons/L02_em_algorithm_and_latent_variables.html">The EM Algorithm &amp; Latent Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_01_advanced_inference/lessons/L03_bayesian_inference_and_mcmc.html">Bayesian Inference &amp; MCMC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_01_advanced_inference/lessons/L04_multiple_testing_and_fdr.html">Multiple Testing &amp; FDR</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics301/chapter_02_resampling_and_computation/main.html">Chapter 02: Resampling &amp; Computation<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_02_resampling_and_computation/lessons/L01_bootstrap_methods.html">Bootstrap Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_02_resampling_and_computation/lessons/L02_permutation_and_randomization_tests.html">Permutation &amp; Randomization Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_02_resampling_and_computation/lessons/L03_missing_data_and_multiple_imputation.html">Missing Data &amp; Multiple Imputation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_02_resampling_and_computation/lessons/L04_model_selection_and_cross_validation.html">Model Selection &amp; Cross-Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../Statistics301/chapter_03_advanced_modeling/main.html">Chapter 03: Advanced Modeling<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_03_advanced_modeling/lessons/L01_mixed_effects_models.html">Mixed-Effects Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_03_advanced_modeling/lessons/L02_item_response_theory.html">Item Response Theory (IRT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_03_advanced_modeling/lessons/L03_nonparametric_and_semiparametric_methods.html">Nonparametric &amp; Semiparametric Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../Statistics301/chapter_03_advanced_modeling/lessons/L04_survival_analysis.html">Survival Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/main.html">ML Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/main.html">Chapter 01 - Trees &amp; Ensembles<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L01_decision_trees.html">Lesson 01 - Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L02_bootstrap_and_bagging.html">Lesson 02 - The Bootstrap and Bagging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L03_random_forests.html">Lesson 03 - Random Forests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L04_boosting.html">Lesson 04 - Boosting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/lessons/L05_xgboost_and_catboost.html">Lesson 05 - XGBoost and CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/walkthroughs/lesson_trees_ensembles.html">Walkthrough - Trees &amp; Ensembles in Practice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_01_trees_and_ensembles/challenges/challenge1_tabular_ensembles.html">Challenge 01 - Tabular Ensembles</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/main.html">Chapter 02 - Dimensionality Reduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L01_svd_and_pca.html">Lesson 01 - SVD and PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/lessons/L02_nonlinear_methods.html">Lesson 02 - Nonlinear Methods: t-SNE, UMAP and Friends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/walkthroughs/lesson_dimensionality_reduction.html">Walkthrough - Comparing Dimensionality Reduction Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_02_dimensionality_reduction/challenges/challenge1_embed_and_explain.html">Challenge 01 - Embed and Explain</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_03_svm/main.html">Chapter 03 - Support Vector Machines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/lessons/L01_support_vector_machines.html">Lesson 01 - Support Vector Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/walkthroughs/lesson_svm_kernels.html">Walkthrough - SVMs and Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_03_svm/challenges/challenge1_kernel_design.html">Challenge 01 - Kernel Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_04_clustering/main.html">Chapter 04 - Clustering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L01_kmeans_and_mixtures.html">Lesson 01 - K-Means and Mixture Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/lessons/L02_density_and_hierarchical.html">Lesson 02 - Density-Based and Hierarchical Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/walkthroughs/lesson_clustering_comparison.html">Walkthrough - Clustering Methods Compared</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_04_clustering/challenges/challenge1_cluster_the_unknown.html">Challenge 01 - Cluster the Unknown</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_05_deep_learning/main.html">Chapter 05 - Deep Learning<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/lessons/L05_attention_and_transformers.html">Lesson 05 - Attention and Transformers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_05_deep_learning/walkthroughs/lesson_attention_transformer.html">Walkthrough - Attention and a Tiny Transformer</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../../MLCrashCourse/chapter_06_time_series/main.html">Chapter 06 - Time Series Analysis<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L01_classical_time_series.html">Lesson 01 - Classical Time Series Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L02_state_space_and_kalman.html">Lesson 02 - State-Space Models and the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/lessons/L03_deep_learning_for_time_series.html">Lesson 03 - Deep Learning for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_classical_ts_arima.html">Walkthrough - Classical Forecasting with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/walkthroughs/lesson_kalman_tracking.html">Walkthrough - Kalman Filtering: Tracking a Noisy Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../MLCrashCourse/chapter_06_time_series/challenges/challenge1_sensor_fusion.html">Challenge 01 - Sensor Fusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../main.html">Time Series &amp; State-Space Crash Course<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_00_problem_formulation/main.html">Chapter 00 - Problem Formulation &amp; Baselines<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_00_problem_formulation/lessons/L01_problem_types.html">Lesson 01 - Problem Types &amp; Objectives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_00_problem_formulation/lessons/L02_baselines.html">Lesson 02 - Baselines &amp; Sanity Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../main.html">Chapter 01 - TS Foundations, Pragmatic<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="L01_stationarity.html">Lesson 01 - Stationarity as a Modeling Convenience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="L02_acf_and_spectrum.html">Lesson 02 - ACF/PACF &amp; the Spectral View as Diagnostics</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Lesson 03 - Evaluation for Temporal Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../challenges/challenge1_trick_series.html">Challenge 01 - Trick-Series Diagnosis</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_02_state_space_filtering/main.html">Chapter 02 - State-Space &amp; Filtering<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/lessons/L01_kalman_filter.html">Lesson 01 - Linear-Gaussian SSMs &amp; the Kalman Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/lessons/L02_nonlinear_filters.html">Lesson 02 - Beyond Linear-Gaussian: EKF, UKF, Particle Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/lessons/L03_motion_models_imm.html">Lesson 03 - Motion Models &amp; Maneuvering Targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/lessons/L04_multi_target.html">Lesson 04 - Multi-Target Essentials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/walkthroughs/lesson_maneuvering_target.html">Walkthrough - Maneuvering Target with Clutter: EKF vs. UKF vs. PF vs. IMM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_02_state_space_filtering/challenges/challenge1_nongaussian_fusion.html">Challenge 01 - Sensor Fusion with Non-Gaussian Noise</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_03_trajectory_data/main.html">Chapter 03 - Trajectory Data in Practice<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_trajectory_data/lessons/L01_irregular_sampling.html">Lesson 01 - Irregular Sampling, Dropouts, Resampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_trajectory_data/lessons/L02_frames_and_features.html">Lesson 02 - Coordinate Frames &amp; Kinematic Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_trajectory_data/lessons/L03_segmentation.html">Lesson 03 - Segmentation of Long Recordings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_03_trajectory_data/walkthroughs/lesson_trajectory_pipeline.html">Walkthrough - Raw Messy Trajectory to a Clean, Feature-Rich Representation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_04_ts_classification/main.html">Chapter 04 - Time-Series &amp; Trajectory Classification<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_04_ts_classification/lessons/L01_distance_and_features.html">Lesson 01 - Distance-Based &amp; Feature-Based Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_04_ts_classification/lessons/L02_rocket_and_deep.html">Lesson 02 - Random-Feature &amp; Deep Classifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_04_ts_classification/challenges/challenge1_classify_trajectories.html">Challenge 01 - Classify Trajectory Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_05_anomaly_detection/main.html">Chapter 05 - Anomaly Detection on Trajectories<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_05_anomaly_detection/lessons/L01_anomaly_framings.html">Lesson 01 - Framings &amp; Evaluation Under Label Scarcity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_05_anomaly_detection/challenges/challenge1_unlabeled_anomalies.html">Challenge 01 - Flag Anomalous Tracks in Unlabeled Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_06_probabilistic_prediction/main.html">Chapter 06 - Probabilistic Prediction &amp; Uncertainty<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_probabilistic_prediction/lessons/L01_quantiles_and_pinball.html">Lesson 01 - From Point Forecasts to Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_probabilistic_prediction/lessons/L02_conformal.html">Lesson 02 - Conformal Prediction for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_probabilistic_prediction/lessons/L03_bsts_crps_calibration.html">Lesson 03 - Bayesian Structural TS, CRPS &amp; Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_probabilistic_prediction/walkthroughs/lesson_three_intervals.html">Walkthrough - Three Ways to Build Intervals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_06_probabilistic_prediction/challenges/challenge1_regime_coverage.html">Challenge 01 - Regime-Change Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_07_deep_learning_sequences/main.html">Chapter 07 - Deep Learning for Sequences &amp; Trajectories<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_07_deep_learning_sequences/lessons/L01_sequence_models.html">Lesson 01 - Compressed Sequence-Model Refresher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_07_deep_learning_sequences/lessons/L02_transformers_and_dlinear.html">Lesson 02 - Transformer Forecasters &amp; the DLinear Lens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_07_deep_learning_sequences/lessons/L03_trajectory_prediction.html">Lesson 03 - Trajectory Prediction Proper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_07_deep_learning_sequences/walkthroughs/lesson_dlinear_vs_patch.html">Walkthrough - DLinear vs. a Patch Model vs. Classical Baselines, with a Forced Ablation</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_08_frontier_foundation_models/main.html">Chapter 08 - Frontier: Foundation Models &amp; Modern SSMs<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_08_frontier_foundation_models/lessons/L01_foundation_models.html">Lesson 01 - Foundation Models for Time Series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_08_frontier_foundation_models/lessons/L02_deep_ssms.html">Lesson 02 - State-Space Models as Deep Architectures</a></li>
+</ul>
+</li>
+<li class="toctree-l2" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../../chapter_09_capstone/main.html">Chapter 09 - Capstone: Critical Reading &amp; Reproduction<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_09_capstone/lessons/L01_critical_reading.html">Lesson 01 - Reading TS/Trajectory Papers Critically</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../chapter_09_capstone/challenges/capstone_reproduction.html">Capstone - Reproduce a Central Claim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../../../index.html">
+<span class="hidden md:inline">AAI 1.0 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../../main.html">Time Series &amp; State-Space Crash Course</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="../main.html">Chapter 01 - TS Foundations, Pragmatic</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Lesson 03 - Evaluation for Temporal Data</span>
+</nav>
+<div id="content" role="main">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Author</span><span class="p">:</span> <span class="n">Cfir</span> <span class="n">Hadar</span>
+
+<span class="n">Tags</span><span class="p">:</span> <span class="n">Done</span>
+</pre></div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="lesson-03-evaluation-for-temporal-data">
+<h1>Lesson 03 - Evaluation for Temporal Data<a class="headerlink" href="#lesson-03-evaluation-for-temporal-data" title="Link to this heading"><span>#</span></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This lesson is a <strong>lens for the entire course</strong>. Every challenge from here on will ask you which
+protocol you used and why. Come back to it.</p>
+</div>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#motivation'"><span>#</span></a></h2>
+<p>In i.i.d. supervised learning, evaluation is a solved ritual: shuffle, k-fold, report. In temporal
+data that ritual produces numbers that are not merely optimistic — they are <em>meaningless</em>, because
+they measure interpolation of a series you already know, not prediction of one you do not. Almost
+every dramatic result that fails to reproduce failed here.</p>
+</section>
+<section id="protocols">
+<h2>Protocols<a class="headerlink" href="#protocols" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#protocols'"><span>#</span></a></h2>
+<p><img alt="Evaluation protocols" src="../../../_images/evaluation_protocols.png"/></p>
+<p><strong>Walk-forward / rolling origin.</strong> Repeatedly train on <span class="math notranslate nohighlight">\([1,t]\)</span>, test on <span class="math notranslate nohighlight">\((t,t+h]\)</span>, advance <span class="math notranslate nohighlight">\(t\)</span>.
+Two variants: <em>expanding</em> window (train set grows — right when the process is stable) and <em>sliding</em>
+window (fixed length — right when it drifts; also gives comparable training sizes across folds).
+This is the default for forecasting. Report the distribution of fold errors, not just the mean:
+a method that wins on average while losing catastrophically in two folds is usually the wrong
+choice.</p>
+<p><strong>Blocked / grouped CV.</strong> For classification over windows or tracks: split into contiguous blocks
+and hold out whole blocks, with an <strong>embargo</strong> (a gap of at least the window length plus the label
+horizon) on each side of the test block, so that overlapping windows do not straddle the boundary.</p>
+<p><strong>Group-by-entity split.</strong> For track data, the group is the <em>aircraft / vessel / vehicle</em>, not the
+window and not the track. The same platform flying the same route twice is nearly the same sample.</p>
+<p><strong>Nested selection.</strong> Hyperparameters must be chosen inside the training portion of each fold
+(an inner rolling-origin split). Choosing them on the test folds and then reporting those folds is
+the most common way a solid protocol still ends up overfit.</p>
+</section>
+<section id="why-random-k-fold-is-wrong">
+<h2>Why random k-fold is wrong<a class="headerlink" href="#why-random-k-fold-is-wrong" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#why-random-k-fold-is-wrong'"><span>#</span></a></h2>
+<p>Three separate defects, worth keeping distinct:</p>
+<ol class="arabic simple">
+<li><p><strong>Temporal leakage.</strong> Training on <span class="math notranslate nohighlight">\(t+1\)</span> to predict <span class="math notranslate nohighlight">\(t\)</span> is not a task anyone will ever face.</p></li>
+<li><p><strong>Autocorrelation.</strong> Neighbouring points are nearly duplicates, so a held-out point has a
+near-copy in training: the estimate measures memorisation, not generalisation.</p></li>
+<li><p><strong>Distribution mismatch.</strong> Real deployment always tests on a <em>later</em> period, whose distribution
+has drifted. Random folds average that away and hide the drift you were supposed to measure.</p></li>
+</ol>
+</section>
+<section id="leakage-patterns-specific-to-tracks">
+<h2>Leakage patterns specific to tracks<a class="headerlink" href="#leakage-patterns-specific-to-tracks" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#leakage-patterns-specific-to-tracks'"><span>#</span></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Leak</p></th>
+<th class="head"><p>Mechanism</p></th>
+<th class="head"><p>Fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Identity leakage</strong></p></td>
+<td><p>same aircraft/vessel (or the same flight, resampled) in train and test</p></td>
+<td><p>group split by platform ID; deduplicate near-identical tracks</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Future context</strong></p></td>
+<td><p>features from a centred window, a smoother (RTS), or a resampling filter that uses future samples</p></td>
+<td><p>causal features only; recompute preprocessing inside each fold</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Global normalisation</strong></p></td>
+<td><p>mean/std, PCA, or a scaler fitted on all data</p></td>
+<td><p>fit on train fold only</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Label leakage via augmentation</strong></p></td>
+<td><p>augmenting before splitting, so an augmented copy of a test track is in training</p></td>
+<td><p>split first, augment inside training only</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Target-derived features</strong></p></td>
+<td><p>“time since last event”, peak values, or any feature computed with knowledge of the labelled interval</p></td>
+<td><p>derive features strictly from the past</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Imputation across the split</strong></p></td>
+<td><p>interpolating gaps over the boundary</p></td>
+<td><p>impute per fold, causally</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Selection leakage</strong></p></td>
+<td><p>dropping “bad” tracks by a criterion computed on the whole dataset</p></td>
+<td><p>define exclusions from training data only</p></td>
+</tr>
+</tbody>
+</table>
+<p>The diagnostic that catches most of these: <strong>shuffle the labels and retrain</strong>. Any skill above
+chance means information is flowing where it should not.</p>
+</section>
+<section id="comparing-two-models-honestly-diebold-mariano">
+<h2>Comparing two models honestly: Diebold-Mariano<a class="headerlink" href="#comparing-two-models-honestly-diebold-mariano" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#comparing-two-models-honestly-diebold-mariano'"><span>#</span></a></h2>
+<p>You have per-step losses <span class="math notranslate nohighlight">\(\ell^A_t,\ell^B_t\)</span> on the same test period. Let <span class="math notranslate nohighlight">\(d_t=\ell^A_t-\ell^B_t\)</span>.
+The test statistic is</p>
+<div class="math notranslate nohighlight">
+\[
+DM=\frac{\bar d}{\sqrt{\widehat{\operatorname{Var}}(\bar d)}},\qquad
+\widehat{\operatorname{Var}}(\bar d)=\frac{1}{T}\Big(\gamma_0+2\sum_{k=1}^{h-1}\gamma_k\Big),
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(\gamma_k\)</span> the autocovariances of <span class="math notranslate nohighlight">\(d_t\)</span> — the HAC correction exists because forecast errors at
+horizon <span class="math notranslate nohighlight">\(h\)</span> are autocorrelated up to lag <span class="math notranslate nohighlight">\(h-1\)</span>. Under the null of equal accuracy, <span class="math notranslate nohighlight">\(DM\)</span> is
+approximately standard normal.</p>
+<p>What matters in practice:</p>
+<ul class="simple">
+<li><p>It puts a <strong>confidence interval on the difference</strong>, which is the only quantity you care about. A 3 % RMSE improvement with <span class="math notranslate nohighlight">\(DM=0.6\)</span> is not an improvement.</p></li>
+<li><p>It is a test on <strong>one series</strong>. Across many series use the Wilcoxon signed-rank / Friedman + post-hoc procedure (the standard in the classification bake-offs of Chapter 4).</p></li>
+<li><p>It is invalid for nested models estimated on the same data, and its small-sample version (Harvey-Leybourne-Newbold) should be used when <span class="math notranslate nohighlight">\(T\)</span> is short.</p></li>
+<li><p>It says nothing about whether the gap <em>matters</em> for the decision. Statistical and practical significance are separate arguments; make both.</p></li>
+</ul>
+</section>
+<section id="a-protocol-checklist-to-paste-into-every-project">
+<h2>A protocol checklist to paste into every project<a class="headerlink" href="#a-protocol-checklist-to-paste-into-every-project" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#a-protocol-checklist-to-paste-into-every-project'"><span>#</span></a></h2>
+<ol class="arabic simple">
+<li><p>Unit of evaluation and unit of splitting (they are often different).</p></li>
+<li><p>Split rule: rolling origin / blocked+embargo / group-by-platform — with the reason.</p></li>
+<li><p>All preprocessing (scaling, imputation, feature selection, augmentation) fitted <strong>inside</strong> the fold.</p></li>
+<li><p>Baselines from Chapter 0 evaluated on exactly the same folds.</p></li>
+<li><p>Metric matched to the framing (Chapter 0 Lesson 01); horizon-wise breakdown for forecasts.</p></li>
+<li><p>Uncertainty on the <em>difference</em> between methods (DM, or fold-level distributions).</p></li>
+<li><p>One leakage probe: label shuffle, or a one-step shift test.</p></li>
+</ol>
+</section>
+<section id="assumptions-failure-modes">
+<h2>Assumptions &amp; failure modes<a class="headerlink" href="#assumptions-failure-modes" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#assumptions-failure-modes'"><span>#</span></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Assumption</p></th>
+<th class="head"><p>How it breaks</p></th>
+<th class="head"><p>Symptom</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Test period is representative</p></td>
+<td><p>one regime change dominates the test window</p></td>
+<td><p>huge variance across folds; conclusions flip with the cutoff date</p></td>
+</tr>
+<tr class="row-odd"><td><p>Folds are independent</p></td>
+<td><p>overlapping windows, shared platforms</p></td>
+<td><p>over-confident significance</p></td>
+</tr>
+<tr class="row-even"><td><p>Enough test data</p></td>
+<td><p>short series, long horizon</p></td>
+<td><p>any ranking is noise — say so</p></td>
+</tr>
+<tr class="row-odd"><td><p>The metric is what the user cares about</p></td>
+<td><p>RMSE reported, decisions taken at a threshold</p></td>
+<td><p>model chosen on the wrong functional (Ch.0 L01)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lens check:</strong> lens 2, in its entirety.</p>
+</section>
+<section id="available-challenges">
+<h2>Available Challenges<a class="headerlink" href="#available-challenges" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#available-challenges'"><span>#</span></a></h2>
+<p><a class="reference internal" href="../challenges/challenge1_trick_series.html"><span class="std std-doc">Challenge 01 - Trick-Series Diagnosis</span></a></p>
+</section>
+</section>
+</div><div class="flex justify-between items-center pt-6 mt-12 border-t border-border gap-4">
+<div class="mr-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="L02_acf_and_spectrum.html">
+<svg class="mr-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+        Lesson 02 - ACF/PACF &amp; the Spectral View as Diagnostics
+      </a>
+</div>
+<div class="ml-auto">
+<a class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input hover:bg-accent hover:text-accent-foreground py-2 px-4" href="../challenges/challenge1_trick_series.html">
+        Challenge 01 - Trick-Series Diagnosis
+        <svg class="ml-2 h-4 w-4" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</a>
+</div>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(var(100vh)-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#motivation'" class="reference internal" href="#motivation">Motivation</a></li>
+<li><a :data-current="activeSection === '#protocols'" class="reference internal" href="#protocols">Protocols</a></li>
+<li><a :data-current="activeSection === '#why-random-k-fold-is-wrong'" class="reference internal" href="#why-random-k-fold-is-wrong">Why random k-fold is wrong</a></li>
+<li><a :data-current="activeSection === '#leakage-patterns-specific-to-tracks'" class="reference internal" href="#leakage-patterns-specific-to-tracks">Leakage patterns specific to tracks</a></li>
+<li><a :data-current="activeSection === '#comparing-two-models-honestly-diebold-mariano'" class="reference internal" href="#comparing-two-models-honestly-diebold-mariano">Comparing two models honestly: Diebold-Mariano</a></li>
+<li><a :data-current="activeSection === '#a-protocol-checklist-to-paste-into-every-project'" class="reference internal" href="#a-protocol-checklist-to-paste-into-every-project">A protocol checklist to paste into every project</a></li>
+<li><a :data-current="activeSection === '#assumptions-failure-modes'" class="reference internal" href="#assumptions-failure-modes">Assumptions &amp; failure modes</a></li>
+<li><a :data-current="activeSection === '#available-challenges'" class="reference internal" href="#available-challenges">Available Challenges</a></li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2024, Cfir Hadar Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 7.2.6</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../../../_static/theme.js?v=40b7bc71"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
