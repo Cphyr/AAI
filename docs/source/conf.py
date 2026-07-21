@@ -82,6 +82,11 @@ html_css_files = ["custom.css"]
 
 myst_enable_extensions = ["colon_fence", "dollarmath", "amsmath", "html_image"]
 
-# MLCrashCourse notebooks are committed with their outputs already executed;
-# they need packages (xgboost, catboost, statsmodels) that CI does not install.
-nb_execution_excludepatterns = ["MLCrashCourse/**", "**/MLCrashCourse/**"]
+# MLCrashCourse and TSCourse notebooks are committed with their outputs already executed, and need
+# packages CI does not install - never execute them at build time.
+# NOTE: myst-nb matches these with PurePosixPath.match against the *absolute* path, which does not
+# support "**" recursion - a "TSCourse/**" style pattern silently matches nothing.
+nb_execution_excludepatterns = [
+    "*/MLCrashCourse/*/*/*.ipynb",
+    "*/TSCourse/*/*/*.ipynb",
+]
