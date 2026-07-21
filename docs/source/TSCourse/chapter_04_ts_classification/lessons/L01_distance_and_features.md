@@ -18,7 +18,11 @@ Two recordings of the same maneuver, one executed slightly slower, have large po
 at every lag. Euclidean distance requires alignment you do not have. **Dynamic time warping** finds
 the alignment.
 
-![DTW alignment and cost matrix](../../../_static/ts/dtw_warping.png)
+![Euclidean matching joins points at equal indices; DTW matching stretches the alignment](../../../_static/ts/wm_dtw_euclidean.png)
+
+*Rigid index-to-index matching vs. elastic alignment. Source:
+[Euclidean vs DTW](https://commons.wikimedia.org/wiki/File:Euclidean_vs_DTW.jpg) by XantaCross,
+CC BY-SA 3.0, via Wikimedia Commons.*
 
 Given $a_{1:n}$, $b_{1:m}$, define the accumulated cost
 
@@ -28,6 +32,13 @@ $$
 
 with $D(0,0)=0$ and $\infty$ on the other boundaries; $\mathrm{DTW}(a,b)=D(n,m)$, and backtracking
 gives the warping path. Cost $O(nm)$.
+
+![Accumulated cost matrix with the optimal warping path running through it](../../../_static/ts/wm_dtw_cost_matrix.png)
+
+*The accumulated cost matrix and the optimal path through it — the diagonal band is where a
+Sakoe-Chiba constraint would confine it. Source:
+[Cost matrix and dtw path](https://commons.wikimedia.org/wiki/File:Cost_matrix_and_dtw_path.jpg) by
+Meinard Müller, copyrighted free use, via Wikimedia Commons.*
 
 Variants worth knowing:
 

@@ -57,6 +57,13 @@ protocol, not a random split.
 
 With a base rate around $10^{-3}$:
 
+![A precision-recall curve with AUPRC 0.15, precision collapsing almost immediately](../../../_static/ts/wm_pr_curve.png)
+
+*What a rare-event detector actually looks like: precision falls off a cliff within the first
+quarter of recall, and the PR-AUC baseline is the base rate itself — not 0.5. Source:
+[Precision Recall Curve](https://commons.wikimedia.org/wiki/File:Precision_Recall_Curve.png) by
+Shiva Nagalla, CC0, via Wikimedia Commons.*
+
 * **ROC-AUC is misleading.** A 0.95 AUC can still mean the operator drowns in false alarms, because
   the false-positive axis is dominated by the huge negative class. Use **PR-AUC** (whose baseline is
   the base rate itself) and, better, report the operating point you will actually run:

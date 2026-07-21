@@ -35,7 +35,11 @@ Read them as a pair:
 | ACF spikes at $m,2m,3m,\dots$ | seasonality with period $m$ |
 | ACF of *residuals* has structure | model misspecified — something is left to learn |
 
-![ACF and periodogram as diagnostics](../../../_static/ts/acf_spectrum.png)
+![ACF decaying geometrically next to a PACF that cuts off after lag 2](../../../_static/ts/wm_acf_pacf.png)
+
+*The AR-like signature: ACF decays, PACF cuts off. Source:
+[Autocorrelation Function vs. Partial Autocorrelation Function](https://commons.wikimedia.org/wiki/File:Autocorrelation_Function_vs._Partial_Autocorrelation_Function.png)
+by Moon motif, CC BY-SA 4.0, via Wikimedia Commons.*
 
 ## Why linear models on stationary series work at all: Wold
 
@@ -65,6 +69,13 @@ Nothing new is in it: same second-order information, better questions.
 
 * **Periodicity detection**: a peak at $f$ means a cycle of period $1/f$. Multiple periods that
   make an unreadable ACF are separated peaks in the spectrum.
+![Frequencies above the Nyquist limit folding back to low frequencies](../../../_static/ts/wm_aliasing_folding.svg)
+
+*Frequency folding: everything above $f_s/2$ is mapped back below it, which is why an under-sampled
+fast oscillation reappears as a slow one. Source:
+[Aliasing-folding](https://commons.wikimedia.org/wiki/File:Aliasing-folding.svg) by Nils R. Barth,
+public domain, via Wikimedia Commons.*
+
 * **Aliasing**: sampling at $\Delta t$ can only represent frequencies below the Nyquist limit
   $f_N=1/(2\Delta t)$. Anything faster is *folded* back and appears as a slow, entirely fictitious
   cycle. A 1 Hz rotor vibration sampled at 1.2 Hz becomes a convincing 0.2 Hz "oscillation" you

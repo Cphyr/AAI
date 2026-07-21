@@ -57,6 +57,12 @@ $$
 Gaussians are closed under both linear maps and multiplication, so if the prior is Gaussian
 everything stays Gaussian and we only need to track a mean and a covariance.
 
+![The Kalman filter's predict/update cycle, with Gaussian state estimates](../../../_static/ts/wm_kalman_cycle.svg)
+
+*The whole algorithm is this loop. Source:
+[Basic concept of Kalman filtering](https://commons.wikimedia.org/wiki/File:Basic_concept_of_Kalman_filtering.svg)
+by Petteri Aimonen, CC0, via Wikimedia Commons.*
+
 **Predict.** $x_t=Fx_{t-1}+w_t$ with $x_{t-1}\sim\mathcal N(\hat x_{t-1},P_{t-1})$ gives
 
 $$
@@ -89,8 +95,6 @@ MMSE estimator. (In code, prefer the Joseph form
 $P_t=(I-K_tH)P(I-K_tH)^\top+K_tRK_t^\top$ — it stays symmetric positive-definite under rounding.)
 
 ## Reading the gain
-
-![Kalman update as Gaussian fusion](../../../_static/ts/kalman_update.png)
 
 Scalar case: $K=\dfrac{P_{t|t-1}}{P_{t|t-1}+R}$.
 

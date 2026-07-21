@@ -29,6 +29,13 @@ Jacobians, so gradients vanish or explode geometrically; **LSTM** fixes this wit
 state and multiplicative gates (forget/input/output), **GRU** with two gates and fewer parameters
 (usually equivalent, faster, a reasonable default).
 
+![An LSTM unit: cell state carried across time, with forget, input and output gates](../../../_static/ts/wm_lstm_cell.svg)
+
+*The additive cell state $c_t$ running straight across the top is the whole trick — it is a
+gradient path that does not get multiplied by a Jacobian at every step. Source:
+[Long Short-Term Memory](https://commons.wikimedia.org/wiki/File:Long_Short-Term_Memory.svg) by
+fdeloche, CC BY-SA 4.0, via Wikimedia Commons.*
+
 Practical properties: strictly sequential (slow to train, cheap and *stateful* at inference — a
 genuine advantage for streaming/online tracking), naturally handles variable lengths and irregular
 sampling if you feed $\Delta t$ as an input, and struggles beyond a few hundred steps of effective
